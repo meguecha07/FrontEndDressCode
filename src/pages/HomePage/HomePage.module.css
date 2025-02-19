@@ -1,0 +1,58 @@
+.homePage {
+    padding: 20px;
+    position: relative; /* Necesario para el overlay del sidebar */
+  }
+  
+  .topSection {
+    margin-bottom: 20px;
+  
+  }
+   
+  .homePageContainer {
+    display: flex;
+  }
+  
+  .mainContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .productGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Siempre 2 columnas */
+    grid-template-rows: repeat(5, auto);  /* Máximo 5 filas */
+    gap: 50px;
+    margin-top: 20px;
+ 
+  }
+
+  
+  h3 {
+    margin: 0;
+  }
+  
+  
+  /* Media query para diseño móvil (pantallas más pequeñas de 768px de ancho) */
+  @media (max-width: 768px) {
+  
+    .homePageContainer {
+      flex-direction: column; /* Apilar verticalmente en móvil: topSection arriba, contenido abajo */
+    }
+  
+    .mainContent {
+      padding: 20px 0; /* Reducir el padding horizontal en móvil si se desea */
+    }
+  
+   
+  
+
+  }
+  @media(max-width: 530px){
+    .productGrid {
+      grid-template-columns: 1fr; /* Una columna en móviles */
+      grid-template-rows: none; /* Permitir crecimiento dinámico */
+      gap: 30px;
+    }
+  }
