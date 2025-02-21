@@ -11,7 +11,7 @@ export const WebsiteFooter = () => {
             </Link>
         </article>
         <article className={styles.fCopy}>
-            <span className={styles.tCopy}>© Grupo 5 DH</span>
+            <span className={styles.tCopy}>© Grupo 5 DH 2025</span>
         </article>
         <article className={styles.redes}>
             <a className={styles.contenedorLogoRed}><i className="fa-solid fa-envelope"></i></a>

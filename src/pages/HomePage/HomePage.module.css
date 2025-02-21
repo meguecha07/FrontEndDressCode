@@ -54,10 +54,10 @@
   .filterButtonMobile {
     display: none; /* Oculto por defecto en escritorio */
     padding: 10px 15px;
-    background-color: #4CAF50;
+    background-color: #000000;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 0px;
     cursor: pointer;
     margin-bottom: 20px; /* Espacio debajo del botón de filtro móvil */
   }

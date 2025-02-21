@@ -1,8 +1,13 @@
+import ProductTable from '../../../components/admin/ui/ProductTable/ProductTable';
+import styles from './ProductListPage.module.css'; // Importa el archivo de estilos
 
-function ProductListPage() {
+const ProductsListPage = () => {
   return (
-    <div>ProductListPage</div>
-  )
-}
+    <div className={styles.productsPageContainer}>
+      <h1 className={styles.title}>Lista de Productos</h1>
+      <ProductTable />
+    </div>
+  );
+};
 
-export default ProductListPage
+export default ProductsListPage;
