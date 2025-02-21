@@ -1,0 +1,99 @@
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color:#222;
+  z-index: 1000;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 20px;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+img{
+  width: auto;
+  height: 40px;
+}
+
+/* Bloque izquierdo: logotipo y lema */
+.leftBlock {
+  display: flex;
+  align-items: center;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  margin-right: 10px;
+  color: white;
+}
+
+.slogan {
+  font-size: 13px;
+  color: #e2e2e2;
+}
+
+/* Bloque derecho: botones */
+.rightBlock {
+  display: flex;
+  gap: 10px;
+}
+
+.button {
+  background: black;
+  border: 1px solid white;
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-family: Akatab;
+}
+
+.button:hover {
+  background: white;
+  color: black;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 10px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .slogan {
+    font-size: 14px;
+  }
+
+  .button {
+    padding: 6px 12px;
+  }
+}
+.backArrow {
+  cursor: pointer;
+  color: white;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.backArrow:hover {
+  color: #ccc;
+}
