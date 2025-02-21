@@ -4,6 +4,7 @@ import { fetchCategories, fetchProducts } from '../../services/api';
 import styles from './HomePage.module.css';
 import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
 import Pagination from '../../components/website/ui/Pagination/Pagination';
+import WebsiteFooter from '../../components/website/layout/WebsiteFooter/WebsiteFooter';
 
 
 const HomePage = () => {

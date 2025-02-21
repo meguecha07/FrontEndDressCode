@@ -1,0 +1,143 @@
+:root {
+    --color-1: #000000;
+    --color-2: #202020;
+    --color-3: #ffffff;
+}
+
+.footerPage {
+    width: 100%;
+    background-color: var(--color-1);
+    padding: 20px 10px;
+    color: var(--color-3);
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    height: 100%;
+    grid-gap: 10px;
+    box-sizing: border-box;
+}
+
+.footerPage .logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.footerPage .logo .linkFoooter {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-decoration: none;
+    color: var(--color-3);
+    outline: none;
+    width: 100%;
+}
+
+.footerPage .logo .linkFoooter .imgLogo {
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
+
+.footerPage .logo .linkFoooter .fraseLogo {
+    font-size: 24px;
+    font-weight: bold;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.footerPage .redes {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.footerPage .redes .contenedorLogoRed {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    margin: 0px 5px;
+    text-decoration: none;
+    color: var(--color-1);
+    background-color: var(--color-3);
+    clip-path: circle(50%);
+    outline: none;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.footerPage .redes .contenedorLogoRed:hover {
+    color: var(--color-3);
+    background-color: var(--color-1);
+}
+
+.footerPage .fCopy {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 10px 0px 10px;
+    background-color: var(--color-1);
+}
+
+.footerPage .fCopy .tCopy {
+    color: var(--color-3);
+    font-weight: bolder;
+}
+
+@media (max-width: 650px) {
+    .footerPage {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        grid-gap: 0;
+        justify-items: stretch;
+    }
+
+    .redes {
+        grid-column: 1;
+        grid-row: 1;
+        justify-content: flex-start!important;
+        margin: 0;
+    }
+
+    .fCopy {
+        grid-column: 1;
+        grid-row: 2;
+        justify-content: flex-start!important;
+        margin: 0;
+    }
+
+    .logo {
+        grid-column: 2;
+        grid-row: 1;
+        justify-content: flex-end!important;
+        margin: 0;
+    }
+
+    .logo .linkFoooter {
+        justify-content: flex-end!important;
+    }
+
+    .logo .linkFoooter .imgLogo {
+        width: 45px!important;
+        height: 45px!important;
+    }
+
+    .logo .linkFoooter .fraseLogo {
+        display: none;
+    }
+
+    .fCopy .tCopy {
+        font-size: 14px;
+    }
+
+    .footerPage .redes {
+        padding: 10px 5px;
+    }
+}
