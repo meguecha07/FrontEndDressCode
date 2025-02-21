@@ -1,0 +1,174 @@
+/* ProductListPage.module.css */
+
+.productListPage {
+    padding: 20px;
+    position: relative;
+    font-family: sans-serif;
+}
+
+.mainContent {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.pageContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.productListPage h1 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.searchContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+
+.searchContainer label {
+    margin-right: 1px;
+    font-size: 14px;
+    white-space: nowrap;
+    margin-bottom: 5px;
+}
+
+.searchContainer input,
+.searchContainer select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    flex: 1 1 200px;
+    margin-bottom: 10px;
+}
+
+.searchContainer button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto;
+    flex: 0 0 auto;
+}
+
+.searchContainer p {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #777;
+    flex: 1 0 auto;
+    text-align: right;
+}
+
+.productList {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.productList th,
+.productList td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #fff;
+}
+
+.productList th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #555;
+}
+
+.productList tr:hover {
+    background-color: #f9f9f9;
+}
+
+.productList .actions {
+    display: flex;
+    gap: 5px;
+    justify-content: flex-start; /* Alinea los botones al principio */
+}
+
+.productList .actions button {
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    background-color: transparent;
+    color: #555;
+    border: 1px solid #555;
+}
+
+.productList .actions .edit {
+    color: #555;
+    border: 1px solid #555;
+    border-radius: 15px; /* Bordes redondeados para el botón Editar */
+}
+
+.productList .actions .delete {
+    color: #555;
+    border: 1px solid #555;
+    border-radius: 15px; /* Bordes redondeados para el botón Eliminar */
+}
+
+.productList .actions button:hover {
+    opacity: 0.8;
+    background-color: #f0f0f0;
+    color: #000;
+    border-color: #000;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.pagination button {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    background-color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.pagination button:hover {
+    background-color: #f0f0f0;
+}
+
+.pagination .active {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+/* Media queries para diseño móvil */
+@media (max-width: 768px) {
+    .searchContainer {
+        flex-direction: column;
+    }
+
+    .productList th,
+    .productList td {
+        padding: 8px 10px;
+        font-size: 14px;
+    }
+}

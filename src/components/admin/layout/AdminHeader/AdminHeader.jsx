@@ -1,7 +1,7 @@
 
 function AdminHeader() {
   return (
-    <div>AdminHeader</div>
+    <div></div>
   )
 }
 
