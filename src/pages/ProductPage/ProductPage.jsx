@@ -26,7 +26,7 @@ const ProductPage = () => {
       {/* Contenedor para la flecha y el título */}
       <div className={styles.header}>
         <h1 className={styles.productTitle}>{product.name}</h1>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>←</button>
+        <button className={styles.backButton} onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i></button>
       </div>
       <ProductGallery images={product.image} />
       <p className={styles.productDescription}>{product.description}</p>
