@@ -1,0 +1,98 @@
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 10px;
+  /* Asegura que ambos bloques tengan la misma altura */
+  align-items: stretch;
+}
+
+/* Contenedor de la imagen principal (lado izquierdo) */
+.mainImageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Contenedor derecho: grilla + botón "Ver Más" */
+.gridContainer {
+  position: relative;
+  /* Se adapta a la altura del contenedor padre gracias a align-items: stretch en .gallery */
+}
+
+/* Grilla de imágenes (2 columnas x 2 filas) */
+.imageGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10px;
+  height: 100%;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.3s, opacity 0.3s;
+}
+
+.thumbnail:hover {
+  transform: scale(1.05);
+}
+
+/* Botón "Ver Más" posicionado en la esquina inferior derecha */
+.viewMoreButton {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 8px 12px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.viewMoreButton:hover {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+  
+  .gridContainer {
+    margin-top: 10px;
+  }
+  
+  .imageGrid {
+    /* En tablet se muestran en 2 columnas; se adapta la altura según contenido */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .imageGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+  
+  .viewMoreButton {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+}
