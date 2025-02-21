@@ -4,7 +4,9 @@ import { fetchCategories, fetchProducts } from '../../services/api';
 import styles from './HomePage.module.css';
 import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
 import Pagination from '../../components/website/ui/Pagination/Pagination';
-import WebsiteFooter from '../../components/website/layout/WebsiteFooter/WebsiteFooter';
+import SearchBar from '../../components/website/ui/SearchBar/SearchBar';
+import CategoryList from '../../components/website/ui/CategoryList/CategoryList';
+import WebsiteSidebar from '../../components/website/layout/WebsiteSidebar/WebsiteSidebar';
 
 
 const HomePage = () => {
@@ -38,9 +40,19 @@ const HomePage = () => {
   return (
     <div className={styles.homePage}>
       <div className={styles.topSection}>
+      <SearchBar className={styles.searchBar} />
+        <CategoryList categories={categories} className={styles.categoryList} />
+        <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}> {/* Botón de filtro móvil */}
+          Filtros {/* Se reemplaza el icono con texto "Filtros" */}
+        </button>
       </div>
 
       <div className={styles.homePageContainer}>
+      <WebsiteSidebar
+          className={styles.sidebar}
+          isMobileSidebarOpen={isMobileSidebarOpen} // Pasa el estado al Sidebar
+          toggleMobileSidebar={toggleMobileSidebar} // Pasa la función para cambiar el estado
+        />
 
         <main className={styles.mainContent}>
           <h3>Recomendaciones</h3>
@@ -62,6 +74,7 @@ const HomePage = () => {
           />
         </main>
       </div>
+      {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>} {/* Overlay para cerrar sidebar */}
     </div>
   );
 };

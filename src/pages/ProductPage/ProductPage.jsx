@@ -32,8 +32,6 @@ const ProductPage = () => {
       <p className={styles.productDescription}>{product.description}</p>
       <p className={styles.productPrice}>${product.price}</p>
       <button className={styles.addToCartButton}>Añadir al carrito</button>
-
-      <button className={styles.addToCartButton}>Añadir al carrito</button>
     </div>
   );
 };
