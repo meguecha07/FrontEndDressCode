@@ -1,0 +1,84 @@
+.sidebar {
+    width: 350px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+  
+  .filterSection {
+    margin-bottom: 20px;
+  }
+  
+  .filterHeader {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    font-weight: bold;
+    cursor: pointer;
+    border-bottom: 1px solid #f0f0f0;
+    margin-bottom: 10px;
+  }
+  
+  .arrow {
+    font-size: 0.8em;
+    color: #777;
+  }
+  
+  .filterList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .filterItem {
+    padding: 5px 0;
+  }
+  
+  .filterItem label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .filterItem input[type="checkbox"] {
+    margin-right: 8px;
+  }
+  
+  .filterCount {
+    color: #777;
+    font-size: 0.9em;
+    margin-left: auto;
+  }
+  
+  .closeButton {
+    display: none; /* Oculto por defecto en escritorio */
+    padding: 10px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  
+  /* Media query para diseño móvil (pantallas más pequeñas de 768px de ancho) */
+  @media (max-width: 768px) {
+    .sidebar {
+      position: fixed; /* Fixed para que se superponga al contenido */
+      top: 0;
+      left: -350px; /* Inicialmente oculto a la izquierda */
+      height: 100vh;
+      z-index: 2000; /* Asegura que esté por encima de otros contenidos */
+      background-color: white; /* Fondo blanco para el sidebar móvil */
+      box-shadow: 2px 0 5px rgba(0,0,0,0.2); /* Sombra para destacar al deslizar */
+      overflow-y: auto; /* Para scroll si el contenido del sidebar es largo */
+      transition: left 0.3s ease-out; /* Transición suave para la propiedad 'left' */
+    }
+  
+    .sidebar.open {
+      left: 0; /* Desliza el sidebar a la vista */
+    }
+  
+    .closeButton {
+      display: block; /* Visible en móvil */
+    }
+  }

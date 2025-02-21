@@ -1,0 +1,30 @@
+.categoryList {
+  display: grid; /* Usamos Grid Layout para distribuir el espacio */
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Columnas responsive y de ancho flexible */
+  gap: 10px; /* Espacio entre los botones */
+  margin: 20px 0;
+}
+
+.categoryButton {
+  display: flex; /* Flexbox para organizar imagen y texto verticalmente */
+  flex-direction: column; /* Alinea los elementos en columna (imagen arriba, texto abajo) */
+  align-items: center; /* Centra los elementos horizontalmente dentro del botón */
+  padding: 10px 15px;
+  border: 1px solid #000;
+  background-color: transparent;
+  cursor: pointer;
+  font-family: Akatab;
+  text-align: center; /* Asegura que el texto esté centrado si es de varias líneas */
+}
+
+.categoryButton:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.categoryImage {
+  width: 100%; /* La imagen ocupa todo el ancho del botón */
+  max-height: 20px; /* Altura máxima para las imágenes (ajusta según necesites) */
+  object-fit: contain; /* Asegura que la imagen se ajuste dentro del contenedor sin deformarse */
+  margin-bottom: 5px; /* Espacio entre la imagen y el texto */
+}
