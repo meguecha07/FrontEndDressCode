@@ -1,0 +1,111 @@
+/* AdminHeader.module.css */
+.header {
+  background: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 0 2rem;
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: 70px;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.55rem;
+  color: #000000;
+  font-weight: 600;
+  font-size: 1.25rem;
+  transition: opacity 0.2s;
+}
+
+.logo i {
+  font-size: 1.5rem;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.nav {
+  display: flex;
+  gap: 2rem;
+  margin-left: 3rem;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navLink:hover {
+  color: #6c5ce7;
+}
+
+.navLink i {
+  font-size: 1.1rem;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+}
+
+.avatar i {
+  font-size: 2rem;
+  color: #000000;
+}
+
+.userName {
+  color: #444;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.logoImage{
+  width: 45px;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 1rem;
+  }
+  
+  .nav {
+    gap: 1.5rem;
+    margin-left: 1.5rem;
+  }
+  
+  .userName {
+    display: none;
+  }
+  
+  .logo span {
+    display: none;
+  }
+
+}
