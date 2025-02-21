@@ -1,0 +1,213 @@
+/* OrderTable.module.css */
+.container {
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: #2d3436;
+  font-weight: 600;
+  margin: 0;
+}
+
+.newOrderButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.8rem 1.5rem;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.newOrderButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  min-width: 1000px;
+}
+
+.table th {
+  background-color: #f8f9ff;
+  color: #6c5ce7;
+  font-weight: 600;
+  padding: 1rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+}
+
+.table td {
+  padding: 1rem;
+  color: #555;
+  border-bottom: 1px solid #f5f5f5;
+}
+
+.mainRow {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.mainRow:hover {
+  background-color: #f8f9ff;
+}
+
+.detailsRow {
+  background: #fafbff;
+  border-bottom: 3px solid #eee;
+}
+
+.orderDetails {
+  padding: 1rem 2rem;
+}
+
+.detailSection {
+  margin-bottom: 1.5rem;
+}
+
+.detailSection h4 {
+  color: #6c5ce7;
+  margin: 0 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.itemsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.itemCard {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.itemName {
+  font-weight: 500;
+}
+
+.itemPrice {
+  color: #6c5ce7;
+  font-weight: 600;
+}
+
+.itemDetails {
+  display: flex;
+  gap: 1rem;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.colorDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actionButton {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 6px;
+  background: #f0f0f0;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.actionButton:hover {
+  background: #6c5ce7;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+    margin: 1rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 0.75rem;
+  }
+
+  .table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    color: #6c5ce7;
+    margin-right: 0.5rem;
+  }
+
+  .mainRow {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+
+  .table thead {
+    display: none;
+  }
+
+  .actions {
+    grid-column: span 2;
+    justify-content: flex-end;
+  }
+}

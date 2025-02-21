@@ -1,13 +1,27 @@
-import styles from './SearchBar.module.css';
+.searchBar {
+  display: flex;
+  width: 100%;
+  max-width: 400px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+  overflow: hidden;
+}
 
-const SearchBar = () => {
-  return (
-    <div className={styles.searchBar}>
-      <button className={styles.button}>🔍</button>
-      <input type="text" placeholder="Buscar" className={styles.input} />
+.input {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  outline: none;
+  font-family: Akatab;
+  text-align: end;
+  background-color: #e1e1e1;
 
-    </div>
-  );
-};
+}
 
-export default SearchBar;
+.button {
+  padding: 10px;
+  background-color: #e1e1e1;
+  border: none;
+  cursor: pointer;
+}
+

@@ -15,6 +15,8 @@ const ProductCard = ({ product, categories, onClick }) => {
 
   // Suponiendo que el objeto product tiene una propiedad 'color' para el ejemplo
   const productColor = product.color || 'transparent'; // Color por defecto si no hay color definido
+  const productImage = product.image?.[0] || 'https://via.placeholder.com/200';
+
   // Buscar el nombre de la categoría usando el ID
   const categoryObj = categories.find(cat => cat.id === product.categoryId);
   const categoryName = categoryObj ? categoryObj.name : "Sin categoría";
@@ -23,7 +25,7 @@ const ProductCard = ({ product, categories, onClick }) => {
     <div className={styles.productCard} >
       <div className={styles.productContainer} onClick={handleClick}>
         <div className={styles.imageContainer}>
-          <img src={product.image} alt={product.name} className={styles.image} />
+          <img src={productImage} alt={product.name} className={styles.image} />
         </div>
         <div className={styles.details}>
           <div className={styles.rowDetails}>

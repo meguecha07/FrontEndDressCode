@@ -1,26 +1,29 @@
+
 .header {
   position: sticky;
   top: 0;
   left: 0;
   width: 100%;
-  background-color:#222;
+  background-color: #222;
   z-index: 1000;
 }
 
 .container {
   margin: 0 auto;
   padding: 0 20px;
-  height: 60px;
+  height: 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+
 }
-img{
+
+.logoImage {
   width: auto;
   height: 40px;
 }
 
-/* Bloque izquierdo: logotipo y lema */
 .leftBlock {
   display: flex;
   align-items: center;
@@ -39,16 +42,15 @@ img{
   margin-right: 10px;
   color: white;
 }
-
 .slogan {
   font-size: 13px;
   color: #e2e2e2;
 }
 
-/* Bloque derecho: botones */
-.rightBlock {
+.nav {
   display: flex;
   gap: 10px;
+  box-sizing: border-box;
 }
 
 .button {
@@ -66,7 +68,15 @@ img{
   color: black;
 }
 
-/* Responsividad */
+.menuButton {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
 @media (max-width: 768px) {
   .container {
     padding: 0 10px;
@@ -76,24 +86,27 @@ img{
     font-size: 20px;
   }
 
-  .slogan {
-    font-size: 14px;
+  .menuButton {
+    display: block;
+  }
+
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #222;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .navOpen {
+    display: flex;
   }
 
   .button {
-    padding: 6px 12px;
+    width: 100%;
   }
-}
-.backArrow {
-  cursor: pointer;
-  color: white;
-  font-size: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px;
-}
-
-.backArrow:hover {
-  color: #ccc;
 }

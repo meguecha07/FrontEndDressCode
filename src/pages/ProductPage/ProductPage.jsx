@@ -2,6 +2,8 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchProductById } from '../../services/api';
 import styles from './ProductPage.module.css';
+import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
+
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -24,16 +26,11 @@ const ProductPage = () => {
       {/* Contenedor para la flecha y el título */}
       <div className={styles.header}>
         <h1 className={styles.productTitle}>{product.name}</h1>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>←</button>
+        <button className={styles.backButton} onClick={() => navigate(-1)}><i className="fa-solid fa-arrow-left"></i></button>
       </div>
-
-      <img src={product.image} alt={product.name} className={styles.productImage} />
-
-      <div className={styles.productDetails}>
-        <p className={styles.productDescription}>{product.description}</p>
-        <p className={styles.productPrice}>${product.price}</p>
-      </div>
-
+      <ProductGallery images={product.image} />
+      <p className={styles.productDescription}>{product.description}</p>
+      <p className={styles.productPrice}>${product.price}</p>
       <button className={styles.addToCartButton}>Añadir al carrito</button>
     </div>
   );

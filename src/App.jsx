@@ -1,37 +1,54 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 import HomePage from "./pages/HomePage/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import DashboardPage from "./pages/Admin/DashboardPage/DashboardPage";
 import ProductsListPage from "./pages/Admin/ProductListPage/ProductListPage";
 import OrdersListPage from "./pages/Admin/OrdersListPage/OrdersListPage";
-
 import WebsiteHeader from "./components/website/layout/WebsiteHeader/WebsiteHeader";
 import WebsiteFooter from "./components/website/layout/WebsiteFooter/WebsiteFooter";
 import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
   const isAdminRoute = location.pathname.startsWith("/admin");
+
+  // Detección móvil mejorada
+  useEffect(() => {
+    if (isAdminRoute) {
+      // Combinación de User Agent y Media Query
+      const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+        .test(navigator.userAgent);
+      
+      const isMobileMediaQuery = window.matchMedia("(max-width: 768px)").matches;
+
+      if (isMobileUserAgent || isMobileMediaQuery) {
+        alert("El panel de administración requiere una pantalla más grande. Redirigiendo a la página principal...");
+        navigate("/");
+      }
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <>
-      {/* Renderizar WebsiteHeader solo si NO estamos en una ruta de admin */}
       {!isAdminRoute && <WebsiteHeader />}
-      {/* Renderizar AdminHeader solo en rutas de admin */}
       {isAdminRoute && <AdminHeader />}
 
       <Routes>
-        {/* Rutas del sitio web */}
+        {/* Redirección desde /admin */}
+        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+
+        {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
 
-        {/* Rutas del panel de administración */}
+        {/* Rutas de administración */}
         <Route path="/admin/dashboard" element={<DashboardPage />} />
         <Route path="/admin/products" element={<ProductsListPage />} />
         <Route path="/admin/orders" element={<OrdersListPage />} />
       </Routes>
 
-      {/* Footer solo en la web pública */}
       {!isAdminRoute && <WebsiteFooter />}
     </>
   );

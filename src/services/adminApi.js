@@ -1,42 +1,28 @@
-// Simulación de llamada API para registrar un nuevo producto
+// services/adminApi.js
+import { addProduct, getProducts, updateProduct, deleteProductById } from "./productData";
+import { getOrders } from "./ordersData";
+
+// Registro de un nuevo producto
 export const registerProduct = async (product) => {
-  return new Promise(resolve =>
-    setTimeout(() => resolve({ ...product, id: Math.floor(Math.random() * 1000) }), 1000)
-  );
+  return await addProduct(product);
 };
 
-// Simulación de llamada API para obtener la lista de productos
+// Obtiene la lista de productos para el admin
 export const fetchAdminProducts = async () => {
-  return new Promise(resolve =>
-    setTimeout(() => resolve([
-      { id: 1, name: "Vestido Rojo", price: 49.99 },
-      { id: 2, name: "Traje Azul", price: 89.99 },
-      { id: 3, name: "Blazer Casual", price: 79.99 },
-      { id: 4, name: "Camisa Formal", price: 29.99 }
-    ]), 1000)
-  );
+  return await getProducts();
 };
 
-// Simulación de llamada API para editar un producto
+// Edita un producto existente
 export const editProduct = async (product) => {
-  return new Promise(resolve =>
-    setTimeout(() => resolve({ ...product }), 1000)
-  );
+  return await updateProduct(product);
 };
 
-// Simulación de llamada API para eliminar un producto
+// Elimina un producto por ID
 export const deleteProduct = async (productId) => {
-  return new Promise(resolve =>
-    setTimeout(() => resolve({ id: productId, deleted: true }), 1000)
-  );
+  return await deleteProductById(productId);
 };
 
-// Simulación de llamada API para obtener la lista de pedidos
+// Obtiene la lista de pedidos utilizando ordersData.js
 export const fetchOrders = async () => {
-  return new Promise(resolve =>
-    setTimeout(() => resolve([
-      { id: 1, customerName: "John Doe", total: 150.00, status: "Pendiente" },
-      { id: 2, customerName: "Jane Smith", total: 200.00, status: "Completado" },
-    ]), 1000)
-  );
+  return await getOrders();
 };
