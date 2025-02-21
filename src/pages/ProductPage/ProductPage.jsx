@@ -1,27 +1,32 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchProductById } from '../../services/api'; // Asegúrate de tener esta función en 'api.js'
+import { fetchProductById } from '../../services/api';
 import styles from './ProductPage.module.css';
 
 const ProductPage = () => {
-  const { id } = useParams();  // Obtener el ID del producto desde la URL
+  const { id } = useParams();
+  const navigate = useNavigate(); // Reemplaza useHistory con useNavigate
   const [product, setProduct] = useState(null);
 
   useEffect(() => {
-    // Llamada a la API para obtener el detalle del producto
     const loadProduct = async () => {
       const fetchedProduct = await fetchProductById(id);
       setProduct(fetchedProduct);
     };
 
     loadProduct();
-  }, [id]); // Vuelve a cargar si el ID cambia
+  }, [id]);
 
-  if (!product) return <div>Cargando...</div>; // Mientras se carga el producto
+  if (!product) return <div>Cargando...</div>;
 
   return (
     <div className={styles.productPage}>
-      <h1 className={styles.productTitle}>{product.name}</h1> {/* Alinea el título a la izquierda */}
+      {/* Contenedor para la flecha y el título */}
+      <div className={styles.header}>
+        <h1 className={styles.productTitle}>{product.name}</h1>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>←</button>
+      </div>
+
       <img src={product.image} alt={product.name} className={styles.productImage} />
 
       <div className={styles.productDetails}>
@@ -35,5 +40,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-
-
