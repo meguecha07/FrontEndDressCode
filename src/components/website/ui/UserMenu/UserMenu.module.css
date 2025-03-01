@@ -1,0 +1,85 @@
+.userMenu {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  /* 🖼️ Avatar */
+  .avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    color: var(--background-color);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .avatar:hover {
+    background: var(--secondary-color);
+  }
+  
+  /* 📋 Dropdown (modal debajo del avatar) */
+  .dropdownMenu {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    width: 260px;
+    background: var(--background-color);
+    border: 1px solid var(--border-color);
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    z-index: 1000;
+    text-align: center;
+  }
+  
+  /* ✨ Texto de bienvenida */
+  .dropdownMenu p {
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--text-color);
+    margin-bottom: 10px;
+  }
+  
+  /* 🔗 Lista de opciones */
+  .dropdownMenu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .dropdownMenu li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: var(--font-size-base);
+    color: var(--text-color);
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 8px;
+  }
+  
+  .dropdownMenu li:hover {
+    background: var(--border-color);
+  }
+  
+  /* 🚪 Cerrar sesión separado */
+  .logout {
+    border-top: 1px solid var(--border-color);
+    margin-top: 10px;
+    padding-top: 10px;
+  }
+  
+  /* 🏷️ Iconos en blanco y negro */
+  .dropdownMenu li::before {
+    font-weight: 900;
+  }
+  
+  
