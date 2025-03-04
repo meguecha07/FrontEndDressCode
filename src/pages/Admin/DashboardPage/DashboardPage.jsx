@@ -28,14 +28,14 @@ const DashboardPage = () => {
       </div>
 
       <div className={styles.grid}>
-        <Link to="/admin/products" className={styles.card}>
+        <Link to="/administrador/products" className={styles.card}>
           <i className="fas fa-box"></i>
           <h3>Gestión de Productos</h3>
           <p>Administra tu catálogo de productos</p>
           <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
         </Link>
 
-        <Link to="/admin/orders" className={styles.card}>
+        <Link to="/administrador/orders" className={styles.card}>
           <i className="fas fa-shopping-bag"></i>
           <h3>Gestión de Pedidos</h3>
           <p>Revisa y gestiona los pedidos</p>

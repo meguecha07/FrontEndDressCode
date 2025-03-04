@@ -12,7 +12,7 @@ import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminRoute = location.pathname.startsWith("/administrador");
 
   // Detección móvil mejorada
   useEffect(() => {
@@ -37,16 +37,16 @@ function App() {
 
       <Routes>
         {/* Redirección desde /admin */}
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/administrador" element={<Navigate to="/administrador/dashboard" replace />} />
 
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
 
         {/* Rutas de administración */}
-        <Route path="/admin/dashboard" element={<DashboardPage />} />
-        <Route path="/admin/products" element={<ProductsListPage />} />
-        <Route path="/admin/orders" element={<OrdersListPage />} />
+        <Route path="/administrador/dashboard" element={<DashboardPage />} />
+        <Route path="/administrador/products" element={<ProductsListPage />} />
+        <Route path="/administrador/orders" element={<OrdersListPage />} />
       </Routes>
 
       {!isAdminRoute && <WebsiteFooter />}
