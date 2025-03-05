@@ -15,9 +15,11 @@
 }
 
 .mainImage {
-  width: 100%;
-  height: 100%;
+  width: 50%; /* Reduce la imagen principal a la mitad del tamaño actual */
+  height: auto; /* Mantiene la proporción */
   object-fit: cover;
+  display: block;
+  margin: auto; /* Centra la imagen */
 }
 
 /* Contenedor derecho: grilla + botón "Ver Más" */
@@ -34,14 +36,18 @@
   gap: 10px;
   height: 100%;
   overflow-y: hidden;
+  gap: 5px; /* Espacio entre imágenes */
+  padding: 10px; /* Agrega un poco de espacio alrededor */
 }
 
 .thumbnail {
-  width: 100%;
-  height: 100%;
+  width: 50%;  /* Reduce el tamaño de la imagen a la mitad del contenedor */
+  height: auto; /* Mantiene la proporción */
   object-fit: cover;
   cursor: pointer;
   transition: transform 0.3s, opacity 0.3s;
+  display: block;
+  margin: auto; /* Centra la imagen dentro de la celda */
 }
 
 .thumbnail:hover {
