@@ -19,8 +19,11 @@
     width: 100%; /* Ancho completo en móvil */
     max-width: 800px; /* Máximo ancho en escritorio si es necesario */
   }
-   
+  
   .homePageContainer {
+    position: relative;
+    left: 10%;
+    width: 80%;
     display: flex;
   }
 

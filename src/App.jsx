@@ -16,7 +16,7 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isAdminRoute = location.pathname.startsWith("/administrador");
 
   // Bloquear móviles en el panel de administración
   useEffect(() => {
@@ -38,7 +38,7 @@ function App() {
 
       <Routes>
         {/* Redirección desde /admin */}
-        <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+        <Route path="/administrador" element={<Navigate to="/administrador/dashboard" replace />} />
 
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
@@ -48,7 +48,7 @@ function App() {
 
         {/* Rutas protegidas para administración */}
         <Route
-          path="/admin/dashboard"
+          path="/administrador/dashboard"
           element={
             <ProtectedRoute adminOnly>
               <DashboardPage />
@@ -56,7 +56,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/products"
+          path="/administrador/products"
           element={
             <ProtectedRoute adminOnly>
               <ProductsListPage />
@@ -64,7 +64,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/orders"
+          path="/administrador/orders"
           element={
             <ProtectedRoute adminOnly>
               <OrdersListPage />

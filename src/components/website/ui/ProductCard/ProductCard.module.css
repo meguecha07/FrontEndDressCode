@@ -68,11 +68,11 @@
   
   
   /* Media query para diseño móvil (pantallas más pequeñas de 768px de ancho) */
-  @media (max-width: 768px) {
+  @media (max-width: 975px) {
 
 
     .productContainer{
-      width: 40vw;
+      width: 30vw;
 
       flex-direction: column; /* Apila verticalmente en móvil: imagen arriba, detalles abajo */
 

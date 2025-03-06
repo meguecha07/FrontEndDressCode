@@ -3,10 +3,10 @@ import styles from './ProductGallery.module.css';
 
 const ProductGallery = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [showAllImages, setShowAllImages] = useState(false);
 
   const handleViewMore = () => {
-    // Lógica para abrir la galería completa
-    console.log('Ver Más');
+    setShowAllImages(true);
   };
 
   return (
@@ -18,8 +18,8 @@ const ProductGallery = ({ images }) => {
 
       {/* Mitad derecha con grilla y botón "Ver Más" */}
       <div className={styles.gridContainer}>
-        <div className={styles.imageGrid}>
-          {images.slice(1, 5).map((image, index) => (
+        <div className={`${styles.imageGrid} ${showAllImages ? styles.scrollable : ''}`}>
+          {images.slice(1, showAllImages ? images.length : 5).map((image, index) => (
             <img
               key={index}
               src={image}
@@ -29,9 +29,11 @@ const ProductGallery = ({ images }) => {
             />
           ))}
         </div>
-        <button className={styles.viewMoreButton} onClick={handleViewMore}>
-          Ver Más
-        </button>
+        {!showAllImages && (
+          <button className={styles.viewMoreButton} onClick={handleViewMore}>
+            Ver Más
+          </button>
+        )}
       </div>
     </div>
   );
