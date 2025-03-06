@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import UserMenu from "../../../website/ui/UserMenu/UserMenu";
 import styles from './AdminHeader.module.css';
 
 const AdminHeader = () => {
@@ -18,14 +19,11 @@ const AdminHeader = () => {
             <i className="fas fa-shopping-bag"></i>
             Pedidos
           </Link>
+          {/* Avatar con menú de usuario */}
+        <UserMenu />
         </nav>
 
-        <div className={styles.user}>
-          <div className={styles.avatar}>
-            <i className="fas fa-user-circle"></i>
-          </div>
-          <span className={styles.userName}>admin@example.com</span>
-        </div>
+         
       </div>
     </header>
   );
