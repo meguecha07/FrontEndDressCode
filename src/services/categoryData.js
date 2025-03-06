@@ -4,7 +4,7 @@
 let categories = [
   { id: 1, name: 'Vestidos', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
   { id: 2, name: 'Trajes', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
-  { id: 3, name: 'Casual', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
+  { id: 3, name: 'Carteras', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
   { id: 4, name: 'Fiesta', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
   { id: 5, name: 'Pantalones', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
   { id: 6, name: 'Camisas', imageUrl: 'https://cdn-icons-png.flaticon.com/512/7552/7552762.png' },
