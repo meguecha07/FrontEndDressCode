@@ -1,10 +1,10 @@
-import { useGlobal } from "../../../../context/GlobalContext.jsx";
+import { useAuth } from "../../../../context/AuthContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"; // 👈 Importamos useNavigate
 import styles from "./UserMenu.module.css";
 
 const UserMenu = () => {
-  const { user, logout } = useGlobal();
+  const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate(); // 👈 Hook para redirigir
 
@@ -27,18 +27,18 @@ const UserMenu = () => {
         <div className={styles.dropdownMenu}>
           <p>¡Hola, {user.firstName}!</p>
           <ul>
-            <li><i class="fa-solid fa-user"></i> Información personal</li>
-            {user.role !== "admin" && <li><i class="fa-solid fa-calendar"></i> Mis reservas</li>}
+            <li><i className="fa-solid fa-user"></i> Información personal</li>
+            <li><i className="fa-solid fa-calendar"></i> Mis reservas</li>
             
-            {user.role === "admin" && (
-              <li onClick={() => navigate("/admin/dashboard")}><i class="fa-solid fa-gear"></i> Panel de administración
+            {user.role === "ROLE_ADMIN" && (
+              <li onClick={() => navigate("/admin/dashboard")}><i className="fa-solid fa-gear"></i> Panel de administración
               </li>
             )}
-            {user.role === "admin" && (
-              <li onClick={() => navigate("/")}><i class="fa-solid fa-home"></i> Ir a home
+            {user.role === "ROLE_ADMIN" && (
+              <li onClick={() => navigate("/")}><i className="fa-solid fa-home"></i> Ir a home
               </li>
             )}
-            <li onClick={logout} className={styles.logout}><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
+            <li onClick={logout} className={styles.logout}><i className="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
           </ul>
         </div>
       )}

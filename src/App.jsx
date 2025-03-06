@@ -1,6 +1,6 @@
 import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useGlobal } from "./context/GlobalContext";
+import { AuthProvider } from "./context/AuthContext";
 import HomePage from "./pages/HomePage/HomePage";
 import ProductPage from "./pages/ProductPage/ProductPage";
 import DashboardPage from "./pages/Admin/DashboardPage/DashboardPage";
@@ -10,11 +10,12 @@ import WebsiteHeader from "./components/website/layout/WebsiteHeader/WebsiteHead
 import WebsiteFooter from "./components/website/layout/WebsiteFooter/WebsiteFooter";
 import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
 import ProtectedRoute from "./context/ProtectedRoute";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { user } = useGlobal();
   const isAdminRoute = location.pathname.startsWith("/admin");
 
   // Bloquear móviles en el panel de administración
@@ -31,7 +32,7 @@ function App() {
   }, [location.pathname, navigate]);
 
   return (
-    <>
+    <AuthProvider>
       {!isAdminRoute && <WebsiteHeader />}
       {isAdminRoute && <AdminHeader />}
 
@@ -42,6 +43,8 @@ function App() {
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
 
         {/* Rutas protegidas para administración */}
         <Route
@@ -71,7 +74,7 @@ function App() {
       </Routes>
 
       {!isAdminRoute && <WebsiteFooter />}
-    </>
+    </AuthProvider>
   );
 }
 

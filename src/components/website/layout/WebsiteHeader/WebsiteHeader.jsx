@@ -1,13 +1,14 @@
-import { useGlobal } from "../../../../context/GlobalContext.jsx";
+import { useAuth } from "../../../../context/AuthContext"; 
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import UserMenu from "../../ui/UserMenu/UserMenu.jsx"; // Asegúrate de que el componente existe
+import { Link, useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+import UserMenu from "../../ui/UserMenu/UserMenu.jsx";
 import styles from "./WebsiteHeader.module.css";
 import logoImage from "../../../../assets/logoDresscode.webp";
 
 const WebsiteHeader = () => {
-  const { user, login } = useGlobal();
+  const { user } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate(); // ✅ Hook para redireccionar
 
   return (
     <header className={styles.header}>
@@ -30,8 +31,8 @@ const WebsiteHeader = () => {
             </button>
 
             <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
-              <button className={styles.button}>Crear cuenta</button>
-              <button className={styles.button} onClick={login}>Iniciar sesión</button>
+              <button className={styles.button} onClick={() => navigate("/register")}>Crear cuenta</button> {/* ✅ Redirigir a /register */}
+              <button className={styles.button} onClick={() => navigate("/login")}>Iniciar sesión</button> {/* ✅ Redirigir a /login */}
             </nav>
           </>
         ) : (
