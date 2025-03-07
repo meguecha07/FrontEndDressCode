@@ -24,6 +24,13 @@ const DashboardPage = () => {
               <span className={styles.statLabel}>Pedidos Activos</span>
             </div>
           </div>
+          <div className={styles.statItem}>
+            <i className="fa-solid fa-user"></i>
+            <div>
+              <span className={styles.statNumber}>89</span>
+              <span className={styles.statLabel}>Usuarios</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -39,6 +46,13 @@ const DashboardPage = () => {
           <i className="fas fa-shopping-bag"></i>
           <h3>Gestión de Pedidos</h3>
           <p>Revisa y gestiona los pedidos</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/users" className={styles.card}>
+          <i className="fa-solid fa-user"></i>
+          <h3>Gestión de Usuarios</h3>
+          <p>Revisa y gestiona los usuarios</p>
           <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
         </Link>
       </div>
