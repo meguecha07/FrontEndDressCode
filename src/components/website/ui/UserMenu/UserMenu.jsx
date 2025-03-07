@@ -31,7 +31,7 @@ const UserMenu = () => {
             <li><i className="fa-solid fa-calendar"></i> Mis reservas</li>
             
             {user.role === "ROLE_ADMIN" && (
-              <li onClick={() => navigate("/admin/dashboard")}><i className="fa-solid fa-gear"></i> Panel de administración
+              <li onClick={() => navigate("/administrador/dashboard")}><i className="fa-solid fa-gear"></i> Panel de administración
               </li>
             )}
             {user.role === "ROLE_ADMIN" && (
