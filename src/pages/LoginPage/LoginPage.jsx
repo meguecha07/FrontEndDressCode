@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import "./LoginPage.module.css";
+import styles from "./LoginPage.module.css";
 
 const LoginPage = () => {
   const { login } = useAuth();
@@ -24,14 +25,30 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="login-container">
-      <h2>Iniciar Sesión</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
-        <button type="submit">Ingresar</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.loginBox}>
+        <h2 className={styles.title}>Iniciar Sesión</h2>
+        {error && <p className={styles.error}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+          <button type="submit" className={styles.button}>Ingresar</button>
+        </form>
+      </div>
     </div>
   );
 };
