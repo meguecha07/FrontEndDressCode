@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { fetchProductById } from '../../services/api';
 import styles from './ProductPage.module.css';
 import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
+import ProductDetail from '../../components/website/ui/ProductDetail/ProductDetail';
 
 const ProductPage = () => {
   const { id } = useParams();

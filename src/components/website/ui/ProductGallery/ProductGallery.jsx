@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import styles from './ProductGallery.module.css';
 
+
 const ProductGallery = ({ images = [] }) => {
   const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0].imageContent : '');
   const [showAllImages, setShowAllImages] = useState(false);
@@ -38,7 +39,30 @@ const ProductGallery = ({ images = [] }) => {
             Ver Más
           </button>
         )}
+
       </div>
+
+      {/* Modal para ver todas las imágenes */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay} onClick={handleCloseModal}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseButton} onClick={handleCloseModal}>
+              &times;
+            </button>
+            <img
+              src={images[modalImageIndex]}
+              alt="Producto"
+              className={styles.modalImage}
+            />
+            <button className={styles.modalNavButtonLeft} onClick={handlePrevImage}>
+              &#10094;
+            </button>
+            <button className={styles.modalNavButtonRight} onClick={handleNextImage}>
+              &#10095;
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

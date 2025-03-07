@@ -38,6 +38,7 @@ const ProductCard = ({ product, categories, onClick }) => {
               className={styles.colorBox} 
               style={{ backgroundColor: productColorName }}
             ></div>
+
           </div>
           <div className={styles.rowDetails}>
             <h3 className={styles.title}>{productName}</h3>

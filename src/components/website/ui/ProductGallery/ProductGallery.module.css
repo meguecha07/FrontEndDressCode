@@ -1,13 +1,11 @@
 .gallery {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 100%;
+  width: 90%;
   gap: 10px;
-  /* Asegura que ambos bloques tengan la misma altura */
   align-items: stretch;
 }
 
-/* Contenedor de la imagen principal (lado izquierdo) */
 .mainImageContainer {
   display: flex;
   justify-content: center;
@@ -15,20 +13,17 @@
 }
 
 .mainImage {
-  width: 50%; /* Reduce la imagen principal a la mitad del tamaño actual */
-  height: auto; /* Mantiene la proporción */
+  width: 50%;
+  height: auto;
   object-fit: cover;
   display: block;
-  margin: auto; /* Centra la imagen */
+  margin: auto;
 }
 
-/* Contenedor derecho: grilla + botón "Ver Más" */
 .gridContainer {
   position: relative;
-  /* Se adapta a la altura del contenedor padre gracias a align-items: stretch en .gallery */
 }
 
-/* Grilla de imágenes (2 columnas x 2 filas) */
 .imageGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -36,25 +31,24 @@
   gap: 10px;
   height: 100%;
   overflow-y: hidden;
-  gap: 5px; /* Espacio entre imágenes */
-  padding: 10px; /* Agrega un poco de espacio alrededor */
+  gap: 5px;
+  padding: 10px;
 }
 
 .thumbnail {
-  width: 50%;  /* Reduce el tamaño de la imagen a la mitad del contenedor */
-  height: auto; /* Mantiene la proporción */
+  width: 50%;
+  height: auto;
   object-fit: cover;
   cursor: pointer;
   transition: transform 0.3s, opacity 0.3s;
   display: block;
-  margin: auto; /* Centra la imagen dentro de la celda */
+  margin: auto;
 }
 
 .thumbnail:hover {
   transform: scale(1.05);
 }
 
-/* Botón "Ver Más" posicionado en la esquina inferior derecha */
 .viewMoreButton {
   position: absolute;
   bottom: 10px;
@@ -76,18 +70,78 @@
   background-color: rgba(0, 0, 0, 0.9);
 }
 
-/* Estilos responsivos */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  position: relative;
+  width: 80%;
+  max-width: 800px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modalImage {
+  width: 100%;
+  height: auto;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.modalCloseButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+
+.modalNavButtonLeft,
+.modalNavButtonRight {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+}
+
+.modalNavButtonLeft {
+  left: 10px;
+}
+
+.modalNavButtonRight {
+  right: 10px;
+}
+
 @media (max-width: 768px) {
   .gallery {
     grid-template-columns: 1fr;
+    width: 100%;
   }
-  
+
   .gridContainer {
     margin-top: 10px;
   }
-  
+
   .imageGrid {
-    /* En tablet se muestran en 2 columnas; se adapta la altura según contenido */
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
   }
@@ -98,7 +152,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 5px;
   }
-  
+
   .viewMoreButton {
     padding: 6px 10px;
     font-size: 12px;
