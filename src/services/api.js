@@ -1,17 +1,25 @@
-// services/api.js
-import { getProducts, getProductById } from "./productData.js";
-import { getCategories } from "./categoryData.js";
+const API_URL = "http://localhost:8080";
 
-// Obtiene las categorías desde categoryData.js
 export const fetchCategories = async () => {
-  return await getCategories();
+  const response = await fetch(`${API_URL}/category`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo categorías');
+  return await response.json();
 };
 
 export const fetchProducts = async () => {
-  return await getProducts();
+  const response = await fetch(`${API_URL}/clothe`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo productos');
+  return await response.json();
 };
 
-// Obtiene un producto por ID desde productData.js
 export const fetchProductById = async (id) => {
-  return await getProductById(id);
+  const response = await fetch(`${API_URL}/clothe/${id}`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo producto');
+  return await response.json();
 };

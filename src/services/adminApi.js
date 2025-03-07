@@ -1,28 +1,86 @@
-// services/adminApi.js
-import { addProduct, getProducts, updateProduct, deleteProductById } from "./productData";
-import { getOrders } from "./ordersData";
+const API_URL = "http://localhost:8080";
 
-// Registro de un nuevo producto
-export const registerProduct = async (product) => {
-  return await addProduct(product);
+// ==================== PRODUCTOS ====================
+export const registerProduct = async (productData) => {
+  const response = await fetch(`${API_URL}/clothe`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(productData)
+  });
+  if (!response.ok) throw new Error('Error al registrar el producto');
+  return await response.json();
 };
 
-// Obtiene la lista de productos para el admin
 export const fetchAdminProducts = async () => {
-  return await getProducts();
+  const response = await fetch(`${API_URL}/clothe`, {
+  });
+  if (!response.ok) throw new Error('Error obteniendo productos');
+  return await response.json();
 };
 
-// Edita un producto existente
-export const editProduct = async (product) => {
-  return await updateProduct(product);
+export const editProduct = async (productData) => {
+  const response = await fetch(`${API_URL}/clothe`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(productData)
+  });
+  if (!response.ok) throw new Error('Error actualizando producto');
+  return await response.json();
 };
 
-// Elimina un producto por ID
 export const deleteProduct = async (productId) => {
-  return await deleteProductById(productId);
+  const response = await fetch(`${API_URL}/clothe/${productId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando producto');
+  return true;
 };
 
-// Obtiene la lista de pedidos utilizando ordersData.js
-export const fetchOrders = async () => {
-  return await getOrders();
+// ==================== USUARIOS ====================
+export const fetchUsers = async () => {
+  const response = await fetch(`${API_URL}/user`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo usuarios');
+  return await response.json();
 };
+
+export const deleteUser = async (userId) => {
+  const response = await fetch(`${API_URL}/user/${userId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando usuario');
+  return true;
+};
+
+export const updateUser = async (userId, userData) => {
+  const response = await fetch(`${API_URL}/user/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(userData)
+  });
+  if (!response.ok) throw new Error('Error actualizando usuario');
+  return await response.json();
+};
+
+// ==================== PEDIDOS ====================
+// Mantenemos temporalmente los datos mock
+import { getOrders } from "./ordersData";
+export const fetchOrders = getOrders;
