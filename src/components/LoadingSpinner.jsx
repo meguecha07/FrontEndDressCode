@@ -9,7 +9,7 @@ export default function LoadingSpinner() {
           left: 0;
           right: 0;
           bottom: 0;
-          background: rgba(255, 255, 255, 0.8);
+          background: rgba(255, 255, 255, 1);
           display: flex;
           justify-content: center;
           align-items: center;
@@ -18,7 +18,7 @@ export default function LoadingSpinner() {
         
         .loading-spinner {
           border: 4px solid #f3f3f3;
-          border-top: 4px solid #3498db;
+          border-top: 4px solid rgb(0, 0, 0);
           border-radius: 50%;
           width: 40px;
           height: 40px;

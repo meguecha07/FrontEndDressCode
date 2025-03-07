@@ -22,8 +22,7 @@
 .mainImage {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  padding: 1rem;
+  object-fit: cover;
 }
 
 /* Grid de miniaturas más compacto */
@@ -78,5 +77,63 @@
   
   .thumbnail {
     height: 80px; /* Reducido de 180px */
+  }
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* Nuevo breakpoint para desktop */
+@media (min-width: 769px) {
+  .gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.gridContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.viewMoreButton {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  z-index: 2;
+  padding: 12px 20px;
+  background: rgb(0, 0, 0);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.viewMoreButton:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: translateY(-1px);
+}
+
+/* Ajustes responsive para móvil */
+@media (max-width: 480px) {
+  .imageGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .thumbnail {
+    height: 100px;
+  }
+  
+  .mainImageContainer {
+    min-height: 250px;
   }
 }

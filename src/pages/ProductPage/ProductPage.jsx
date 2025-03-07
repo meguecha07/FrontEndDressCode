@@ -3,6 +3,9 @@ import { useState, useEffect } from 'react';
 import { fetchProductById } from '../../services/api';
 import styles from './ProductPage.module.css';
 import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
+import ProductDetail from '../../components/website/ui/ProductDetail/ProductDetail';
+import LoadingSpinner from '../../components/LoadingSpinner'
+
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -22,22 +25,52 @@ const ProductPage = () => {
     loadProduct();
   }, [id]);
 
-  if (!product) return <div>Cargando...</div>;
+  if (!product) return <LoadingSpinner />;
 
   return (
     <div className={styles.productPage}>
-      <div className={styles.header}>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-        <h1 className={styles.productTitle}>{product.name}</h1>
-      </div>
-      <ProductGallery images={product.images} />
-      <p className={styles.productDescription}>{product.description}</p>
-      <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
-      <button className={styles.addToCartButton}>Añadir al carrito</button>
+    <div className={styles.header}>
+      <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
+      <h1 className={styles.productTitle}>{product.name}</h1>
     </div>
-  );
+
+    <div className={styles.galleryContainer}>
+      <ProductGallery images={product.images} />
+    </div>
+
+    <div className={styles.detailsGrid}>
+
+
+      <ProductDetail
+          category={product.category.categoryName}
+          color={product.color.colorName}
+          size={product.size}
+          sku={product.sku}
+        />
+          <div className={styles.priceSection}>
+        <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
+        <span 
+  className={styles.stockStatus}
+  style={{ color: product.stock > 0 ? '#4CAF50' : '#F44336' }}
+>
+  {product.stock > 0 ? `Disponible (${product.stock} unidades)` : 'Agotado'}
+</span>
+        <button className={styles.addToCartButton}>
+        Añadir al carrito
+        <i className="fa-solid fa-cart-plus"></i>
+      </button>
+      <div className={styles.descriptionSection}>
+        <h2 className={styles.sectionTitle}>Descripción</h2>
+        <p className={styles.productDescription}>{product.description}</p>
+      </div>
+      </div>
+
+
+    </div>
+  </div>
+);
 };
 
 export default ProductPage;
