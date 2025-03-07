@@ -3,7 +3,7 @@ import styles from './Modal.module.css';
 
 const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const imagesPerPage = 9; // 3 columnas x 3 filas
+  const imagesPerPage = 3; // 3 columnas x 3 filas
   const totalPages = Math.ceil(images.length / imagesPerPage);
 
   const handlePrevious = () => {

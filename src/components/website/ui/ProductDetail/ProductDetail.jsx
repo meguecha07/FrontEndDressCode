@@ -1,119 +1,101 @@
-import styles from "./ProductDetail.module.css";
+// ProductDetail.jsx
+import styles from './ProductDetail.module.css';
 
-const ProductDetail = ({ product }) => {
-    // Mock data para los atributos que no están en el objeto `product`
-    const mockData = {
-        tipoDePrenda: "Vestido",
-        talla: "M",
-        material: "Algodón",
-        estado: "Nuevo",
-        estilo: "Casual",
-        temporada: "Verano",
-        ocasion: "Fiesta",
-        marcaDiseñador: "Zara",
-        patron: "Estampado",
-        largo: "Corto",
-        ajuste: "Entallado",
-        genero: "Femenino",
-    };
+// metaItems.json
+const metaItems=[
+    {
+      "label": "Material",
+      "value": "Algodón",
+      "icon": "fa-solid fa-tshirt"
+    },
+    {
+      "label": "Estado",
+      "value": "Nuevo",
+      "icon": "fa-solid fa-certificate"
+    },
+    {
+      "label": "Estilo",
+      "value": "Casual",
+      "icon": "fa-solid fa-shirt"
+    },
+    {
+      "label": "Temporada",
+      "value": "Verano",
+      "icon": "fa-solid fa-sun"
+    },
+    {
+      "label": "Ocasión",
+      "value": "Fiesta",
+      "icon": "fa-solid fa-glass-cheers"
+    },
+    {
+      "label": "Marca/Diseñador",
+      "value": "Zara",
+      "icon": "fa-solid fa-tag"
+    },
+    {
+      "label": "Patrón",
+      "value": "Estampado",
+      "icon": "fa-solid fa-paint-brush"
+    },
+    {
+      "label": "Largo",
+      "value": "Corto",
+      "icon": "fa-solid fa-ruler"
+    },
+    {
+      "label": "Ajuste",
+      "value": "Entallado",
+      "icon": "fa-solid fa-arrows-alt-v"
+    },
+    {
+      "label": "Género",
+      "value": "Femenino",
+      "icon": "fa-solid fa-venus"
+    }
+  ]
 
-    // Combinar los datos del producto con el mock data
-    const productDetails = {
-        ...mockData,
-        color: product.color,
-        price: product.price,
-    };
-
+const ProductDetail = ({ category, color, size, sku }) => {
     return (
-        <div>
-            <h2>Características</h2>
-            <div className={styles.details}>
-                <div className={styles.list}>
-                    {/* Mostrar todos los atributos */}
-                    <div className={styles.attribute}>
-                        <img src="/icon-tipo-prenda.svg" alt="Tipo de prenda" />
-                        <p>
-                            <strong>Tipo de prenda:</strong> {productDetails.tipoDePrenda}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-talla.svg" alt="Talla" />
-                        <p>
-                            <strong>Talla:</strong> {productDetails.talla}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-color.svg" alt="Color" />
-                        <p>
-                            <strong>Color:</strong> {productDetails.color}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-material.svg" alt="Material" />
-                        <p>
-                            <strong>Material:</strong> {productDetails.material}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-estado.svg" alt="Estado" />
-                        <p>
-                            <strong>Estado:</strong> {productDetails.estado}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-estilo.svg" alt="Estilo" />
-                        <p>
-                            <strong>Estilo:</strong> {productDetails.estilo}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-temporada.svg" alt="Temporada" />
-                        <p>
-                            <strong>Temporada:</strong> {productDetails.temporada}
-                        </p>
-                    </div>
-                </div>
-                <div className={styles.list}>
-                    <div className={styles.attribute}>
-                        <img src="/icon-ocasion.svg" alt="Ocasión" />
-                        <p>
-                            <strong>Ocasión:</strong> {productDetails.ocasion}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-marca.svg" alt="Marca/Diseñador" />
-                        <p>
-                            <strong>Marca/Diseñador:</strong> {productDetails.marcaDiseñador}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-patron.svg" alt="Patrón" />
-                        <p>
-                            <strong>Patrón:</strong> {productDetails.patron}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-largo.svg" alt="Largo" />
-                        <p>
-                            <strong>Largo:</strong> {productDetails.largo}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-ajuste.svg" alt="Ajuste" />
-                        <p>
-                            <strong>Ajuste:</strong> {productDetails.ajuste}
-                        </p>
-                    </div>
-                    <div className={styles.attribute}>
-                        <img src="/icon-genero.svg" alt="Género" />
-                        <p>
-                            <strong>Género:</strong> {productDetails.genero}
-                        </p>
-                    </div>
-                </div>
-            </div>
+      <div className={styles.metaGrid}>
+        {/* MetaItems originales */}
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-tag"></i> Categoría
+          </span>
+          <span className={styles.metaValue}>{category}</span>
         </div>
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-palette"></i> Color
+          </span>
+          <span className={styles.metaValue}>{color}</span>
+        </div>
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-ruler"></i> Talla
+          </span>
+          <span className={styles.metaValue}>{size}</span>
+        </div>
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-barcode"></i> SKU
+          </span>
+          <span className={styles.metaValue}>{sku}</span>
+        </div>
+  
+        {/* MetaItems adicionales desde el JSON */}
+        {metaItems.map((item, index) => (
+          <div className={styles.metaItem} key={index}>
+            <span className={styles.metaLabel}>
+              <i className={item.icon}></i> {item.label}
+            </span>
+            <span className={styles.metaValue}>{item.value}</span>
+          </div>
+        ))}
+      </div>
     );
-};
+  };
+  
 
 export default ProductDetail;
