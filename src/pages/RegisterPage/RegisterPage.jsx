@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import "./RegisterPage.module.css";
+import styles from "./RegisterPage.module.css";
 
 const RegisterPage = () => {
   const { register } = useAuth();
@@ -56,16 +56,18 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-container">
-      <h2>Registro</h2>
-      {error && <p className="error">{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="firstName" placeholder="Nombre" onChange={handleChange} required />
-        <input type="text" name="lastName" placeholder="Apellido" onChange={handleChange} required />
-        <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-        <input type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
-        <button type="submit">Registrarse</button>
-      </form>
+    <div className={styles.container}>
+      <div className={styles.registerBox}>
+        <h2 className={styles.title}>Registro</h2>
+        {error && <p className={styles.error}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input className={styles.input} type="text" name="firstName" placeholder="Nombre" onChange={handleChange} required />
+          <input className={styles.input} type="text" name="lastName" placeholder="Apellido" onChange={handleChange} required />
+          <input className={styles.input} type="email" name="email" placeholder="Email" onChange={handleChange} required />
+          <input className={styles.input} type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
+          <button className={styles.button} type="submit">Registrarse</button>
+        </form>
+      </div>
     </div>
   );
 };
