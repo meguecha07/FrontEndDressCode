@@ -3,10 +3,23 @@ import styles from './ProductGallery.module.css';
 
 const ProductGallery = ({ images }) => {
   const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [showAllImages, setShowAllImages] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalImageIndex, setModalImageIndex] = useState(0);
 
   const handleViewMore = () => {
-    setShowAllImages(true);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleNextImage = () => {
+    setModalImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+  };
+
+  const handlePrevImage = () => {
+    setModalImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
   return (
@@ -18,8 +31,8 @@ const ProductGallery = ({ images }) => {
 
       {/* Mitad derecha con grilla y botón "Ver Más" */}
       <div className={styles.gridContainer}>
-        <div className={`${styles.imageGrid} ${showAllImages ? styles.scrollable : ''}`}>
-          {images.slice(1, showAllImages ? images.length : 5).map((image, index) => (
+        <div className={styles.imageGrid}>
+          {images.slice(1, 5).map((image, index) => ( // Muestra máximo 4 imágenes
             <img
               key={index}
               src={image}
@@ -29,12 +42,32 @@ const ProductGallery = ({ images }) => {
             />
           ))}
         </div>
-        {!showAllImages && (
-          <button className={styles.viewMoreButton} onClick={handleViewMore}>
-            Ver Más
-          </button>
-        )}
+        <button className={styles.viewMoreButton} onClick={handleViewMore}>
+          Ver Más
+        </button>
       </div>
+
+      {/* Modal para ver todas las imágenes */}
+      {isModalOpen && (
+        <div className={styles.modalOverlay} onClick={handleCloseModal}>
+          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+            <button className={styles.modalCloseButton} onClick={handleCloseModal}>
+              &times;
+            </button>
+            <img
+              src={images[modalImageIndex]}
+              alt="Producto"
+              className={styles.modalImage}
+            />
+            <button className={styles.modalNavButtonLeft} onClick={handlePrevImage}>
+              &#10094;
+            </button>
+            <button className={styles.modalNavButtonRight} onClick={handleNextImage}>
+              &#10095;
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
