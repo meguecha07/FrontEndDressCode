@@ -1,14 +1,12 @@
 import { useState } from 'react';
+import Modal from '../Modal/Modal';
 import styles from './ProductGallery.module.css';
 
-
 const ProductGallery = ({ images = [] }) => {
-  const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0].imageContent : '');
-  const [showAllImages, setShowAllImages] = useState(false);
-
-  const handleViewMore = () => {
-    setShowAllImages(!showAllImages);
-  };
+  const [selectedImage, setSelectedImage] = useState(
+    images.length > 0 ? images[0].imageContent : ''
+  );
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div className={styles.gallery}>
@@ -23,46 +21,35 @@ const ProductGallery = ({ images = [] }) => {
 
       {/* Miniaturas */}
       <div className={styles.gridContainer}>
-        <div className={`${styles.imageGrid} ${showAllImages ? styles.scrollable : ''}`}>
-          {images.slice(0, showAllImages ? images.length : 5).map((image, index) => (
+        <div className={styles.imageGrid}>
+          {images.slice(0, 5).map((image) => (
             <img
               key={image.imagenId}
               src={`data:image/png;base64,${image.imageContent}`}
-              alt={`Vista ${index + 1} del producto`}
+              alt="Vista del producto"
               className={styles.thumbnail}
               onClick={() => setSelectedImage(image.imageContent)}
             />
           ))}
         </div>
-        {!showAllImages && images.length > 5 && (
-          <button className={styles.viewMoreButton} onClick={handleViewMore}>
+
+        {images.length > 5 && (
+          <button 
+            className={styles.viewMoreButton} 
+            onClick={() => setIsModalOpen(true)}
+          >
             Ver Más
           </button>
         )}
-
       </div>
 
       {/* Modal para ver todas las imágenes */}
-      {isModalOpen && (
-        <div className={styles.modalOverlay} onClick={handleCloseModal}>
-          <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button className={styles.modalCloseButton} onClick={handleCloseModal}>
-              &times;
-            </button>
-            <img
-              src={images[modalImageIndex]}
-              alt="Producto"
-              className={styles.modalImage}
-            />
-            <button className={styles.modalNavButtonLeft} onClick={handlePrevImage}>
-              &#10094;
-            </button>
-            <button className={styles.modalNavButtonRight} onClick={handleNextImage}>
-              &#10095;
-            </button>
-          </div>
-        </div>
-      )}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        images={images}
+        onSelectImage={setSelectedImage}
+      />
     </div>
   );
 };

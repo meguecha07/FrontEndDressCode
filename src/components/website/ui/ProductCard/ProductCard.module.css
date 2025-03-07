@@ -15,18 +15,17 @@
   }
   
   .imageContainer {
-    flex-shrink: 0; /* Evita que el contenedor de la imagen se encoja */
-    border: 1px solid var(--color-20);
-    height: 270px;
-  }
-  
-  
-  .image {
-    width: 100%; /* Ancho fijo para la imagen en diseño de escritorio */
-    height: 270px; /* Alto fijo para la imagen en diseño de escritorio */
-    object-fit: cover; /* Ajusta la imagen para que cubra el contenedor */
-    
-  }
+    /* ... otros estilos ... */
+    aspect-ratio:3 / 3;
+    max-width: 300px; /* O el ancho máximo que prefieras */
+    overflow: hidden;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
   
   .details {
     display: flex;

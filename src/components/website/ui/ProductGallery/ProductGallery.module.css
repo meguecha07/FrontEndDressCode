@@ -1,160 +1,82 @@
 .gallery {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  width: 90%;
-  gap: 10px;
-  align-items: stretch;
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
+/* Contenedor principal más compacto */
 .mainImageContainer {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  min-height: 400px; /* Reducido de 500px */
   display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 .mainImage {
-  width: 50%;
-  height: auto;
-  object-fit: cover;
-  display: block;
-  margin: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 1rem;
 }
 
+/* Grid de miniaturas más compacto */
 .gridContainer {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* Reducido de 1rem */
 }
 
 .imageGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  gap: 10px;
-  height: 100%;
-  overflow-y: hidden;
-  gap: 5px;
-  padding: 10px;
+  gap: 0.5rem; /* Reducido de 0.75rem */
+  padding: 0.25rem; /* Reducido de 0.5rem */
 }
 
 .thumbnail {
-  width: 50%;
-  height: auto;
+  width: 100%;
+  height: 150px; /* Reducido de 200px */
   object-fit: cover;
+  border-radius: 8px;
   cursor: pointer;
-  transition: transform 0.3s, opacity 0.3s;
-  display: block;
-  margin: auto;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.thumbnail:hover {
-  transform: scale(1.05);
-}
-
-.viewMoreButton {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: 10px 14px;
-  background-color: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  transition: background-color 0.3s;
-}
-
-.scrollable {
-  overflow-y: auto;
-}
-
-.viewMoreButton:hover {
-  background-color: rgba(0, 0, 0, 0.9);
-}
-
-.modalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.modalContent {
-  position: relative;
-  width: 80%;
-  max-width: 800px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.modalImage {
-  width: 100%;
-  height: auto;
-  max-height: 80vh;
-  object-fit: contain;
-}
-
-.modalCloseButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #000;
-}
-
-.modalNavButtonLeft,
-.modalNavButtonRight {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  color: #000;
-}
-
-.modalNavButtonLeft {
-  left: 10px;
-}
-
-.modalNavButtonRight {
-  right: 10px;
+/* Ajustes responsive */
+@media (max-width: 992px) {
+  .mainImageContainer {
+    min-height: 300px; /* Reducido de 400px */
+  }
+  
+  .thumbnail {
+    height: 120px; /* Reducido de 150px */
+  }
 }
 
 @media (max-width: 768px) {
-  .gallery {
-    grid-template-columns: 1fr;
-    width: 100%;
+  .mainImageContainer {
+    min-height: 250px; /* Reducido de 300px */
   }
-
-  .gridContainer {
-    margin-top: 10px;
-  }
-
-  .imageGrid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto;
+  
+  .thumbnail {
+    height: 100px; /* Reducido de 250px */
   }
 }
 
 @media (max-width: 480px) {
-  .imageGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 5px;
+  .mainImageContainer {
+    min-height: 200px;
   }
-
-  .viewMoreButton {
-    padding: 6px 10px;
-    font-size: 12px;
+  
+  .thumbnail {
+    height: 80px; /* Reducido de 180px */
   }
 }
