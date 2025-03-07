@@ -29,7 +29,7 @@ const ProductCard = ({ product, categories, onClick }) => {
         </div>
         <div className={styles.details}>
           <div className={styles.rowDetails}>
-             <p className={styles.category}>{categoryName}</p>
+            <p className={styles.category}>{categoryName}</p>
             <div className={styles.colorBox} style={{ backgroundColor: productColor }}></div>
           </div>
           <div className={styles.rowDetails}>

@@ -7,7 +7,7 @@ const ProductGallery = ({ images }) => {
   const [modalImageIndex, setModalImageIndex] = useState(0);
 
   const handleViewMore = () => {
-    setIsModalOpen(true); // Solo abre el modal
+    setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
