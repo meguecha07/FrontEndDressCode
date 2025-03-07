@@ -19,6 +19,10 @@ const AdminHeader = () => {
             <i className="fas fa-shopping-bag"></i>
             Pedidos
           </Link>
+          <Link to="/administrador/users" className={styles.navLink}>
+            <i className="fa-solid fa-user"></i>
+            Usuarios
+          </Link>
           {/* Avatar con menú de usuario */}
         <UserMenu />
         </nav>

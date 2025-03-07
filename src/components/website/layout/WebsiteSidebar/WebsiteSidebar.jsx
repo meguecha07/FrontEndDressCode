@@ -31,24 +31,24 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => { // Re
 
   return (
     <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> {/* Clase condicional para abrir en móvil */}
-      <div className={styles.filterSection}>
-        <div className={styles.filterHeader} onClick={handleToggleCategory}>
-          Categoría
-          <span className={styles.arrow}>{isCategoryOpen ? '▲' : '▼'}</span>
-        </div>
-        {isCategoryOpen && (
-          <ul className={styles.filterList}>
-            {categories.map((category,index) => (
-              <li key={index} className={styles.filterItem}>
-                <label>
-                  <input type="checkbox" value={category} />
-                  {category.name}
-                </label>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+            <div className={styles.filterSection}>
+                <div className={styles.filterHeader} onClick={handleToggleCategory}>
+                    Categoría
+                    <span className={styles.arrow}>{isCategoryOpen ? '▲' : '▼'}</span>
+                </div>
+                {isCategoryOpen && (
+                    <ul className={styles.filterList}>
+                        {categories.map((category, index) => (
+                            <li key={index} className={styles.filterItem}>
+                                <label>
+                                    <input type="checkbox" value={category} />
+                                    {category.categoryName} {/* ✅ Usando category.categoryName */}
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
+                )}
+            </div>
 
       <div className={styles.filterSection}>
         <div className={styles.filterHeader} onClick={handleToggleSize}>

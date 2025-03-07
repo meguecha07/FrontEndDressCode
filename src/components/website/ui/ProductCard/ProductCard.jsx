@@ -13,28 +13,35 @@ const ProductCard = ({ product, categories, onClick }) => {
     }
   };
 
-  // Suponiendo que el objeto product tiene una propiedad 'color' para el ejemplo
-  const productColor = product.color || 'transparent'; // Color por defecto si no hay color definido
-  const productImage = product.image?.[0] || 'https://via.placeholder.com/200';
+    // Extraer imagen base64 si está disponible
+    const productImage = product.images?.length > 0 
+    ? `data:image/jpeg;base64,${product.images[0].imageContent}` 
+    : 'https://via.placeholder.com/200';
 
-  // Buscar el nombre de la categoría usando el ID
-  const categoryObj = categories.find(cat => cat.id === product.categoryId);
-  const categoryName = categoryObj ? categoryObj.name : "Sin categoría";
+  const productName = product.name || "Nombre no disponible";
+  const productPrice = product.price !== null && product.price !== undefined 
+    ? `$${product.price.toFixed(2)}` 
+    : "Precio no disponible";
+  const categoryName = product.category?.categoryName || "Sin categoría";
+  const productColorName = product.color?.colorName || 'transparent';
 
   return (
-    <div className={styles.productCard} >
+    <div className={styles.productCard}>
       <div className={styles.productContainer} onClick={handleClick}>
         <div className={styles.imageContainer}>
-          <img src={productImage} alt={product.name} className={styles.image} />
+          <img src={productImage} alt={productName} className={styles.image} />
         </div>
         <div className={styles.details}>
           <div className={styles.rowDetails}>
-             <p className={styles.category}>{categoryName}</p>
-            <div className={styles.colorBox} style={{ backgroundColor: productColor }}></div>
+            <p className={styles.category}>{categoryName}</p>
+            <div 
+              className={styles.colorBox} 
+              style={{ backgroundColor: productColorName }}
+            ></div>
           </div>
           <div className={styles.rowDetails}>
-            <h3 className={styles.title}>{product.name}</h3>
-            <p className={styles.price}>${product.price}</p>
+            <h3 className={styles.title}>{productName}</h3>
+            <p className={styles.price}>{productPrice}</p>
           </div>
         </div>
       </div>

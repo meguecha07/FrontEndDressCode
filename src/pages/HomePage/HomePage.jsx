@@ -59,10 +59,10 @@ const HomePage = () => {
           <div className={styles.productGrid}>
             {currentPosts.map(product => (
               <ProductCard
-                key={product.id}
+                key={product.clotheId}
                 product={product}
                 categories={categories}
-                onClick={() => navigate(`/product/${product.id}`)}
+                onClick={() => navigate(`/product/${product.clotheId}`)}
               />
             ))}
           </div>

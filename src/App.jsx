@@ -6,6 +6,7 @@ import ProductPage from "./pages/ProductPage/ProductPage";
 import DashboardPage from "./pages/Admin/DashboardPage/DashboardPage";
 import ProductsListPage from "./pages/Admin/ProductListPage/ProductListPage";
 import OrdersListPage from "./pages/Admin/OrdersListPage/OrdersListPage";
+import UserListPage from "./pages/Admin/UserListPage/UserListPage";
 import WebsiteHeader from "./components/website/layout/WebsiteHeader/WebsiteHeader";
 import WebsiteFooter from "./components/website/layout/WebsiteFooter/WebsiteFooter";
 import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
@@ -68,6 +69,14 @@ function App() {
           element={
             <ProtectedRoute adminOnly>
               <OrdersListPage />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/administrador/users"
+          element={
+            <ProtectedRoute adminOnly>
+              <UserListPage />
             </ProtectedRoute>
           }
         />

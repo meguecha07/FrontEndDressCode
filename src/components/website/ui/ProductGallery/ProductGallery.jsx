@@ -1,35 +1,39 @@
 import { useState } from 'react';
 import styles from './ProductGallery.module.css';
 
-const ProductGallery = ({ images }) => {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+const ProductGallery = ({ images = [] }) => {
+  const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0].imageContent : '');
   const [showAllImages, setShowAllImages] = useState(false);
 
   const handleViewMore = () => {
-    setShowAllImages(true);
+    setShowAllImages(!showAllImages);
   };
 
   return (
     <div className={styles.gallery}>
-      {/* Imagen principal en la mitad izquierda */}
+      {/* Imagen principal */}
       <div className={styles.mainImageContainer}>
-        <img src={selectedImage} alt="Producto" className={styles.mainImage} />
+        <img
+          src={`data:image/png;base64,${selectedImage}`}
+          alt="Imagen principal del producto"
+          className={styles.mainImage}
+        />
       </div>
 
-      {/* Mitad derecha con grilla y botón "Ver Más" */}
+      {/* Miniaturas */}
       <div className={styles.gridContainer}>
         <div className={`${styles.imageGrid} ${showAllImages ? styles.scrollable : ''}`}>
-          {images.slice(1, showAllImages ? images.length : 5).map((image, index) => (
+          {images.slice(0, showAllImages ? images.length : 5).map((image, index) => (
             <img
-              key={index}
-              src={image}
-              alt={`Vista ${index + 1}`}
+              key={image.imagenId}
+              src={`data:image/png;base64,${image.imageContent}`}
+              alt={`Vista ${index + 1} del producto`}
               className={styles.thumbnail}
-              onClick={() => setSelectedImage(image)}
+              onClick={() => setSelectedImage(image.imageContent)}
             />
           ))}
         </div>
-        {!showAllImages && (
+        {!showAllImages && images.length > 5 && (
           <button className={styles.viewMoreButton} onClick={handleViewMore}>
             Ver Más
           </button>
