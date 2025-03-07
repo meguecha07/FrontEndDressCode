@@ -1,50 +1,45 @@
 import { useState } from 'react';
 import styles from './ProductGallery.module.css';
 
-const ProductGallery = ({ images }) => {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalImageIndex, setModalImageIndex] = useState(0);
+
+const ProductGallery = ({ images = [] }) => {
+  const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0].imageContent : '');
+  const [showAllImages, setShowAllImages] = useState(false);
 
   const handleViewMore = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleNextImage = () => {
-    setModalImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-  };
-
-  const handlePrevImage = () => {
-    setModalImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
+    setShowAllImages(!showAllImages);
   };
 
   return (
     <div className={styles.gallery}>
-      {/* Imagen principal en la mitad izquierda */}
+      {/* Imagen principal */}
       <div className={styles.mainImageContainer}>
-        <img src={selectedImage} alt="Producto" className={styles.mainImage} />
+        <img
+          src={`data:image/png;base64,${selectedImage}`}
+          alt="Imagen principal del producto"
+          className={styles.mainImage}
+        />
       </div>
 
-      {/* Mitad derecha con grilla y botón "Ver Más" */}
+      {/* Miniaturas */}
       <div className={styles.gridContainer}>
-        <div className={styles.imageGrid}>
-          {images.slice(1, 5).map((image, index) => ( // Muestra máximo 4 imágenes
+        <div className={`${styles.imageGrid} ${showAllImages ? styles.scrollable : ''}`}>
+          {images.slice(0, showAllImages ? images.length : 5).map((image, index) => (
             <img
-              key={index}
-              src={image}
-              alt={`Vista ${index + 1}`}
+              key={image.imagenId}
+              src={`data:image/png;base64,${image.imageContent}`}
+              alt={`Vista ${index + 1} del producto`}
               className={styles.thumbnail}
-              onClick={() => setSelectedImage(image)}
+              onClick={() => setSelectedImage(image.imageContent)}
             />
           ))}
         </div>
-        <button className={styles.viewMoreButton} onClick={handleViewMore}>
-          Ver Más
-        </button>
+        {!showAllImages && images.length > 5 && (
+          <button className={styles.viewMoreButton} onClick={handleViewMore}>
+            Ver Más
+          </button>
+        )}
+
       </div>
 
       {/* Modal para ver todas las imágenes */}

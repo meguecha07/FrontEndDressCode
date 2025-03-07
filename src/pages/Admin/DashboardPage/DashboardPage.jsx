@@ -56,14 +56,14 @@ const DashboardPage = () => {
           <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
         </Link>
       </div>
-
+{/* 
       <button 
         className={styles.fab} 
         onClick={() => setShowProductModal(true)}
         aria-label="Añadir producto"
       >
         <i className="fas fa-plus"></i>
-      </button>
+      </button> */}
 
       {showProductModal && (
         <ProductFormModal 
