@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchCategories, fetchColors, createImage } from '../../../../services/adminApi';
+import { fetchCategories, fetchColors, createImage, fetchAttributes } from '../../../../services/adminApi';
 import styles from './ProductFormModal.module.css';
 
 const ProductFormModal = ({ initialData, onSave, onClose }) => {
@@ -13,10 +13,12 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
         size: '',
         active: true,
         images: [],
+        attributes: [],
         description: ''
     });
     const [categories, setCategories] = useState([]);
     const [colors, setColors] = useState([]);
+    const [attributes, setAttributes] = useState([]);
     const [uploadingImages, setUploadingImages] = useState(false);
     const [imageUploadError, setImageUploadError] = useState(null);
 
@@ -28,8 +30,10 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 setCategories(fetchedCategories);
                 const fetchedColors = await fetchColors();
                 setColors(fetchedColors);
+                const fetchedAttributes = await fetchAttributes();
+                setAttributes(fetchedAttributes);
             } catch (error) {
-                console.error("Error fetching categories/colors:", error);
+                console.error("Error fetching categories/colors/attributes:", error);
             }
         };
         loadOptions();
@@ -45,7 +49,8 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 size: initialData.size || '',
                 active: initialData.active !== undefined ? initialData.active : true,
                 images: initialData.images?.map(img => ({ url: img.imageContent })) || [],
-                description: initialData.description || ''
+                description: initialData.description || '',
+                attributes: initialData.attributes?.map(attr => attr.attributeId) || []
             });
         }
     }, [initialData]);
@@ -102,6 +107,19 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
         });
     };
 
+    const handleChangeAttributes = (e) => {
+        const { value, checked } = e.target;
+        const attrId = parseInt(value, 10); // Convertir a número
+    
+        setProduct(prev => {
+            let updatedAttributes = checked 
+                ? [...prev.attributes, attrId] 
+                : prev.attributes.filter(attr => attr !== attrId);
+    
+            return { ...prev, attributes: updatedAttributes };
+        });
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -139,7 +157,8 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 active: product.active,
                 categoryID: parseInt(product.categoryId, 10),
                 colorID: parseInt(product.colorId, 10),
-                imageIds: uploadedImageIds
+                imageIds: uploadedImageIds,
+                attributeIds: product.attributes.map(attr => parseInt(attr, 10))
             };
             onSave(formattedProduct);
         } catch (error) {
@@ -320,6 +339,27 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
 
                         <div className={styles.formGroup}>
                             <label>
+                                <span>Características</span>
+                                {attributes.map(attr => (
+                                    <div key={attr.attributeId} className={styles.checkboxContainer}>
+                                        <label className={styles.checkboxAttributeLabel}>
+                                        <input
+                                            type="checkbox"
+                                            value={attr.attributeId}
+                                            checked={product.attributes.includes(attr.attributeId) || false}
+                                            onChange={handleChangeAttributes}
+                                            className={styles.checkboxInput}
+                                        />
+                                        <img src={attr.iconUrl} alt="icono" />
+                                        <span>{attr.name}</span>
+                                        </label>
+                                    </div>
+                                ))}
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
                                 <span>Descripción</span>
                                 <textarea
                                     name="description"
@@ -331,6 +371,8 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                                 />
                             </label>
                         </div>
+
+                        
 
                         <div className={styles.formActions}>
                             <button type="button" className={styles.cancelButton} onClick={onClose}>

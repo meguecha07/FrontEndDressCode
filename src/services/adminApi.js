@@ -268,3 +268,61 @@ export const deleteImage = async (imageId) => {
   if (!response.ok) throw new Error('Error eliminando imagen');
   return true;
 };
+
+// ==================== ATRIBUTOS ====================
+export const createAttribute = async (attributeData) => {
+  const response = await fetch(`${API_URL}/attribute`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(attributeData)
+  });
+  if (!response.ok) throw new Error('Error al crear el atributo');
+  return await response.json();
+};
+
+export const fetchAttributes = async () => {
+  const response = await fetch(`${API_URL}/attribute`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo atributos');
+  return await response.json();
+};
+
+export const fetchAttributeById = async (attributeId) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo color');
+  return await response.json();
+};
+
+export const updateAttribute = async (attributeId, attributeData) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(attributeData)
+  });
+  if (!response.ok) throw new Error('Error actualizando atributo');
+  return await response.json();
+};
+
+export const deleteAttribute = async (attributeId) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando atributo');
+  return true;
+};

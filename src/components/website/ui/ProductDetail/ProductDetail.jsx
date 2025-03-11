@@ -1,62 +1,9 @@
 // ProductDetail.jsx
 import styles from './ProductDetail.module.css';
 
-// metaItems.json
-const metaItems=[
-    {
-      "label": "Material",
-      "value": "Algodón",
-      "icon": "fa-solid fa-tshirt"
-    },
-    {
-      "label": "Estado",
-      "value": "Nuevo",
-      "icon": "fa-solid fa-certificate"
-    },
-    {
-      "label": "Estilo",
-      "value": "Casual",
-      "icon": "fa-solid fa-shirt"
-    },
-    {
-      "label": "Temporada",
-      "value": "Verano",
-      "icon": "fa-solid fa-sun"
-    },
-    {
-      "label": "Ocasión",
-      "value": "Fiesta",
-      "icon": "fa-solid fa-glass-cheers"
-    },
-    {
-      "label": "Marca/Diseñador",
-      "value": "Zara",
-      "icon": "fa-solid fa-tag"
-    },
-    {
-      "label": "Patrón",
-      "value": "Estampado",
-      "icon": "fa-solid fa-paint-brush"
-    },
-    {
-      "label": "Largo",
-      "value": "Corto",
-      "icon": "fa-solid fa-ruler"
-    },
-    {
-      "label": "Ajuste",
-      "value": "Entallado",
-      "icon": "fa-solid fa-arrows-alt-v"
-    },
-    {
-      "label": "Género",
-      "value": "Femenino",
-      "icon": "fa-solid fa-venus"
-    }
-  ]
-
-const ProductDetail = ({ category, color, size, sku }) => {
+const ProductDetail = ({ category, color, size, sku, attributes }) => {
     return (
+      <div>
       <div className={styles.metaGrid}>
         {/* MetaItems originales */}
         <div className={styles.metaItem}>
@@ -84,15 +31,24 @@ const ProductDetail = ({ category, color, size, sku }) => {
           <span className={styles.metaValue}>{sku}</span>
         </div>
   
-        {/* MetaItems adicionales desde el JSON */}
-        {metaItems.map((item, index) => (
-          <div className={styles.metaItem} key={index}>
-            <span className={styles.metaLabel}>
-              <i className={item.icon}></i> {item.label}
-            </span>
-            <span className={styles.metaValue}>{item.value}</span>
+       
+        
+      </div>
+       {/* Características del producto */}
+       {attributes && attributes.length > 0 && (
+        <div className={styles.attributesSection}>
+          <h2 className={styles.sectionTitle}>Características</h2>
+          <div className={styles.metaGrid}>
+            {attributes.map((attr) => (
+              <div key={attr.attributeId} className={styles.metaItem}>
+                <label className={styles.metaLabel}>
+                <img src={attr.iconUrl} alt={attr.name} className={styles.attributeIcon} />
+                <span className={styles.metaValue}>{attr.name}</span></label>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
+      )}
       </div>
     );
   };

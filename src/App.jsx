@@ -13,6 +13,7 @@ import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
 import ProtectedRoute from "./context/ProtectedRoute";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import AttributesListPage from "./pages/Admin/AttributeListPage/AttributeListPage";
 
 function App() {
   const location = useLocation();
@@ -77,6 +78,14 @@ function App() {
           element={
             <ProtectedRoute adminOnly>
               <UserListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/attributes"
+          element={
+            <ProtectedRoute adminOnly>
+              <AttributesListPage />
             </ProtectedRoute>
           }
         />
