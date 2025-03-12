@@ -48,6 +48,7 @@ const ProductPage = () => {
           color={product.color.colorName}
           size={product.size}
           sku={product.sku}
+          attributes={product.attributes}
         />
           <div className={styles.priceSection}>
         <p className={styles.productPrice}>${product.price.toFixed(2)}</p>

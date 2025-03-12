@@ -23,6 +23,10 @@ const AdminHeader = () => {
             <i className="fa-solid fa-user"></i>
             Usuarios
           </Link>
+          <Link to="/administrador/attributes" className={styles.navLink}>
+            <i className="fa-solid fa-tags"></i>
+            Características
+          </Link>
           {/* Avatar con menú de usuario */}
         <UserMenu />
         </nav>
