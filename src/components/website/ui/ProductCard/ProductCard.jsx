@@ -1,6 +1,6 @@
 import styles from './ProductCard.module.css';
 
-const ProductCard = ({ product, categories, onClick }) => {
+const ProductCard = ({ product, categories, colors, onClick }) => {
   const handleClick = () => {
     if (onClick) {
       onClick();
@@ -13,17 +13,19 @@ const ProductCard = ({ product, categories, onClick }) => {
     }
   };
 
-    // Extraer imagen base64 si está disponible
-    const productImage = product.images?.length > 0 
-    ? `data:image/jpeg;base64,${product.images[0].imageContent}` 
+    const productImage = product.imageUrls?.length > 0 
+    ? `${product.imageUrls[0]}` 
     : 'https://via.placeholder.com/200';
 
   const productName = product.name || "Nombre no disponible";
   const productPrice = product.price !== null && product.price !== undefined 
     ? `$${product.price.toFixed(2)}` 
     : "Precio no disponible";
-  const categoryName = product.category?.categoryName || "Sin categoría";
-  const productColorName = product.color?.colorName || 'transparent';
+  const category = categories.find(cat => cat.categoryId === product.categoryId);
+  const categoryName = category ? category.name : "Sin categoría";
+  const color = colors.find(col => col.colorId === product.colorId);
+  const productColorName = color ? color.name : "transparent";
+    
 
   return (
     <div className={styles.productCard}>

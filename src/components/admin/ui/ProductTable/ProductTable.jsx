@@ -4,17 +4,24 @@ import {
     deleteProduct,
     updateProduct, // Importa updateProduct (renombrado de editProduct)
     registerProduct,
+    fetchColors,
+    fetchCategories,
 } from "../../../../services/adminApi";
 import ProductFormModal from "../ProductFormModal/ProductFormModal";
 import styles from "./ProductTable.module.css";
 
 const ProductTable = () => {
+
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [currentProduct, setCurrentProduct] = useState(null);
 
     useEffect(() => {
         loadProducts();
+        loadCategories();
+        loadColors();
     }, []);
 
     const loadProducts = async () => {
@@ -23,8 +30,24 @@ const ProductTable = () => {
             setProducts(fetchedProducts);
         } catch (error) {
             console.error("Error cargando productos:", error);
-            // Aquí podrías agregar un manejo de error visual para el usuario,
-            // como mostrar un mensaje en la interfaz.
+        }
+    };
+
+    const loadCategories = async () => {
+        try {
+            const fetchedCategories = await fetchCategories();
+            setCategories(fetchedCategories);
+        } catch (error) {
+            console.error("Error cargando categorías:", error);
+        }
+    };
+
+    const loadColors = async () => {
+        try {
+            const fetchedColors = await fetchColors();
+            setColors(fetchedColors);
+        } catch (error) {
+            console.error("Error cargando colores:", error);
         }
     };
 
@@ -69,6 +92,8 @@ const ProductTable = () => {
             setShowModal(false);
             setCurrentProduct(null);
             loadProducts(); // Recarga la lista de productos para reflejar los cambios
+            loadCategories();
+            loadColors();
         } catch (error) {
             console.error("Error guardando producto:", error);
             // Manejo de error al guardar/editar producto, si es necesario
@@ -97,18 +122,22 @@ const ProductTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {products.map((product) => (
+                        {products.map((product) => {
+                            const categoryName = categories.find((c) => c.categoryId === product.categoryId)?.name || "Sin categoría";
+                            const colorName = colors.find((c) => c.colorId === product.colorId)?.name || "Sin color";
+
+                            return (
                             <tr key={product.clotheId}>
                                 <td data-label="ID">{product.clotheId}</td>
                                 <td data-label="Nombre">{product.name}</td>
                                 <td data-label="Color">
                                     <span
                                         className={styles.colorBadge}
-                                        style={{ backgroundColor: product.color?.colorName || "transparent" }}
+                                        style={{ backgroundColor: colorName || "transparent" }}
                                     />
-                                    {product.color?.colorName || "Sin color"}
+                                    {colorName || "Sin color"}
                                 </td>
-                                <td data-label="Categoría">{product.category?.categoryName || "Sin categoría"}</td>
+                                <td data-label="Categoría">{categoryName || "Sin categoría"}</td>
                                 <td data-label="Precio">${product.price}</td>
                                 <td data-label="Acciones" className={styles.actions}>
                                     <button
@@ -127,7 +156,8 @@ const ProductTable = () => {
                                     </button>
                                 </td>
                             </tr>
-                        ))}
+                            );
+                        })}
                     </tbody>
                 </table>
             </div>

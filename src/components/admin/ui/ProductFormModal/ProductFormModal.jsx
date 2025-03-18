@@ -19,8 +19,7 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
     const [categories, setCategories] = useState([]);
     const [colors, setColors] = useState([]);
     const [attributes, setAttributes] = useState([]);
-    const [uploadingImages, setUploadingImages] = useState(false);
-    const [imageUploadError, setImageUploadError] = useState(null);
+    const [imageUrl, setImageUrl] = useState('');
 
 
     useEffect(() => {
@@ -42,15 +41,15 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
             setProduct({
                 sku: initialData.sku || '',
                 name: initialData.name || '',
-                colorId: initialData.color?.colorId || '',
-                categoryId: initialData.category?.categoryId || '',
+                colorId: initialData.colorId || '',
+                categoryId: initialData.categoryId || '',
                 price: initialData.price || '',
                 stock: initialData.stock || '',
                 size: initialData.size || '',
                 active: initialData.active !== undefined ? initialData.active : true,
-                images: initialData.images?.map(img => ({ url: img.imageContent })) || [],
+                images: initialData.imageUrls || [], // Aquí corregimos
+                attributes: initialData.attributeIds || [], // Aquí corregimos
                 description: initialData.description || '',
-                attributes: initialData.attributes?.map(attr => attr.attributeId) || []
             });
         }
     }, [initialData]);
@@ -65,40 +64,19 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
     };
 
     const handleCategoryChange = (e) => {
-        setProduct(prev => ({ ...prev, categoryId: e.target.value }));
+        setProduct(prev => ({ ...prev, categoryId: parseInt(e.target.value, 10) }));
     };
 
     const handleColorChange = (e) => {
-        setProduct(prev => ({ ...prev, colorId: e.target.value }));
+        setProduct(prev => ({ ...prev, colorId: parseInt(e.target.value, 10) }));
     };
 
-
-    const handleImageChange = (e) => {
-        setImageUploadError(null);
-        const files = Array.from(e.target.files);
-        if (files.length > 0) {
-            const newImages = [];
-            Promise.all(files.map(file => {
-                return new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        newImages.push({ file: file, base64: reader.result });
-                        resolve();
-                    };
-                    reader.onerror = reject;
-                    reader.readAsDataURL(file);
-                });
-            }))
-            .then(() => {
-                setProduct(prev => ({ ...prev, images: [...prev.images, ...newImages] }));
-            })
-            .catch(error => {
-                console.error("Error reading image files:", error);
-                setImageUploadError("Error al cargar algunas imágenes.");
-            });
+    const handleAddImage = () => {
+        if (imageUrl.trim()) {
+            setProduct(prev => ({ ...prev, images: [...prev.images, imageUrl] }));
+            setImageUrl('');
         }
     };
-
 
     const handleRemoveImage = (index) => {
         setProduct(prev => {
@@ -123,29 +101,7 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setUploadingImages(true);
-        setImageUploadError(null);
         try {
-            const uploadedImageIds = [];
-            for (const image of product.images) {
-                if (image.base64) {
-                    try {
-                        const imageData = { imageContent: image.base64.split(',')[1] };
-                        const uploadedImage = await createImage(imageData);
-                        uploadedImageIds.push(uploadedImage.imagenId);
-                    } catch (uploadError) {
-                        console.error("Error uploading image:", uploadError);
-                        setImageUploadError("Error al subir una o más imágenes. Intente nuevamente.");
-                        setUploadingImages(false);
-                        return;
-                    }
-                } else if (image.url && initialData) {
-                    const initialImageData = initialData?.images?.find(img => img.imageContent === image.url);
-                    if (initialImageData?.imagenId) {
-                        uploadedImageIds.push(initialImageData.imagenId);
-                    }
-                }
-            }
 
             const formattedProduct = {
                 sku: product.sku,
@@ -155,17 +111,16 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 price: parseFloat(product.price),
                 stock: parseInt(product.stock, 10),
                 active: product.active,
-                categoryID: parseInt(product.categoryId, 10),
-                colorID: parseInt(product.colorId, 10),
-                imageIds: uploadedImageIds,
+                categoryId: parseInt(product.categoryId, 10),
+                colorId: parseInt(product.colorId, 10),
+                imageUrls: product.images,
                 attributeIds: product.attributes.map(attr => parseInt(attr, 10))
             };
+
             onSave(formattedProduct);
         } catch (error) {
             console.error("Error saving product:", error);
-        } finally {
-            setUploadingImages(false);
-        }
+        } 
     };
 
     return (
@@ -220,7 +175,7 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                                 >
                                     <option value="">Selecciona un color</option>
                                     {colors.map(color => (
-                                        <option key={color.colorId} value={color.colorId}>{color.colorName}</option>
+                                        <option key={color.colorId} value={color.colorId}>{color.name}</option>
                                     ))}
                                 </select>
                             </label>
@@ -239,7 +194,7 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                                     >
                                         <option value="">Selecciona una categoría</option>
                                         {categories.map(category => (
-                                            <option key={category.categoryId} value={category.categoryId}>{category.categoryName}</option>
+                                            <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
                                         ))}
                                     </select>
                                 </label>
@@ -308,53 +263,53 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
 
 
                         <div className={styles.formGroup}>
-                            <label>
-                                <span>Imágenes</span>
-                                <div className={styles.imageFields}>
-                                    {product.images.map((img, index) => (
-                                        <div key={index} className={styles.imageInput}>
-                                            {img.url && <p>Imagen Existente URL: {img.url.substring(0, 30)}...</p>}
-                                            {img.base64 && <p>Nueva Imagen Cargada</p>}
-                                            {imageUploadError && <p className={styles.errorMessage}>{imageUploadError}</p>}
-                                            <button
-                                                type="button"
-                                                onClick={() => handleRemoveImage(index)}
-                                                className={styles.removeImageButton}
-                                            >
-                                                <i className="fas fa-trash-alt"></i>
-                                            </button>
-                                        </div>
-                                    ))}
-                                    <input
-                                        type="file"
-                                        multiple
-                                        accept="image/*"
-                                        onChange={handleImageChange}
-                                        className={styles.input}
-                                    />
+                            <label><span>Imágenes</span></label>
+                            <div className={styles.imageInputContainer}>
+                                <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                    placeholder="Ingrese la URL de la imagen"
+                                    className={styles.input}
+                                />
+                                <button type="button" onClick={handleAddImage} className={styles.addButton}>
+                                    Añadir
+                                </button>
+                            </div>
 
-                                </div>
-                            </label>
+                            <div className={styles.imageGrid}>
+                                {product.images.map((img, index) => (
+                                    <div key={index} className={styles.imageItem}>
+                                        <img src={img} alt={`Imagen ${index + 1}`} className={styles.imagePreview} />
+                                        <button type="button" onClick={() => handleRemoveImage(index)} className={styles.removeButton}> x</button>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
+
 
                         <div className={styles.formGroup}>
                             <label>
                                 <span>Características</span>
-                                {attributes.map(attr => (
-                                    <div key={attr.attributeId} className={styles.checkboxContainer}>
-                                        <label className={styles.checkboxAttributeLabel}>
-                                        <input
-                                            type="checkbox"
-                                            value={attr.attributeId}
-                                            checked={product.attributes.includes(attr.attributeId) || false}
-                                            onChange={handleChangeAttributes}
-                                            className={styles.checkboxInput}
-                                        />
-                                        <img src={attr.iconUrl} alt="icono" />
-                                        <span>{attr.name}</span>
-                                        </label>
-                                    </div>
-                                ))}
+                                {attributes.length > 0 ? (
+                                    attributes.map(attr => (
+                                        <div key={attr.attributeId} className={styles.checkboxContainer}>
+                                            <label className={styles.checkboxAttributeLabel}>
+                                                <input
+                                                    type="checkbox"
+                                                    value={attr.attributeId}
+                                                    checked={product.attributes.includes(attr.attributeId) || false}
+                                                    onChange={handleChangeAttributes}
+                                                    className={styles.checkboxInput}
+                                                />
+                                                <img src={attr.iconUrl} alt="icono" />
+                                                <span>{attr.name}</span>
+                                            </label>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className={styles.noAttributesMessage}>No se ha registrado ninguna característica.</p>
+                                )}
                             </label>
                         </div>
 
@@ -378,8 +333,8 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                             <button type="button" className={styles.cancelButton} onClick={onClose}>
                                 Cancelar
                             </button>
-                            <button type="submit" className={styles.submitButton} disabled={uploadingImages}>
-                                {uploadingImages ? 'Subiendo Imágenes...' : (initialData ? 'Guardar Cambios' : 'Crear Producto')}
+                            <button type="submit" className={styles.submitButton} >
+                                {initialData ? 'Guardar Cambios' : 'Crear Producto'}
                             </button>
                         </div>
                     </form>

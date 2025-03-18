@@ -66,6 +66,13 @@
     margin: 20px auto;
     width: 100%;
   }
+
+  h3 span{
+    font-size: var(--font-size-sm);
+    color: var(--text-muted);
+    margin-left: 12px;
+    font-weight: var(--font-weight-regular);
+  }
   
   /* Media query para diseño móvil (pantallas más pequeñas de 768px de ancho) */
   @media (max-width: 768px) {

@@ -8,6 +8,14 @@ export const fetchCategories = async () => {
   return await response.json();
 };
 
+export const fetchColors = async () => {
+  const response = await fetch(`${API_URL}/color`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo colores');
+  return await response.json();
+};
+
 export const fetchProducts = async () => {
   const response = await fetch(`${API_URL}/clothe`, {
 
