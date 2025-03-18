@@ -56,8 +56,15 @@ const DashboardPage = () => {
           <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
         </Link>
 
-        <Link to="/administrador/attributes" className={styles.card}>
+        <Link to="/administrador/categories" className={styles.card}>
           <i className="fa-solid fa-tags"></i>
+          <h3>Gestión de Categorías</h3>
+          <p>Revisa y gestiona las categorías</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/attributes" className={styles.card}>
+          <i className="fa-solid fa-sliders"></i>
           <h3>Gestión de Características</h3>
           <p>Revisa y gestiona las características</p>
           <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>

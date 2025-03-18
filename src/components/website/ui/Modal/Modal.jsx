@@ -3,16 +3,8 @@ import styles from './Modal.module.css';
 
 const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
   const [currentPage, setCurrentPage] = useState(1);
-  const imagesPerPage = 3; // 3 columnas x 3 filas
+  const imagesPerPage = 9; // 3 columnas x 3 filas
   const totalPages = Math.ceil(images.length / imagesPerPage);
-
-  const handlePrevious = () => {
-    setCurrentPage(prev => Math.max(prev - 1, 1));
-  };
-
-  const handleNext = () => {
-    setCurrentPage(prev => Math.min(prev + 1, totalPages));
-  };
 
   if (!isOpen) return null;
 
@@ -23,25 +15,27 @@ const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
     <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
         <button className={styles.closeButton} onClick={onClose}>&times;</button>
-        
+
+        {/* Grid de imágenes */}
         <div className={styles.imageGrid}>
-          {visibleImages.map((image) => (
+          {visibleImages.map((image, index) => (
             <img
-              key={image.imagenId}
-              src={`data:image/png;base64,${image.imageContent}`}
-              alt="Imagen del producto"
+              key={index}
+              src={image} // Aquí usamos directamente la URL
+              alt={`Imagen ${index + 1}`}
               className={styles.modalImage}
               onClick={() => {
-                onSelectImage(image.imageContent);
+                onSelectImage(image);
                 onClose();
               }}
             />
           ))}
         </div>
 
+        {/* Controles de paginación */}
         <div className={styles.paginationControls}>
           <button 
-            onClick={handlePrevious} 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
             disabled={currentPage === 1}
             className={styles.navButton}
           >
@@ -51,7 +45,7 @@ const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
           <span>Página {currentPage} de {totalPages}</span>
           
           <button 
-            onClick={handleNext} 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
             disabled={currentPage === totalPages}
             className={styles.navButton}
           >

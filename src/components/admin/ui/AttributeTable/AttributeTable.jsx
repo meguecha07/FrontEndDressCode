@@ -32,7 +32,7 @@ const AttributeTable = () => {
     };
 
     const handleDelete = async (attributeId) => {
-        const confirmDelete = window.confirm("¿Estás seguro de eliminar esta característica? Los productos asociados a ella perderán esta característica.");
+        const confirmDelete = window.confirm(`¿Estás seguro de eliminar la característica? Los productos asociados a ella serán desactivados`);
         if (!confirmDelete) return;
         try {
             await deleteAttribute(attributeId);

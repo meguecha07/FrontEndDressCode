@@ -1,57 +1,39 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCategories } from '../../../../services/api'; // Ajusta la ruta si es necesario
 import styles from './WebsiteSidebar.module.css';
 
-const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => { // Recibe props para control desde HomePage
-  const [categories, setCategories] = useState([]);
-  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, selectedCategories, onSelectCategory, products }) => { 
+  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
 
-  useEffect(() => {
-    const loadCategories = async () => {
-      const fetchedCategories = await fetchCategories();
-      setCategories(fetchedCategories);
-    };
-
-    loadCategories();
-  }, []);
-
-  const handleToggleCategory = () => {
-    setIsCategoryOpen(!isCategoryOpen);
-  };
-
-  const handleToggleSize = () => {
-    setIsSizeOpen(!isSizeOpen);
-  };
-
-  const handleToggleAvailability = () => {
-    setIsAvailabilityOpen(!isAvailabilityOpen);
-  };
+  const categoryCounts = categories.map(category => ({
+    ...category,
+    count: products.filter(product => product.categoryId === category.categoryId).length,
+  }));
 
   return (
-    <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> {/* Clase condicional para abrir en móvil */}
-            <div className={styles.filterSection}>
-                <div className={styles.filterHeader} onClick={handleToggleCategory}>
-                    Categoría
-                    <span className={styles.arrow}>{isCategoryOpen ? '▲' : '▼'}</span>
-                </div>
-                {isCategoryOpen && (
-                    <ul className={styles.filterList}>
-                        {categories.map((category, index) => (
-                            <li key={index} className={styles.filterItem}>
-                                <label>
-                                    <input type="checkbox" value={category} />
-                                    {category.categoryName} {/* ✅ Usando category.categoryName */}
-                                </label>
-                            </li>
-                        ))}
-                    </ul>
-                )}
-            </div>
+    <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> 
+      <div className={styles.filterSection}>
+        <div className={styles.filterHeader} onClick={() => setIsCategoryOpen(!isCategoryOpen)}>
+          Categoría
+          <span className={styles.arrow}>{isCategoryOpen ? '▲' : '▼'}</span>
+        </div>
+        {isCategoryOpen && (
+          <ul className={styles.filterList}>
+            {categoryCounts.map(category => (
+              <li key={category.categoryId} className={styles.filterItem}>
+                <label>
+                  <input type="checkbox" value={category.categoryId} checked={selectedCategories.includes(category.categoryId)} onChange={() => onSelectCategory(category.categoryId)} />
+                  {category.name} <span className={styles.filterCount}>({category.count})</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
       <div className={styles.filterSection}>
-        <div className={styles.filterHeader} onClick={handleToggleSize}>
+        <div className={styles.filterHeader} onClick={() => setIsSizeOpen(!isSizeOpen)}>
           Talla
           <span className={styles.arrow}>{isSizeOpen ? '▲' : '▼'}</span>
         </div>
@@ -70,7 +52,7 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => { // Re
       </div>
 
       <div className={styles.filterSection}>
-        <div className={styles.filterHeader} onClick={handleToggleAvailability}>
+        <div className={styles.filterHeader} onClick={() => setIsAvailabilityOpen(!isAvailabilityOpen)}>
           Disponibilidad
           <span className={styles.arrow}>{isAvailabilityOpen ? '▲' : '▼'}</span>
         </div>
@@ -87,7 +69,8 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar }) => { // Re
           </ul>
         )}
       </div>
-      <button className={styles.closeButton} onClick={toggleMobileSidebar}>Cerrar Filtros</button> {/* Botón para cerrar en móvil */}
+
+      <button className={styles.closeButton} onClick={toggleMobileSidebar}>Cerrar Filtros</button>
     </aside>
   );
 };

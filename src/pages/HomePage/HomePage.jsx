@@ -1,6 +1,7 @@
+// HomePage.js
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchCategories, fetchProducts } from '../../services/api';
+import { fetchCategories, fetchProducts, fetchColors } from '../../services/api';
 import styles from './HomePage.module.css';
 import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
 import Pagination from '../../components/website/ui/Pagination/Pagination';
@@ -8,15 +9,16 @@ import SearchBar from '../../components/website/ui/SearchBar/SearchBar';
 import CategoryList from '../../components/website/ui/CategoryList/CategoryList';
 import WebsiteSidebar from '../../components/website/layout/WebsiteSidebar/WebsiteSidebar';
 
-
 const HomePage = () => {
+  const [colors, setColors] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [products, setProducts] = useState([]) 
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false); // Estado para controlar el sidebar móvil
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   
-  //paginate
-  const [currentPage, setCurrentPage] = useState(1); // Estado para controlar la página actual
-  const postsPerPage = 10; //Define cantidad de productos por página
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
 
   const navigate = useNavigate();
 
@@ -24,57 +26,81 @@ const HomePage = () => {
     const loadCategoriesAndProducts = async () => {
       const fetchedCategories = await fetchCategories();
       const fetchedProducts = await fetchProducts();
+      const fetchedColors = await fetchColors();
+      setColors(fetchedColors);
       setCategories(fetchedCategories);
-      setProducts(fetchedProducts.sort(() => Math.random() - 0.5)); // Mezcla los productos aleatoriamente
+      setProducts(fetchedProducts.sort(() => Math.random() - 0.5));
+      setFilteredProducts(fetchedProducts);
     };
-
     loadCategoriesAndProducts();
   }, []);
 
-  const toggleMobileSidebar = () => { // Función para cambiar el estado del sidebar móvil
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategories((prevSelected) => {
+      const isSelected = prevSelected.includes(categoryId);
+      const newSelected = isSelected
+        ? prevSelected.filter(id => id !== categoryId)
+        : [...prevSelected, categoryId];
+
+      setFilteredProducts(
+        newSelected.length === 0
+          ? products
+          : products.filter(product => newSelected.includes(product.categoryId))
+      );
+
+      return newSelected;
+    });
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setFilteredProducts(products);
+  };
+
+  const toggleMobileSidebar = () => {
     setIsMobileSidebarOpen(!isMobileSidebarOpen);
   };
-  const currentPosts = products.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage); // Divide en 10 productos por página
 
+  const currentPosts = filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
 
   return (
     <div className={styles.homePage}>
       <div className={styles.topSection}>
-      <SearchBar className={styles.searchBar} />
-        <CategoryList categories={categories} className={styles.categoryList} />
-        <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}> {/* Botón de filtro móvil */}
-          Filtros {/* Se reemplaza el icono con texto "Filtros" */}
+        <SearchBar className={styles.searchBar} />
+        <CategoryList 
+          categories={categories} 
+          selectedCategories={selectedCategories} 
+          onSelectCategory={handleCategorySelect} 
+        />
+        <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}>
+          Filtros
         </button>
       </div>
 
       <div className={styles.homePageContainer}>
-      <WebsiteSidebar
-          className={styles.sidebar}
-          isMobileSidebarOpen={isMobileSidebarOpen} // Pasa el estado al Sidebar
-          toggleMobileSidebar={toggleMobileSidebar} // Pasa la función para cambiar el estado
+        <WebsiteSidebar 
+          className={styles.sidebar} 
+          isMobileSidebarOpen={isMobileSidebarOpen} 
+          toggleMobileSidebar={toggleMobileSidebar} 
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSelectCategory={handleCategorySelect}
+          products={products} 
         />
 
         <main className={styles.mainContent}>
-          <h3>Recomendaciones</h3>
+          <h3>Recomendaciones <span>Mostrando {filteredProducts.length} de {products.length} productos.</span></h3>
+
           <div className={styles.productGrid}>
             {currentPosts.map(product => (
-              <ProductCard
-                key={product.clotheId}
-                product={product}
-                categories={categories}
-                onClick={() => navigate(`/product/${product.clotheId}`)}
-              />
+              <ProductCard key={product.clotheId} product={product} categories={categories} colors={colors} onClick={() => navigate(`/product/${product.clotheId}`)} />
             ))}
           </div>
-          <Pagination
-            totalPosts={products.length}
-            postsPerPage={postsPerPage}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
+          <Pagination totalPosts={filteredProducts.length} postsPerPage={postsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </main>
       </div>
-      {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>} {/* Overlay para cerrar sidebar */}
+
+      {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>}
     </div>
   );
 };

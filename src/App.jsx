@@ -13,6 +13,7 @@ import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
 import ProtectedRoute from "./context/ProtectedRoute";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import CategoriesListPage from "./pages/Admin/CategoryListPage/CategoryListPage";
 import AttributesListPage from "./pages/Admin/AttributeListPage/AttributeListPage";
 
 function App() {
@@ -78,6 +79,14 @@ function App() {
           element={
             <ProtectedRoute adminOnly>
               <UserListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/categories"
+          element={
+            <ProtectedRoute adminOnly>
+              <CategoriesListPage />
             </ProtectedRoute>
           }
         />
