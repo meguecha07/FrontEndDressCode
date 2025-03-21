@@ -8,9 +8,31 @@ import styles from './CartPage.module.css';
 const CartPage = () => {
   const { user } = useAuth();
   const [cartItems, setCartItems] = useState([]);
-  const [notificationMessage, setNotificationMessage] = useState('');
-  const [showNotification, setShowNotification] = useState(false);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    button: null
+  });
+  const [dates, setDates] = useState({
+    startDate: '',
+    endDate: ''
+  });
   const navigate = useNavigate();
+
+  // Calcular días de alquiler
+  const getDaysBetween = (startDate, endDate) => {
+    if (!startDate || !endDate) return 0;
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    start.setUTCHours(0, 0, 0, 0);
+    end.setUTCHours(0, 0, 0, 0);
+    const diff = end - start;
+    return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
+  };
+
+  const days = getDaysBetween(dates.startDate, dates.endDate);
+  const dailySubtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const total = dailySubtotal * days;
 
   useEffect(() => {
     const loadCartItems = () => {
@@ -33,54 +55,94 @@ const CartPage = () => {
     localStorage.setItem('cartItems', JSON.stringify(newItems));
     setCartItems(newItems);
     
-    setNotificationMessage(`${removedItem.name} eliminado del carrito`);
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+    setNotification({
+      show: true,
+      message: `${removedItem.name} eliminado del carrito`,
+      button: {
+        label: 'Deshacer',
+        action: () => {
+          const restoredItems = [...newItems];
+          restoredItems.splice(index, 0, removedItem);
+          localStorage.setItem('cartItems', JSON.stringify(restoredItems));
+          setCartItems(restoredItems);
+        }
+      }
+    });
   };
 
   const handleFinalizeReservation = async () => {
     if (!user) {
-      setNotificationMessage('Debes iniciar sesión para reservar');
-      setShowNotification(true);
+      setNotification({
+        show: true,
+        message: 'Debes iniciar sesión para reservar',
+        button: {
+          label: 'Iniciar sesión',
+          action: () => navigate('/login')
+        }
+      });
       return;
     }
+
+    if (!dates.startDate || !dates.endDate) return;
 
     try {
       const reservationData = {
         userId: user.id,
-        startDate: new Date().toISOString().split('T')[0],
-        endDate: new Date(Date.now() + 604800000).toISOString().split('T')[0],
+        startDate: dates.startDate,
+        endDate: dates.endDate,
         status: "PENDIENTE",
         isPaid: false,
-        items: cartItems.map(item => ({ clotheId: item.clotheId }))
+        items: cartItems.map(item => ({
+          clotheId: item.clotheId,
+          price: item.price,
+          rentalDays: days,
+          subtotal: item.price * days
+        }))
       };
 
       await createReservation(reservationData);
       localStorage.removeItem('cartItems');
-      navigate('/reservation-success');
+      navigate('/reservation-success', { state: { reservation: reservationData } });
     } catch (error) {
-      console.error('Error creating reservation:', error);
-      setNotificationMessage('Error al crear la reserva');
-      setShowNotification(true);
+      console.error('Error creando reserva:', error);
+      setNotification({
+        show: true,
+        message: 'Error al crear la reserva. Intenta nuevamente.',
+        button: null
+      });
     }
   };
 
-  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    setDates(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    if (name === 'startDate' && dates.endDate < value) {
+      setDates(prev => ({ ...prev, endDate: value }));
+    }
+  };
 
   return (
     <div className={styles.container}>
-      {showNotification && (
+      {notification.show && (
         <Notification 
-          message={notificationMessage} 
-          onClose={() => setShowNotification(false)}
+          message={notification.message}
+          buttonLabel={notification.button?.label}
+          buttonAction={notification.button?.action}
+          onClose={() => setNotification({ show: false, message: '', button: null })}
         />
       )}
       
-      <h1 className={styles.title}>Carrito de Reservas</h1>
+      <h1 className={styles.title}>
+        <i className="fa-solid fa-cart-shopping"></i> Carrito de Reservas
+      </h1>
       
       {cartItems.length === 0 ? (
         <div className={styles.emptyCart}>
-          <i className="fa-solid fa-cart-shopping"></i>
+          <i className="fa-regular fa-face-sad-tear"></i>
           <p>Tu carrito está vacío</p>
         </div>
       ) : (
@@ -97,15 +159,15 @@ const CartPage = () => {
                 <div className={styles.itemDetails}>
                   <h3>{item.name}</h3>
                   <div className={styles.itemInfo}>
-                    <p>Talla: {item.size}</p>
-                    <p>Precio: ${item.price.toFixed(2)}</p>
+                    <p><i className="fa-solid fa-ruler"></i> Talla: {item.size}</p>
+                    <p><i className="fa-solid fa-tag"></i> Precio diario: ${item.price.toFixed(2)}</p>
                   </div>
                   <button 
                     onClick={() => handleRemoveItem(index)}
                     className={styles.removeButton}
+                    aria-label="Eliminar del carrito"
                   >
-                    Eliminar
-                    <i className="fa-solid fa-trash-can"></i>
+                    <i className="fa-solid fa-trash-can"></i> Eliminar
                   </button>
                 </div>
               </div>
@@ -113,18 +175,69 @@ const CartPage = () => {
           </div>
 
           <div className={styles.summary}>
-            <div className={styles.totalContainer}>
-              <h2>Total:</h2>
-              <h2 className={styles.totalPrice}>${total.toFixed(2)}</h2>
+            <div className={styles.datePicker}>
+              <div className={styles.dateGroup}>
+                <label>
+                  <i className="fa-solid fa-calendar-start"></i> Fecha de inicio:
+                </label>
+                <input
+                  type="date"
+                  name="startDate"
+                  value={dates.startDate}
+                  onChange={handleDateChange}
+                  min={new Date().toISOString().split('T')[0]}
+                  required
+                />
+              </div>
+              
+              <div className={styles.dateGroup}>
+                <label>
+                  <i className="fa-solid fa-calendar-end"></i> Fecha de fin:
+                </label>
+                <input
+                  type="date"
+                  name="endDate"
+                  value={dates.endDate}
+                  onChange={handleDateChange}
+                  min={dates.startDate || new Date().toISOString().split('T')[0]}
+                  required
+                />
+              </div>
             </div>
+
+            <div className={styles.totalContainer}>
+  <div className={styles.totalRow}>
+    <span>Subtotal diario:</span>
+    <span>${dailySubtotal.toFixed(2)}</span>
+  </div>
+  <div className={styles.totalRow}>
+    <span>Días de alquiler:</span>
+    <span>{days} día{days !== 1 && 's'}</span>
+  </div>
+  <div className={styles.totalRow}>
+    <div className={styles.totalLabel}>
+      <i className="fa-solid fa-receipt"></i>
+      <span>Total:</span>
+    </div>
+    <h2 className={styles.totalPrice}>${total.toFixed(2)}</h2>
+  </div>
+</div>
+
             <button 
               onClick={handleFinalizeReservation}
               className={styles.reserveButton}
-              disabled={!user || cartItems.length === 0}
+              disabled={!user || cartItems.length === 0 || !dates.startDate || !dates.endDate}
               title={!user ? "Inicia sesión para reservar" : ""}
             >
-              {user ? 'Finalizar Reserva' : 'Inicia sesión para reservar'}
-              <i className="fa-solid fa-credit-card"></i>
+              {user ? (
+                <>
+                  <i className="fa-solid fa-lock"></i> Finalizar Reserva
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                </>
+              )}
             </button>
           </div>
         </>

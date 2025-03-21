@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { fetchProductById, fetchCategories, fetchColors, addFavorite, deleteFavorite } from '../../services/api';
+import { fetchProductById, fetchCategories, fetchColors, addFavorite, deleteFavorite, getUser } from '../../services/api';
 import styles from './ProductPage.module.css';
 import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
 import ProductDetail from '../../components/website/ui/ProductDetail/ProductDetail';
@@ -15,10 +15,14 @@ const ProductPage = () => {
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [colors, setColors] = useState([]);
-  const [notificationMessage, setNotificationMessage] = useState('');
-  const [showNotification, setShowNotification] = useState(false);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    button: null
+  });
   const [isInCart, setIsInCart] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -31,9 +35,20 @@ const ProductPage = () => {
         setCategories(fetchedCategories);
         setColors(fetchedColors);
         checkCartStatus(fetchedProduct.clotheId);
-        checkFavoriteStatus(fetchedProduct.clotheId);
       } catch (error) {
         console.error("Error al obtener el producto:", error);
+      }
+    };
+
+    const loadUserData = async () => {
+      if (user) {
+        try {
+          const data = await getUser(user.id);
+          setUserData(data);
+          checkFavoriteStatus(data);
+        } catch (error) {
+          console.error("Error cargando datos de usuario:", error);
+        }
       }
     };
 
@@ -42,21 +57,42 @@ const ProductPage = () => {
       setIsInCart(cartItems.some(item => item.clotheId === productId));
     };
 
-    const checkFavoriteStatus = (productId) => {
-      if (user) {
-        const isFav = user.favoriteClothes?.some(fav => fav.clotheId === productId);
+    const checkFavoriteStatus = (userData) => {
+      if (userData?.favoriteClothes && product) {
+        const isFav = userData.favoriteClothes.some(fav => 
+          fav.clotheId === product.clotheId
+        );
         setIsFavorite(isFav);
       }
     };
 
     loadProduct();
+    loadUserData();
   }, [id, user]);
+
+  useEffect(() => {
+    if (userData && product) {
+      const isFav = userData.favoriteClothes?.some(
+        fav => fav.clotheId === product.clotheId
+      );
+      setIsFavorite(isFav);
+    }
+  }, [userData, product]);
 
   const handleCartAction = () => {
     let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
     const actionMessage = isInCart 
       ? `${product.name} eliminado del carrito` 
       : `${product.name} añadido al carrito`;
+
+    const newNotification = {
+      show: true,
+      message: actionMessage,
+      button: {
+        label: 'Ver Carrito',
+        action: () => navigate('/cart')
+      }
+    };
 
     if (isInCart) {
       cartItems = cartItems.filter(item => item.clotheId !== product.clotheId);
@@ -72,62 +108,82 @@ const ProductPage = () => {
     
     localStorage.setItem('cartItems', JSON.stringify(cartItems));
     setIsInCart(!isInCart);
-    
-    setNotificationMessage(actionMessage);
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
+    setNotification(newNotification);
   };
 
   const handleFavoriteAction = async () => {
     if (!user) {
-      setNotificationMessage('Debes iniciar sesión para añadir a favoritos');
-      setShowNotification(true);
+      setNotification({
+        show: true,
+        message: 'Debes iniciar sesión para manejar favoritos',
+        button: {
+          label: 'Iniciar sesión',
+          action: () => navigate('/login')
+        }
+      });
       return;
     }
 
     try {
       if (isFavorite) {
         await deleteFavorite(user.id, product.clotheId);
-        setNotificationMessage('Eliminado de favoritos');
+        setNotification({
+          show: true,
+          message: 'Eliminado de favoritos',
+          button: null
+        });
       } else {
         await addFavorite(user.id, product.clotheId);
-        setNotificationMessage('Añadido a favoritos');
+        setNotification({
+          show: true,
+          message: 'Añadido a favoritos',
+          button: {
+            label: 'Ver Favoritos',
+            action: () => navigate('/favorites')
+          }
+        });
       }
-      setIsFavorite(!isFavorite);
+      
+      // Actualizar datos de usuario después de la acción
+      const updatedUser = await getUser(user.id);
+      setUserData(updatedUser);
+
     } catch (error) {
       console.error("Error en favoritos:", error);
-      setNotificationMessage('Error al actualizar favoritos');
+      setNotification({
+        show: true,
+        message: 'Error al actualizar favoritos',
+        button: null
+      });
     }
-    setShowNotification(true);
-    setTimeout(() => setShowNotification(false), 3000);
   };
 
   if (!product) return <LoadingSpinner />;
 
   return (
     <div className={styles.productPage}>
-      {showNotification && (
+      {notification.show && (
         <Notification 
-          message={notificationMessage} 
-          onClose={() => setShowNotification(false)}
+          message={notification.message}
+          buttonLabel={notification.button?.label}
+          buttonAction={notification.button?.action}
+          onClose={() => setNotification({ show: false, message: '', button: null })}
         />
       )}
       
       <div className={styles.header}>
         <h1 className={styles.productTitle}>{product.name}</h1>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <button 
+          className={styles.backButton} 
+          onClick={() => navigate(-1)}
+          aria-label="Volver atrás"
+        >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
       </div>
 
       <div className={styles.galleryContainer}>
         <ProductGallery images={product.imageUrls} />
-        <button 
-          className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
-          onClick={handleFavoriteAction}
-        >
-          <i className="fa-solid fa-heart"></i>
-        </button>
       </div>
 
       <div className={styles.detailsGrid}>
@@ -149,6 +205,8 @@ const ProductPage = () => {
           >
             {product.stock > 0 ? `Disponible (${product.stock} unidades)` : 'Agotado'}
           </span>
+
+          <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
           <button 
             className={`${styles.addToCartButton} ${isInCart ? styles.removeFromCart : ''}`}
             onClick={handleCartAction}
@@ -165,6 +223,15 @@ const ProductPage = () => {
               </>
             )}
           </button>
+          <button 
+          className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
+          onClick={handleFavoriteAction}
+          aria-label={isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
+        >
+          <i className={`fa-heart ${isFavorite ? 'fa-solid' : 'fa-regular'}`}></i>
+        </button>
+        </div>
+
           <div className={styles.descriptionSection}>
             <h2 className={styles.sectionTitle}>Descripción</h2>
             <p className={styles.productDescription}>{product.description}</p>

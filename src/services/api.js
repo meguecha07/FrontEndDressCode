@@ -120,3 +120,13 @@ export const deleteFavorite = async (userId, clotheId) => {
   if (!response.ok) throw new Error('Error eliminando favorito');
   return true;
 };
+
+export const getUser = async (userId) => {
+  const response = await fetch(`${API_URL}/user/${userId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo usuario');
+  return await response.json();
+};
