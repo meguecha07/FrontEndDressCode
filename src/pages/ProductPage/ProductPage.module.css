@@ -211,3 +211,17 @@
     gap: 1.5rem;
   }
 }
+
+/* Añadir estas reglas al final del archivo */
+.removeFromCart {
+  background: #ff4444 !important;
+}
+
+.removeFromCart:hover {
+  background: #cc0000 !important;
+  transform: translateY(-2px) !important;
+}
+
+.removeFromCart i {
+  color: white !important;
+}

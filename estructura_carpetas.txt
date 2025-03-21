@@ -1,165 +1,157 @@
-\---src
-    |   App.css
-    |   App.jsx
-    |   index.css
-    |   main.jsx
-    |   variables.css
-    |   
-    +---assets
-    |       logoDresscode.webp
-    |       prenda.jpg
-    |       react.svg
-    |       
-    +---components
-    |   |   LoadingSpinner.jsx
-    |   |   
-    |   +---admin
-    |   |   +---layout
-    |   |   |   \---AdminHeader
-    |   |   |           AdminHeader.jsx
-    |   |   |           AdminHeader.module.css
-    |   |   |           
-    |   |   \---ui
-    |   |       +---AttributeFormModal
-    |   |       |       AttributeFormModal.jsx
-    |   |       |       AttributeFormModal.module.css
-    |   |       |       
-    |   |       +---AttributeTable
-    |   |       |       AttributeTable.jsx
-    |   |       |       AttributeTable.module.css
-    |   |       |       
-    |   |       +---CategoryFormModal
-    |   |       |       CategoryFormModal.jsx
-    |   |       |       CategoryFormModal.module.css
-    |   |       |       
-    |   |       +---CategoryTable
-    |   |       |       CategoryTable.jsx
-    |   |       |       CategoryTable.module.css
-    |   |       |       
-    |   |       +---OrderTable
-    |   |       |       OrderTable.jsx
-    |   |       |       OrderTable.module.css
-    |   |       |       
-    |   |       +---ProductFormModal
-    |   |       |       ProductFormModal.jsx
-    |   |       |       ProductFormModal.module.css
-    |   |       |       
-    |   |       +---ProductTable
-    |   |       |       ProductTable.jsx
-    |   |       |       ProductTable.module.css
-    |   |       |       
-    |   |       +---UserFormModal
-    |   |       |       UserFormModal.jsx
-    |   |       |       UserFormModal.module.css
-    |   |       |       
-    |   |       \---UserTable
-    |   |               UserTable.jsx
-    |   |               UserTable.module.css
-    |   |               
-    |   \---website
-    |       +---layout
-    |       |   +---WebsiteFooter
-    |       |   |       WebsiteFooter.jsx
-    |       |   |       WebsiteFooter.module.css
-    |       |   |       
-    |       |   +---WebsiteHeader
-    |       |   |       WebsiteHeader.jsx
-    |       |   |       WebsiteHeader.module.css
-    |       |   |       
-    |       |   \---WebsiteSidebar
-    |       |           WebsiteSidebar.jsx
-    |       |           WebsiteSidebar.module.css
-    |       |           
-    |       \---ui
-    |           +---CategoryList
-    |           |       CategoryList.jsx
-    |           |       CategoryList.module.css
-    |           |       
-    |           +---Modal
-    |           |       Modal.jsx
-    |           |       Modal.module.css
-    |           |       
-    |           +---Pagination
-    |           |       Pagination.jsx
-    |           |       Pagination.module.css
-    |           |       
-    |           +---ProductCard
-    |           |       ProductCard.jsx
-    |           |       ProductCard.module.css
-    |           |       
-    |           +---ProductDetail
-    |           |       ProductDetail.jsx
-    |           |       ProductDetail.module.css
-    |           |       
-    |           +---ProductGallery
-    |           |       ProductGallery.jsx
-    |           |       ProductGallery.module.css
-    |           |       
-    |           +---SearchBar
-    |           |       SearchBar.jsx
-    |           |       SearchBar.module.css
-    |           |       
-    |           \---UserMenu
-    |                   UserMenu.jsx
-    |                   UserMenu.module.css
-    |                   
-    +---context
-    |       AuthContext.jsx
-    |       ProtectedRoute.jsx
-    |       
-    +---pages
-    |   +---Admin
-    |   |   +---AttributeListPage
-    |   |   |       AttributeListPage.jsx
-    |   |   |       AttributeListPage.module.css
-    |   |   |       
-    |   |   +---CategoryListPage
-    |   |   |       CategoryListPage.jsx
-    |   |   |       CategoryListPage.module.css
-    |   |   |       
-    |   |   +---DashboardPage
-    |   |   |       DashboardPage.jsx
-    |   |   |       DashboardPage.module.css
-    |   |   |       
-    |   |   +---OrdersListPage
-    |   |   |       OrderListPage.module.css
-    |   |   |       OrdersListPage.jsx
-    |   |   |       
-    |   |   +---ProductListPage
-    |   |   |       ProductListPage.jsx
-    |   |   |       ProductListPage.module.css
-    |   |   |       
-    |   |   \---UserListPage
-    |   |           UserListPage.jsx
-    |   |           UserListPage.module.css
-    |   |           
-    |   +---HomePage
-    |   |       HomePage.jsx
-    |   |       HomePage.module.css
-    |   |       
-    |   +---LoginPage
-    |   |       LoginPage.jsx
-    |   |       LoginPage.module.css
-    |   |       
-    |   +---ProductPage
-    |   |       ProductPage.jsx
-    |   |       ProductPage.module.css
-    |   |       
-    |   \---RegisterPage
-    |           RegisterPage.jsx
-    |           RegisterPage.module.css
-    |           
-    \---services
-            adminApi.js
-            api.js
-            categoryData.js
-            ordersData.js
-            productData.js
-            
- 
-Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\App.css 
------------------------------ 
- 
+C:\DRESSCODE - PROYECTOINTEGRADORC4G5\FRONTENDDRESSCODE\SRC
+|   App.css
+|   App.jsx
+|   index.css
+|   main.jsx
+|   variables.css
+|   
++---assets
+|       logoDresscode.webp
+|       
++---components
+|   |   LoadingSpinner.jsx
+|   |   
+|   +---admin
+|   |   +---layout
+|   |   |   \---AdminHeader
+|   |   |           AdminHeader.jsx
+|   |   |           AdminHeader.module.css
+|   |   |           
+|   |   \---ui
+|   |       +---AttributeFormModal
+|   |       |       AttributeFormModal.jsx
+|   |       |       AttributeFormModal.module.css
+|   |       |       
+|   |       +---AttributeTable
+|   |       |       AttributeTable.jsx
+|   |       |       AttributeTable.module.css
+|   |       |       
+|   |       +---CategoryFormModal
+|   |       |       CategoryFormModal.jsx
+|   |       |       CategoryFormModal.module.css
+|   |       |       
+|   |       +---CategoryTable
+|   |       |       CategoryTable.jsx
+|   |       |       CategoryTable.module.css
+|   |       |       
+|   |       +---OrderTable
+|   |       |       OrderTable.jsx
+|   |       |       OrderTable.module.css
+|   |       |       
+|   |       +---ProductFormModal
+|   |       |       ProductFormModal.jsx
+|   |       |       ProductFormModal.module.css
+|   |       |       
+|   |       +---ProductTable
+|   |       |       ProductTable.jsx
+|   |       |       ProductTable.module.css
+|   |       |       
+|   |       +---UserFormModal
+|   |       |       UserFormModal.jsx
+|   |       |       UserFormModal.module.css
+|   |       |       
+|   |       \---UserTable
+|   |               UserTable.jsx
+|   |               UserTable.module.css
+|   |               
+|   \---website
+|       +---layout
+|       |   +---WebsiteFooter
+|       |   |       WebsiteFooter.jsx
+|       |   |       WebsiteFooter.module.css
+|       |   |       
+|       |   +---WebsiteHeader
+|       |   |       WebsiteHeader.jsx
+|       |   |       WebsiteHeader.module.css
+|       |   |       
+|       |   \---WebsiteSidebar
+|       |           WebsiteSidebar.jsx
+|       |           WebsiteSidebar.module.css
+|       |           
+|       \---ui
+|           +---CategoryList
+|           |       CategoryList.jsx
+|           |       CategoryList.module.css
+|           |       
+|           +---Modal
+|           |       Modal.jsx
+|           |       Modal.module.css
+|           |       
+|           +---Pagination
+|           |       Pagination.jsx
+|           |       Pagination.module.css
+|           |       
+|           +---ProductCard
+|           |       ProductCard.jsx
+|           |       ProductCard.module.css
+|           |       
+|           +---ProductDetail
+|           |       ProductDetail.jsx
+|           |       ProductDetail.module.css
+|           |       
+|           +---ProductGallery
+|           |       ProductGallery.jsx
+|           |       ProductGallery.module.css
+|           |       
+|           +---SearchBar
+|           |       SearchBar.jsx
+|           |       SearchBar.module.css
+|           |       
+|           \---UserMenu
+|                   UserMenu.jsx
+|                   UserMenu.module.css
+|                   
++---context
+|       AuthContext.jsx
+|       ProtectedRoute.jsx
+|       
++---pages
+|   +---Admin
+|   |   +---AttributeListPage
+|   |   |       AttributeListPage.jsx
+|   |   |       AttributeListPage.module.css
+|   |   |       
+|   |   +---CategoryListPage
+|   |   |       CategoryListPage.jsx
+|   |   |       CategoryListPage.module.css
+|   |   |       
+|   |   +---DashboardPage
+|   |   |       DashboardPage.jsx
+|   |   |       DashboardPage.module.css
+|   |   |       
+|   |   +---OrdersListPage
+|   |   |       OrderListPage.module.css
+|   |   |       OrdersListPage.jsx
+|   |   |       
+|   |   +---ProductListPage
+|   |   |       ProductListPage.jsx
+|   |   |       ProductListPage.module.css
+|   |   |       
+|   |   \---UserListPage
+|   |           UserListPage.jsx
+|   |           UserListPage.module.css
+|   |           
+|   +---HomePage
+|   |       HomePage.jsx
+|   |       HomePage.module.css
+|   |       
+|   +---LoginPage
+|   |       LoginPage.jsx
+|   |       LoginPage.module.css
+|   |       
+|   +---ProductPage
+|   |       ProductPage.jsx
+|   |       ProductPage.module.css
+|   |       
+|   \---RegisterPage
+|           RegisterPage.jsx
+|           RegisterPage.module.css
+|           
+\---services
+        adminApi.js
+        api.js
+        ordersData.js
+        
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\App.jsx 
 ----------------------------- 
@@ -272,48 +264,6 @@ function App() {
 
 export default App; 
  
-Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\index.css 
------------------------------ 
-@import url('https://fonts.googleapis.com/css2?family=Akatab:wght@400;500;600;700;800;900&display=swap');
-
-:root {
-  --primary-font: 'Akatab', sans-serif;
-  --color-0: #FFFFFF;
-  --color-10: #E9E9E9;
-  --color-20: #D9D9D9;
-  --color-40: #BDBDBD;
-  --color-60: #969696;
-  --color-80: #6F6F6F;
-  --color-90: #474747;
-  --color-100: #000000;
-}
-
-/* Asegura que html, body y #root ocupen el 100% de la pantalla */
-html, body, #root {
-  width: 100%;
-  min-height: 100vh;
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: var(--primary-font);
-  background-color: #f7f7f7;
-}
-
-/* Asegura que los elementos ocupen todo el ancho disponible */
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Si deseas que el contenido se expanda pero el footer quede abajo */
-#root {
-  display: flex;
-  flex-direction: column;
-}
-
-
- 
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\main.jsx 
 ----------------------------- 
 import { StrictMode } from "react";
@@ -335,7 +285,6 @@ createRoot(document.getElementById("root")).render(
 );
  
 
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\LoadingSpinner.jsx 
 ----------------------------- 
 export default function LoadingSpinner() {
@@ -420,8 +369,6 @@ const AdminHeader = () => {
 };
 
 export default AdminHeader; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\AttributeFormModal\AttributeFormModal.jsx 
 ----------------------------- 
@@ -525,8 +472,6 @@ const AttributeFormModal = ({ initialData, onSave, onClose }) => {
 };
 
 export default AttributeFormModal; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\AttributeTable\AttributeTable.jsx 
 ----------------------------- 
@@ -668,8 +613,6 @@ const AttributeTable = () => {
 
 export default AttributeTable; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\CategoryFormModal\CategoryFormModal.jsx 
 ----------------------------- 
 import { useState, useEffect } from 'react';
@@ -789,8 +732,6 @@ const CategoryFormModal = ({ initialData, onSave, onClose }) => {
 };
 
 export default CategoryFormModal; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\CategoryTable\CategoryTable.jsx 
 ----------------------------- 
@@ -933,8 +874,6 @@ const CategoryTable = () => {
 };
 
 export default CategoryTable; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\OrderTable\OrderTable.jsx 
 ----------------------------- 
@@ -1079,8 +1018,6 @@ const OrderTable = () => {
 };
 
 export default OrderTable; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\ProductFormModal\ProductFormModal.jsx 
 ----------------------------- 
@@ -1432,8 +1369,6 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
 
 export default ProductFormModal; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\ProductTable\ProductTable.jsx 
 ----------------------------- 
 import { useState, useEffect } from "react";
@@ -1616,7 +1551,6 @@ const ProductTable = () => {
 
 export default ProductTable; 
  
-
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\UserFormModal\UserFormModal.jsx 
 ----------------------------- 
 import { useState, useEffect } from 'react';
@@ -1768,8 +1702,6 @@ const UserFormModal = ({ initialData, onSave, onClose }) => {
 
 export default UserFormModal; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\UserTable\UserTable.jsx 
 ----------------------------- 
 import { useState, useEffect } from "react";
@@ -1903,8 +1835,6 @@ const UserTable = () => {
 
 export default UserTable; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteFooter\WebsiteFooter.jsx 
 ----------------------------- 
 import styles from "./WebsiteFooter.module.css";
@@ -1933,8 +1863,6 @@ export const WebsiteFooter = () => {
 }
 
 export default WebsiteFooter; 
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteHeader\WebsiteHeader.jsx 
 ----------------------------- 
@@ -1985,22 +1913,46 @@ const WebsiteHeader = () => {
 
 export default WebsiteHeader; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteSidebar\WebsiteSidebar.jsx 
 ----------------------------- 
 import React, { useState, useEffect } from 'react';
 import styles from './WebsiteSidebar.module.css';
 
-const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, selectedCategories, onSelectCategory, products }) => { 
+const WebsiteSidebar = ({ 
+  isMobileSidebarOpen, 
+  toggleMobileSidebar, 
+  categories, 
+  selectedCategories, 
+  onSelectCategory, 
+  products, 
+  selectedSizes,
+  onSelectSize,
+  selectedAvailability,
+  onSelectAvailability
+}) => { 
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
 
+  // Calcular conteo de productos por categoría
   const categoryCounts = categories.map(category => ({
     ...category,
     count: products.filter(product => product.categoryId === category.categoryId).length,
   }));
+
+  // Calcular conteo de productos por talla
+  const sizeCounts = {};
+  const availableSizes = ['S', 'M', 'L', 'XL', 'XXL'];
+  
+  availableSizes.forEach(size => {
+    sizeCounts[size] = products.filter(product => product.size === size).length;
+  });
+
+  // Calcular conteo de productos por disponibilidad
+  const availabilityCounts = {
+    'Disponible': products.filter(product => product.active === true).length,
+    'Sin Disponibilidad': products.filter(product => product.active === false).length
+  };
 
   return (
     <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> 
@@ -2014,7 +1966,12 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
             {categoryCounts.map(category => (
               <li key={category.categoryId} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={category.categoryId} checked={selectedCategories.includes(category.categoryId)} onChange={() => onSelectCategory(category.categoryId)} />
+                  <input 
+                    type="checkbox" 
+                    value={category.categoryId} 
+                    checked={selectedCategories.includes(category.categoryId)} 
+                    onChange={() => onSelectCategory(category.categoryId)} 
+                  />
                   {category.name} <span className={styles.filterCount}>({category.count})</span>
                 </label>
               </li>
@@ -2030,11 +1987,16 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
         </div>
         {isSizeOpen && (
           <ul className={styles.filterList}>
-            {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
+            {availableSizes.map(size => (
               <li key={size} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={size} />
-                  {size} <span className={styles.filterCount}>(10)</span> {/* Ejemplo de conteo */}
+                  <input 
+                    type="checkbox" 
+                    value={size} 
+                    checked={selectedSizes.includes(size)}
+                    onChange={() => onSelectSize(size)}
+                  />
+                  {size} <span className={styles.filterCount}>({sizeCounts[size] || 0})</span>
                 </label>
               </li>
             ))}
@@ -2049,11 +2011,16 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
         </div>
         {isAvailabilityOpen && (
           <ul className={styles.filterList}>
-            {['Disponible', 'Sin Disponibilidad'].map(availability => (
+            {Object.keys(availabilityCounts).map(availability => (
               <li key={availability} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={availability} />
-                  {availability} <span className={styles.filterCount}>(5)</span> {/* Ejemplo de conteo */}
+                  <input 
+                    type="checkbox" 
+                    value={availability}
+                    checked={selectedAvailability.includes(availability)}
+                    onChange={() => onSelectAvailability(availability)}
+                  />
+                  {availability} <span className={styles.filterCount}>({availabilityCounts[availability]})</span>
                 </label>
               </li>
             ))}
@@ -2066,10 +2033,37 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
   );
 };
 
-export default WebsiteSidebar;
+export default WebsiteSidebar; 
  
- 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\CategoryList\CategoryList.jsx 
+----------------------------- 
+import styles from './CategoryList.module.css';
 
+const CategoryList = ({ categories, selectedCategories, onSelectCategory }) => {
+  const defaultImageUrl = "https://cdn-icons-png.flaticon.com/512/7552/7552762.png";
+
+  return (
+    <div className={styles.categoryList}>
+      {categories.map((category) => {
+        const isSelected = selectedCategories.includes(category.categoryId);
+        return (
+          <button
+            key={category.categoryId}
+            className={`${styles.categoryButton} ${isSelected ? styles.selected : ''}`}
+            onClick={() => onSelectCategory(category.categoryId)}
+          >
+            <img src={category.categoryImagenUrl || defaultImageUrl} alt={category.name} className={styles.categoryImage} />
+            <span>{category.name}</span>
+          </button>
+        );
+      })}
+    </div>
+  );
+};
+
+export default CategoryList;
+ 
+ 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\Modal\Modal.jsx 
 ----------------------------- 
 import { useState } from 'react';
@@ -2133,8 +2127,6 @@ const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
 
 export default Modal; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\Pagination\Pagination.jsx 
 ----------------------------- 
 import React from 'react';
@@ -2191,8 +2183,6 @@ const Pagination = ({ totalPosts, postsPerPage, setCurrentPage, currentPage }) =
 
 export default Pagination;
  
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductCard\ProductCard.jsx 
 ----------------------------- 
@@ -2252,8 +2242,6 @@ const ProductCard = ({ product, categories, colors, onClick }) => {
 
 export default ProductCard;
  
- 
-
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductDetail\ProductDetail.jsx 
 ----------------------------- 
@@ -2334,8 +2322,6 @@ const ProductDetail = ({ size, sku, categoryId, colorId, attributesIds, categori
 export default ProductDetail;
  
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductGallery\ProductGallery.jsx 
 ----------------------------- 
 import { useState } from 'react';
@@ -2396,27 +2382,113 @@ const ProductGallery = ({ images = [] }) => {
 
 export default ProductGallery; 
  
-
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\SearchBar\SearchBar.jsx 
 ----------------------------- 
+import { useState, useEffect, useRef } from 'react';
 import styles from './SearchBar.module.css';
 
-const SearchBar = () => {
-  return (
-    <div className={styles.searchBar}>
-      <button className={styles.button}><i className="fa-solid fa-magnifying-glass"></i></button>
-      <input type="text" placeholder="Buscar" className={styles.input} />
+const SearchBar = ({ onSearch, onClear, searchQuery = '', filteredProducts = [] }) => {
+  const [query, setQuery] = useState('');
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const suggestionsRef = useRef(null);
 
+  // Generar sugerencias mientras el usuario escribe
+  useEffect(() => {
+    if (query.trim().length > 1) {
+      const suggestedProducts = filteredProducts.filter(product => 
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+      ).slice(0, 5); // Limitamos a 5 sugerencias
+      
+      setSuggestions(suggestedProducts);
+      setShowSuggestions(true);
+    } else {
+      setSuggestions([]);
+      setShowSuggestions(false);
+    }
+  }, [query, filteredProducts]);
+
+  // Cerrar sugerencias al hacer clic fuera del componente
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  const handleSearch = () => {
+    if (query.trim()) {
+      onSearch(query.trim());
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    onSearch(suggestion.name);
+    setQuery('');
+    setShowSuggestions(false);
+  };
+
+  return (
+    <div className={styles.searchBarContainer} ref={suggestionsRef}>
+      <div className={styles.searchBar}>
+        <button className={styles.button} onClick={handleSearch}>
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
+        <div className={styles.inputContainer}>
+          {searchQuery && (
+            <div className={styles.chipsContainer}>
+              <span className={styles.filterChip}>
+                {searchQuery}
+                <button
+                  className={styles.removeFilterButton}
+                  onClick={() => onClear()}
+                >
+                  ×
+                </button>
+              </span>
+            </div>
+          )}
+          <input
+            type="text"
+            placeholder="Buscar"
+            className={styles.input}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+            onFocus={() => query.trim().length > 1 && setShowSuggestions(true)}
+          />
+        </div>
+      </div>
+      
+      {showSuggestions && suggestions.length > 0 && (
+        <div className={styles.suggestionsContainer}>
+          {suggestions.map((suggestion) => (
+            <div 
+              key={suggestion.clotheId}
+              className={styles.suggestionItem}
+              onClick={() => handleSuggestionClick(suggestion)}
+            >
+              <span className={styles.suggestionName}>{suggestion.name}</span>
+              {suggestion.price && (
+                <span className={styles.suggestionPrice}>${suggestion.price.toFixed(2)}</span>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
 
-export default SearchBar;
- 
- 
-
-
- 
+export default SearchBar; 
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\UserMenu\UserMenu.jsx 
 ----------------------------- 
@@ -2471,7 +2543,6 @@ const UserMenu = () => {
 export default UserMenu;
  
  
-
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\context\AuthContext.jsx 
 ----------------------------- 
 /* import { createContext, useContext, useState, useEffect } from "react";
@@ -2604,7 +2675,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      const response = await fetch("http://localhost:8080/auth/register", {
+      const response = await fetch("https://terrific-light-production.up.railway.app/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -2620,7 +2691,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (credentials) => {
     try {
-      const response = await fetch("http://localhost:8080/auth/login", {
+      const response = await fetch("https://terrific-light-production.up.railway.app/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(credentials),
@@ -2720,9 +2791,6 @@ const AttributesListPage = () => {
 
 export default AttributesListPage; 
  
-
-   
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\CategoryListPage\CategoryListPage.jsx 
 ----------------------------- 
 import CategoryTable from '../../../components/admin/ui/CategoryTable/CategoryTable';
@@ -2737,8 +2805,6 @@ const CategoriesListPage = () => {
 };
 
 export default CategoriesListPage; 
- 
-   
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\DashboardPage\DashboardPage.jsx 
 ----------------------------- 
@@ -2838,9 +2904,6 @@ const DashboardPage = () => {
 
 export default DashboardPage; 
  
-
- 
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\OrdersListPage\OrdersListPage.jsx 
 ----------------------------- 
 import OrderTable from '../../../components/admin/ui/OrderTable/OrderTable';
@@ -2873,8 +2936,6 @@ const ProductsListPage = () => {
 export default ProductsListPage;
  
  
- 
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\UserListPage\UserListPage.jsx 
 ----------------------------- 
 import UserTable from '../../../components/admin/ui/UserTable/UserTable';
@@ -2890,14 +2951,11 @@ const UsersListPage = () => {
 
 export default UsersListPage; 
  
- 
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\HomePage\HomePage.jsx 
 ----------------------------- 
-// HomePage.js
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchCategories, fetchProducts, fetchColors } from '../../services/api';
+import { fetchCategories, fetchProducts, fetchColors, searchProducts } from '../../services/api';
 import styles from './HomePage.module.css';
 import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
 import Pagination from '../../components/website/ui/Pagination/Pagination';
@@ -2911,11 +2969,13 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [selectedAvailability, setSelectedAvailability] = useState([]);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  
+  const [searchResults, setSearchResults] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // Current search query
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -2931,25 +2991,98 @@ const HomePage = () => {
     loadCategoriesAndProducts();
   }, []);
 
+  // Aplicar todos los filtros (categorías, tallas, disponibilidad)
+  useEffect(() => {
+    if (!searchResults) {
+      let filtered = [...products];
+      
+      // Filtro por categorías
+      if (selectedCategories.length > 0) {
+        filtered = filtered.filter(product => selectedCategories.includes(product.categoryId));
+      }
+      
+      // Filtro por tallas
+      if (selectedSizes.length > 0) {
+        filtered = filtered.filter(product => selectedSizes.includes(product.size));
+      }
+      
+      // Filtro por disponibilidad
+      if (selectedAvailability.length > 0) {
+        filtered = filtered.filter(product => {
+          if (selectedAvailability.includes('Disponible') && product.active) {
+            return true;
+          }
+          if (selectedAvailability.includes('Sin Disponibilidad') && !product.active) {
+            return true;
+          }
+          return false;
+        });
+      }
+      
+      setFilteredProducts(filtered);
+      setCurrentPage(1); // Reiniciar a la primera página al aplicar filtros
+    }
+  }, [selectedCategories, selectedSizes, selectedAvailability, products, searchResults]);
+
+  const handleSearch = async (query) => {
+    try {
+      // Usamos filteredProducts que ya contiene los productos filtrados por categoría, talla y disponibilidad
+      const results = filteredProducts.filter(product => 
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      setSearchResults(results);
+      setCurrentPage(1);
+      setSearchQuery(query);
+    } catch (error) {
+      console.error("Error en la búsqueda:", error);
+      setSearchResults([]);
+    }
+  };
+
   const handleCategorySelect = (categoryId) => {
     setSelectedCategories((prevSelected) => {
       const isSelected = prevSelected.includes(categoryId);
-      const newSelected = isSelected
+      
+      // Update selectedCategories
+      return isSelected
         ? prevSelected.filter(id => id !== categoryId)
         : [...prevSelected, categoryId];
-
-      setFilteredProducts(
-        newSelected.length === 0
-          ? products
-          : products.filter(product => newSelected.includes(product.categoryId))
-      );
-
-      return newSelected;
     });
   };
 
-  const clearFilters = () => {
+  const handleSizeSelect = (size) => {
+    setSelectedSizes((prevSelected) => {
+      const isSelected = prevSelected.includes(size);
+      
+      return isSelected
+        ? prevSelected.filter(s => s !== size)
+        : [...prevSelected, size];
+    });
+  };
+
+  const handleAvailabilitySelect = (availability) => {
+    setSelectedAvailability((prevSelected) => {
+      const isSelected = prevSelected.includes(availability);
+      
+      return isSelected
+        ? prevSelected.filter(a => a !== availability)
+        : [...prevSelected, availability];
+    });
+  };
+
+  const handleClearSearch = () => {
+    setSearchResults(null);
+    setSearchQuery('');
+  };
+
+  const clearAllFilters = () => {
     setSelectedCategories([]);
+    setSelectedSizes([]);
+    setSelectedAvailability([]);
+    setSearchResults(null);
+    setSearchQuery('');
     setFilteredProducts(products);
   };
 
@@ -2957,45 +3090,88 @@ const HomePage = () => {
     setIsMobileSidebarOpen(!isMobileSidebarOpen);
   };
 
-  const currentPosts = filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+  // Compute displayed products and counts
+  const displayedProducts = searchResults || 
+    filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+    
+  const resultsCount = searchResults ? searchResults.length : filteredProducts.length;
+  const hasActiveFilters = searchQuery || selectedCategories.length > 0 || 
+                           selectedSizes.length > 0 || selectedAvailability.length > 0;
 
   return (
     <div className={styles.homePage}>
       <div className={styles.topSection}>
-        <SearchBar className={styles.searchBar} />
-        <CategoryList 
-          categories={categories} 
-          selectedCategories={selectedCategories} 
-          onSelectCategory={handleCategorySelect} 
+        <SearchBar
+          className={styles.searchBar}
+          onSearch={handleSearch}
+          searchQuery={searchQuery}
+          onClear={handleClearSearch}
+          filteredProducts={filteredProducts}
+        />
+        <CategoryList
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSelectCategory={handleCategorySelect}
         />
         <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}>
           Filtros
         </button>
       </div>
-
       <div className={styles.homePageContainer}>
-        <WebsiteSidebar 
-          className={styles.sidebar} 
-          isMobileSidebarOpen={isMobileSidebarOpen} 
-          toggleMobileSidebar={toggleMobileSidebar} 
+        <WebsiteSidebar
+          className={styles.sidebar}
+          isMobileSidebarOpen={isMobileSidebarOpen}
+          toggleMobileSidebar={toggleMobileSidebar}
           categories={categories}
           selectedCategories={selectedCategories}
           onSelectCategory={handleCategorySelect}
-          products={products} 
+          products={products}
+          selectedSizes={selectedSizes}
+          onSelectSize={handleSizeSelect}
+          selectedAvailability={selectedAvailability}
+          onSelectAvailability={handleAvailabilitySelect}
         />
-
         <main className={styles.mainContent}>
-          <h3>Recomendaciones <span>Mostrando {filteredProducts.length} de {products.length} productos.</span></h3>
-
-          <div className={styles.productGrid}>
-            {currentPosts.map(product => (
-              <ProductCard key={product.clotheId} product={product} categories={categories} colors={colors} onClick={() => navigate(`/product/${product.clotheId}`)} />
-            ))}
+          <div className={styles.resultsHeader}>
+            <h3>
+              {searchResults ? 'Resultados de búsqueda' : 'Recomendaciones'}
+              <span>
+                Mostrando {resultsCount} {searchResults ? 'resultados' : `de ${products.length} productos`}
+              </span>
+            </h3>
+            {hasActiveFilters && (
+              <button className={styles.clearAllButton} onClick={clearAllFilters}>
+                Limpiar todos los filtros
+              </button>
+            )}
           </div>
-          <Pagination totalPosts={filteredProducts.length} postsPerPage={postsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          <div className={styles.productGrid}>
+            {displayedProducts.length > 0 ? (
+              displayedProducts.map(product => (
+                <ProductCard
+                  key={product.clotheId}
+                  product={product}
+                  categories={categories}
+                  colors={colors}
+                  onClick={() => navigate(`/product/${product.clotheId}`)}
+                />
+              ))
+            ) : (
+              <div className={styles.noResults}>
+                No se encontraron productos con los filtros seleccionados
+              </div>
+            )}
+          </div>
+          {!searchResults && filteredProducts.length > 0 && (
+            <Pagination
+              totalPosts={filteredProducts.length}
+              postsPerPage={postsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </main>
       </div>
-
       {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>}
     </div>
   );
@@ -3003,8 +3179,6 @@ const HomePage = () => {
 
 export default HomePage; 
  
-
-
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\LoginPage\LoginPage.jsx 
 ----------------------------- 
 /* eslint-disable no-unused-vars */
@@ -3065,7 +3239,6 @@ const LoginPage = () => {
 export default LoginPage;
  
  
-
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\ProductPage\ProductPage.jsx 
 ----------------------------- 
 import { useParams, useNavigate } from 'react-router-dom';
@@ -3152,8 +3325,6 @@ const ProductPage = () => {
 
 export default ProductPage; 
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\RegisterPage\RegisterPage.jsx 
 ----------------------------- 
 import { useState } from "react";
@@ -3233,11 +3404,9 @@ const RegisterPage = () => {
 export default RegisterPage;
  
  
-
- 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\adminApi.js 
 ----------------------------- 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://terrific-light-production.up.railway.app";
 
 // ==================== PRODUCTOS ====================
 export const registerProduct = async (productData) => {
@@ -3568,7 +3737,7 @@ export const deleteAttribute = async (attributeId) => {
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\api.js 
 ----------------------------- 
-const API_URL = "http://localhost:8080";
+const API_URL = "https://terrific-light-production.up.railway.app";
 
 export const fetchCategories = async () => {
   const response = await fetch(`${API_URL}/category`, {
@@ -3600,5 +3769,195 @@ export const fetchProductById = async (id) => {
   });
   if (!response.ok) throw new Error('Error obteniendo producto');
   return await response.json();
+};
+
+export const searchProducts = async (query) => {
+  const response = await fetch(`${API_URL}/clothe/search?name=${encodeURIComponent(query)}`);
+  if (!response.ok) throw new Error('Error en la búsqueda');
+  return await response.json();
 }; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\ordersData.js 
+----------------------------- 
+// services/ordersData.js
+
+// Lista inicial de pedidos
+let orders = [
+  {
+    "id": 101,
+    "client": {
+      "id": 123,
+      "name": "John Doe",
+      "email": "john.doe@example.com"
+    },
+    "startDate": "2024-03-15",
+    "endDate": "2024-03-22",
+    "items": [
+      {
+        "clothingItem": {
+          "id": 1,
+          "name": "Vestido de Noche",
+          "color": "negro",
+          "rentalPrice": 59.99
+        },
+        "size": "M",
+        "quantity": 1
+      },
+      {
+        "clothingItem": {
+          "id": 3,
+          "name": "Traje de Caballero",
+          "color": "gris",
+          "rentalPrice": 89.99
+        },
+        "size": "L",
+        "quantity": 2
+      }
+    ],
+    "total": 239.96,
+    "status": "pendiente"
+  },
+  {
+    "id": 102,
+    "client": {
+      "id": 456,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com"
+    },
+    "startDate": "2024-04-01",
+    "endDate": "2024-04-08",
+    "items": [
+      {
+        "clothingItem": {
+          "id": 2,
+          "name": "Vestido de Fiesta",
+          "color": "rojo",
+          "rentalPrice": 79.99
+        },
+        "size": "S",
+        "quantity": 1
+      }
+    ],
+    "total": 79.99,
+    "status": "en curso"
+  },
+  {
+    "id": 103,
+    "client": {
+      "id": 789,
+      "name": "Peter Jones",
+      "email": "peter.jones@example.com"
+    },
+    "startDate": "2024-05-10",
+    "endDate": "2024-05-17",
+    "items": [
+      {
+        "clothingItem": {
+          "id": 4,
+          "name": "Chaqueta de Cuero",
+          "color": "marrón",
+          "rentalPrice": 69.99
+        },
+        "size": "M",
+        "quantity": 1
+      },
+      {
+        "clothingItem": {
+          "id": 5,
+          "name": "Pantalones Vaqueros",
+          "color": "azul",
+          "rentalPrice": 39.99
+        },
+        "size": "L",
+        "quantity": 1
+      }
+    ],
+    "total": 109.98,
+    "status": "completado"
+  },
+  {
+    "id": 104,
+    "client": {
+      "id": 1011,
+      "name": "Alice Johnson",
+      "email": "alice.johnson@example.com"
+    },
+    "startDate": "2024-06-01",
+    "endDate": "2024-06-08",
+    "items": [
+      {
+        "clothingItem": {
+          "id": 6,
+          "name": "Falda Larga",
+          "color": "verde",
+          "rentalPrice": 49.99
+        },
+        "size": "S",
+        "quantity": 2
+      }
+    ],
+    "total": 99.98,
+    "status": "devuelto"
+  },
+  {
+    "id": 105,
+    "client": {
+      "id": 1213,
+      "name": "Bob Williams",
+      "email": "bob.williams@example.com"
+    },
+    "startDate": "2024-07-15",
+    "endDate": "2024-07-22",
+    "items": [
+      {
+        "clothingItem": {
+          "id": 7,
+          "name": "Camisa de Lino",
+          "color": "blanco",
+          "rentalPrice": 29.99
+        },
+        "size": "M",
+        "quantity": 3
+      }
+    ],
+    "total": 89.97,
+    "status": "pendiente"
+  }
+];
+
+// Función para simular un retardo
+const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+// Obtener todos los pedidos
+export const getOrders = async () => {
+  await delay(1000);
+  return [...orders];
+};
+
+// Agregar un nuevo pedido (opcional)
+export const addOrder = async (order) => {
+  await delay(1000);
+  const newId = orders.length ? Math.max(...orders.map(o => o.id)) + 1 : 1;
+  const orderToAdd = { ...order, id: newId };
+  orders.push(orderToAdd);
+  return orderToAdd;
+};
+
+// Actualizar un pedido (opcional)
+export const updateOrder = async (updatedOrder) => {
+  await delay(1000);
+  const index = orders.findIndex(o => o.id === updatedOrder.id);
+  if (index !== -1) {
+    orders[index] = { ...updatedOrder };
+    return orders[index];
+  }
+  return null;
+};
+
+// Eliminar un pedido por ID (opcional)
+export const deleteOrderById = async (id) => {
+  await delay(1000);
+  orders = orders.filter(o => o.id !== id);
+  return { id, deleted: true };
+};
  

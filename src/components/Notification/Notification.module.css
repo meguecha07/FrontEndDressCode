@@ -1,0 +1,27 @@
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  animation: slideIn 0.3s ease-out;
+  z-index: 1000;
+  font-weight: 500;
+}
+
+.add {
+  background: #20bf6b;
+}
+
+.remove {
+  background: #ff4444;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}

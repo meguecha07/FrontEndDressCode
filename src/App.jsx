@@ -15,6 +15,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import CategoriesListPage from "./pages/Admin/CategoryListPage/CategoryListPage";
 import AttributesListPage from "./pages/Admin/AttributeListPage/AttributeListPage";
+import CartPage from './pages/CartPage/CartPage';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 
 function App() {
   const location = useLocation();
@@ -40,14 +42,23 @@ function App() {
       {isAdminRoute && <AdminHeader />}
 
       <Routes>
+
+      <Route path="/favorites" element={
+  <ProtectedRoute>
+    <FavoritesPage />
+  </ProtectedRoute>
+} />
+
         {/* Redirección desde /admin */}
         <Route path="/administrador" element={<Navigate to="/administrador/dashboard" replace />} />
 
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        
 
         {/* Rutas protegidas para administración */}
         <Route
