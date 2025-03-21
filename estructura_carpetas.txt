@@ -1,0 +1,3604 @@
+\---src
+    |   App.css
+    |   App.jsx
+    |   index.css
+    |   main.jsx
+    |   variables.css
+    |   
+    +---assets
+    |       logoDresscode.webp
+    |       prenda.jpg
+    |       react.svg
+    |       
+    +---components
+    |   |   LoadingSpinner.jsx
+    |   |   
+    |   +---admin
+    |   |   +---layout
+    |   |   |   \---AdminHeader
+    |   |   |           AdminHeader.jsx
+    |   |   |           AdminHeader.module.css
+    |   |   |           
+    |   |   \---ui
+    |   |       +---AttributeFormModal
+    |   |       |       AttributeFormModal.jsx
+    |   |       |       AttributeFormModal.module.css
+    |   |       |       
+    |   |       +---AttributeTable
+    |   |       |       AttributeTable.jsx
+    |   |       |       AttributeTable.module.css
+    |   |       |       
+    |   |       +---CategoryFormModal
+    |   |       |       CategoryFormModal.jsx
+    |   |       |       CategoryFormModal.module.css
+    |   |       |       
+    |   |       +---CategoryTable
+    |   |       |       CategoryTable.jsx
+    |   |       |       CategoryTable.module.css
+    |   |       |       
+    |   |       +---OrderTable
+    |   |       |       OrderTable.jsx
+    |   |       |       OrderTable.module.css
+    |   |       |       
+    |   |       +---ProductFormModal
+    |   |       |       ProductFormModal.jsx
+    |   |       |       ProductFormModal.module.css
+    |   |       |       
+    |   |       +---ProductTable
+    |   |       |       ProductTable.jsx
+    |   |       |       ProductTable.module.css
+    |   |       |       
+    |   |       +---UserFormModal
+    |   |       |       UserFormModal.jsx
+    |   |       |       UserFormModal.module.css
+    |   |       |       
+    |   |       \---UserTable
+    |   |               UserTable.jsx
+    |   |               UserTable.module.css
+    |   |               
+    |   \---website
+    |       +---layout
+    |       |   +---WebsiteFooter
+    |       |   |       WebsiteFooter.jsx
+    |       |   |       WebsiteFooter.module.css
+    |       |   |       
+    |       |   +---WebsiteHeader
+    |       |   |       WebsiteHeader.jsx
+    |       |   |       WebsiteHeader.module.css
+    |       |   |       
+    |       |   \---WebsiteSidebar
+    |       |           WebsiteSidebar.jsx
+    |       |           WebsiteSidebar.module.css
+    |       |           
+    |       \---ui
+    |           +---CategoryList
+    |           |       CategoryList.jsx
+    |           |       CategoryList.module.css
+    |           |       
+    |           +---Modal
+    |           |       Modal.jsx
+    |           |       Modal.module.css
+    |           |       
+    |           +---Pagination
+    |           |       Pagination.jsx
+    |           |       Pagination.module.css
+    |           |       
+    |           +---ProductCard
+    |           |       ProductCard.jsx
+    |           |       ProductCard.module.css
+    |           |       
+    |           +---ProductDetail
+    |           |       ProductDetail.jsx
+    |           |       ProductDetail.module.css
+    |           |       
+    |           +---ProductGallery
+    |           |       ProductGallery.jsx
+    |           |       ProductGallery.module.css
+    |           |       
+    |           +---SearchBar
+    |           |       SearchBar.jsx
+    |           |       SearchBar.module.css
+    |           |       
+    |           \---UserMenu
+    |                   UserMenu.jsx
+    |                   UserMenu.module.css
+    |                   
+    +---context
+    |       AuthContext.jsx
+    |       ProtectedRoute.jsx
+    |       
+    +---pages
+    |   +---Admin
+    |   |   +---AttributeListPage
+    |   |   |       AttributeListPage.jsx
+    |   |   |       AttributeListPage.module.css
+    |   |   |       
+    |   |   +---CategoryListPage
+    |   |   |       CategoryListPage.jsx
+    |   |   |       CategoryListPage.module.css
+    |   |   |       
+    |   |   +---DashboardPage
+    |   |   |       DashboardPage.jsx
+    |   |   |       DashboardPage.module.css
+    |   |   |       
+    |   |   +---OrdersListPage
+    |   |   |       OrderListPage.module.css
+    |   |   |       OrdersListPage.jsx
+    |   |   |       
+    |   |   +---ProductListPage
+    |   |   |       ProductListPage.jsx
+    |   |   |       ProductListPage.module.css
+    |   |   |       
+    |   |   \---UserListPage
+    |   |           UserListPage.jsx
+    |   |           UserListPage.module.css
+    |   |           
+    |   +---HomePage
+    |   |       HomePage.jsx
+    |   |       HomePage.module.css
+    |   |       
+    |   +---LoginPage
+    |   |       LoginPage.jsx
+    |   |       LoginPage.module.css
+    |   |       
+    |   +---ProductPage
+    |   |       ProductPage.jsx
+    |   |       ProductPage.module.css
+    |   |       
+    |   \---RegisterPage
+    |           RegisterPage.jsx
+    |           RegisterPage.module.css
+    |           
+    \---services
+            adminApi.js
+            api.js
+            categoryData.js
+            ordersData.js
+            productData.js
+            
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\App.css 
+----------------------------- 
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\App.jsx 
+----------------------------- 
+import { Routes, Route, useLocation, Navigate, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { AuthProvider } from "./context/AuthContext";
+import HomePage from "./pages/HomePage/HomePage";
+import ProductPage from "./pages/ProductPage/ProductPage";
+import DashboardPage from "./pages/Admin/DashboardPage/DashboardPage";
+import ProductsListPage from "./pages/Admin/ProductListPage/ProductListPage";
+import OrdersListPage from "./pages/Admin/OrdersListPage/OrdersListPage";
+import UserListPage from "./pages/Admin/UserListPage/UserListPage";
+import WebsiteHeader from "./components/website/layout/WebsiteHeader/WebsiteHeader";
+import WebsiteFooter from "./components/website/layout/WebsiteFooter/WebsiteFooter";
+import AdminHeader from "./components/admin/layout/AdminHeader/AdminHeader";
+import ProtectedRoute from "./context/ProtectedRoute";
+import LoginPage from "./pages/LoginPage/LoginPage";
+import RegisterPage from "./pages/RegisterPage/RegisterPage";
+import CategoriesListPage from "./pages/Admin/CategoryListPage/CategoryListPage";
+import AttributesListPage from "./pages/Admin/AttributeListPage/AttributeListPage";
+
+function App() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isAdminRoute = location.pathname.startsWith("/administrador");
+
+  // Bloquear móviles en el panel de administración
+  useEffect(() => {
+    if (isAdminRoute) {
+      const isMobileUserAgent = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileMediaQuery = window.matchMedia("(max-width: 768px)").matches;
+
+      if (isMobileUserAgent || isMobileMediaQuery) {
+        alert("El panel de administración requiere una pantalla más grande. Redirigiendo a la página principal...");
+        navigate("/");
+      }
+    }
+  }, [location.pathname, navigate]);
+
+  return (
+    <AuthProvider>
+      {!isAdminRoute && <WebsiteHeader />}
+      {isAdminRoute && <AdminHeader />}
+
+      <Routes>
+        {/* Redirección desde /admin */}
+        <Route path="/administrador" element={<Navigate to="/administrador/dashboard" replace />} />
+
+        {/* Rutas públicas */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+
+        {/* Rutas protegidas para administración */}
+        <Route
+          path="/administrador/dashboard"
+          element={
+            <ProtectedRoute adminOnly>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/products"
+          element={
+            <ProtectedRoute adminOnly>
+              <ProductsListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/orders"
+          element={
+            <ProtectedRoute adminOnly>
+              <OrdersListPage />
+            </ProtectedRoute>
+          }
+        />
+                <Route
+          path="/administrador/users"
+          element={
+            <ProtectedRoute adminOnly>
+              <UserListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/categories"
+          element={
+            <ProtectedRoute adminOnly>
+              <CategoriesListPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/administrador/attributes"
+          element={
+            <ProtectedRoute adminOnly>
+              <AttributesListPage />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
+
+      {!isAdminRoute && <WebsiteFooter />}
+    </AuthProvider>
+  );
+}
+
+export default App; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\index.css 
+----------------------------- 
+@import url('https://fonts.googleapis.com/css2?family=Akatab:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --primary-font: 'Akatab', sans-serif;
+  --color-0: #FFFFFF;
+  --color-10: #E9E9E9;
+  --color-20: #D9D9D9;
+  --color-40: #BDBDBD;
+  --color-60: #969696;
+  --color-80: #6F6F6F;
+  --color-90: #474747;
+  --color-100: #000000;
+}
+
+/* Asegura que html, body y #root ocupen el 100% de la pantalla */
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--primary-font);
+  background-color: #f7f7f7;
+}
+
+/* Asegura que los elementos ocupen todo el ancho disponible */
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Si deseas que el contenido se expanda pero el footer quede abajo */
+#root {
+  display: flex;
+  flex-direction: column;
+}
+
+
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\main.jsx 
+----------------------------- 
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import "./index.css";
+import "./variables.css";
+import App from "./App.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <BrowserRouter>
+      <AuthProvider> 
+        <App />
+      </AuthProvider>
+    </BrowserRouter>
+  </StrictMode>
+);
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\LoadingSpinner.jsx 
+----------------------------- 
+export default function LoadingSpinner() {
+  return (
+    <div className="loading-overlay">
+      <div className="loading-spinner"></div>
+      <style>{`
+        .loading-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: rgba(255, 255, 255, 1);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        
+        .loading-spinner {
+          border: 4px solid #f3f3f3;
+          border-top: 4px solid rgb(0, 0, 0);
+          border-radius: 50%;
+          width: 40px;
+          height: 40px;
+          animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
+    </div>
+  );
+} 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\layout\AdminHeader\AdminHeader.jsx 
+----------------------------- 
+import { Link } from 'react-router-dom';
+import UserMenu from "../../../website/ui/UserMenu/UserMenu";
+import styles from './AdminHeader.module.css';
+
+const AdminHeader = () => {
+  return (
+    <header className={styles.header}>
+      <div className={styles.container}>
+        <Link to="/administrador/dashboard" className={styles.logo}>
+          <span>Admin Dresscode</span>
+        </Link>
+        
+        <nav className={styles.nav}>
+          <Link to="/administrador/products" className={styles.navLink}>
+            <i className="fas fa-box"></i>
+            Productos
+          </Link>
+          <Link to="/administrador/orders" className={styles.navLink}>
+            <i className="fas fa-shopping-bag"></i>
+            Pedidos
+          </Link>
+          <Link to="/administrador/users" className={styles.navLink}>
+            <i className="fa-solid fa-user"></i>
+            Usuarios
+          </Link>
+          <Link to="/administrador/categories" className={styles.navLink}>
+            <i className="fa-solid fa-tags"></i>
+            Categorías
+          </Link>
+          <Link to="/administrador/attributes" className={styles.navLink}>
+            <i className="fa-solid fa-sliders"></i>
+            Características
+          </Link>
+          {/* Avatar con menú de usuario */}
+        <UserMenu />
+        </nav>
+
+         
+      </div>
+    </header>
+  );
+};
+
+export default AdminHeader; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\AttributeFormModal\AttributeFormModal.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import styles from './AttributeFormModal.module.css';
+
+const AttributeFormModal = ({ initialData, onSave, onClose }) => {
+    const [attribute, setAttribute] = useState({
+        name: '',
+        iconUrl: '',
+        attributeId: null
+    });
+
+    useEffect(() => {
+        if (initialData) {
+            setAttribute({
+                name: initialData.name || '',
+                iconUrl: initialData.iconUrl || '',
+                attributeId: initialData.attributeId
+            });
+        }
+    }, [initialData]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setAttribute(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formattedAttribute = {
+            name: attribute.name,
+            iconUrl: attribute.iconUrl
+        };
+        onSave(formattedAttribute);
+    };
+
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <div className={styles.modalHeader}>
+                    <h2>{initialData ? 'Editar Característica' : 'Nueva Característica'}</h2>
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div className={styles.scrollContainer}>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Nombre</span>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={attribute.name}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Url Icono</span>
+                                <input
+                                    type="text"
+                                    name="iconUrl"
+                                    value={attribute.iconUrl}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                            {attribute.iconUrl && (
+                                <div className={styles.previewContainer}>
+                                    <img 
+                                        src={attribute.iconUrl} 
+                                        alt="Vista previa del icono" 
+                                        className={styles.previewImage} 
+                                        onError={(e) => e.target.style.display = 'none'}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        <div className={styles.formActions}>
+                            <button type="button" className={styles.cancelButton} onClick={onClose}>
+                                Cancelar
+                            </button>
+                            <button type="submit" className={styles.submitButton}>
+                                {initialData ? 'Guardar Cambios' : 'Crear Característica'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default AttributeFormModal; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\AttributeTable\AttributeTable.jsx 
+----------------------------- 
+import { useState, useEffect } from "react";
+import { fetchAttributes, deleteAttribute, updateAttribute, createAttribute } from "../../../../services/adminApi";
+import AttributeFormModal from "../AttributeFormModal/AttributeFormModal";
+import styles from "./AttributeTable.module.css";
+
+const AttributeTable = () => {
+    const [attributes, setAttributes] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [currentAttribute, setCurrentAttribute] = useState(null);
+
+    useEffect(() => {
+        loadAttributes();
+    }, []);
+
+    const loadAttributes = async () => {
+        try {
+            const fetchedAttributes = await fetchAttributes();
+            setAttributes(fetchedAttributes);
+        } catch (error) {
+            console.error("Error cargando características:", error);
+        }
+    };
+
+    const handleAdd = () => {
+        setCurrentAttribute(null);
+        setShowModal(true);
+    };
+
+    const handleEditClick = (attribute) => {
+        setCurrentAttribute(attribute);
+        setShowModal(true);
+    };
+
+    const handleDelete = async (attributeId) => {
+        const confirmDelete = window.confirm(`¿Estás seguro de eliminar la característica? Los productos asociados a ella serán desactivados`);
+        if (!confirmDelete) return;
+        try {
+            await deleteAttribute(attributeId);
+            setAttributes((prev) => prev.filter((attribute) => attribute.attributeId !== attributeId));
+            loadAttributes();
+        } catch (error) {
+            console.error("Error eliminando característica:", error);
+        }
+    };
+
+    const handleSave = async (attributeData) => {
+        try {
+            if (currentAttribute) {
+                const updatedAttribute = await updateAttribute(currentAttribute.attributeId, attributeData);
+                setAttributes((prev) =>
+                    prev.map((attribute) => (attribute.attributeId === updatedAttribute.attributeId ? updatedAttribute : attribute))
+                );
+            } else {
+                const newAttribute = await createAttribute(attributeData);
+                setAttributes((prev) => [...prev, newAttribute]);
+            }
+            setShowModal(false);
+            setCurrentAttribute(null);
+            loadAttributes();
+        } catch (error) {
+            console.error("Error guardando característica:", error);
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Gestión de Características</h1>
+                <button className={styles.addButton} onClick={handleAdd}>
+                    Nueva Característica
+                </button>
+            </div>
+
+            <div className={styles.tableWrapper}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>URL</th>
+                            <th>Icono</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {attributes.map((attribute) => (
+                            <tr key={attribute.id}>
+                                <td data-label="ID">{attribute.attributeId}</td>
+                                <td data-label="Nombre">{attribute.name}</td>
+                                <td data-label="URL">{attribute.iconUrl}</td>
+                                <td data-label="Icono">
+                                    {attribute.iconUrl && (
+                                        <img 
+                                            src={attribute.iconUrl} 
+                                            alt={`Icono de ${attribute.name}`} 
+                                            className={styles.iconImage} 
+                                            onError={(e) => e.target.style.display = 'none'}
+                                        />
+                                    )}
+                                </td>
+                                <td data-label="Acciones" className={styles.actions}>
+                                    <button
+                                        className={styles.actionButton}
+                                        onClick={() => handleEditClick(attribute)}
+                                        aria-label="Editar"
+                                    >
+                                        <i className="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.delete}`}
+                                        onClick={() => handleDelete(attribute.attributeId)}
+                                        aria-label="Eliminar"
+                                    >
+                                        <i className="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {showModal && (
+                <AttributeFormModal
+                    initialData={currentAttribute}
+                    onSave={handleSave}
+                    onClose={() => {
+                        setShowModal(false);
+                        setCurrentAttribute(null);
+                    }}
+                />
+            )}
+        </div>
+    );
+};
+
+export default AttributeTable; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\CategoryFormModal\CategoryFormModal.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import styles from './CategoryFormModal.module.css';
+
+const CategoryFormModal = ({ initialData, onSave, onClose }) => {
+    const [category, setCategory] = useState({
+        name: '',
+        description: '',
+        categoryImagenUrl: '',
+        categoryId: null
+    });
+
+    useEffect(() => {
+        if (initialData) {
+            setCategory({
+                name: initialData.name || '',
+                description: initialData.description || '',
+                categoryImagenUrl: initialData.categoryImagenUrl || '',
+                categoryId: initialData.categoryId
+            });
+        }
+    }, [initialData]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCategory(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formattedCategory = {
+            name: category.name,
+            description: category.description,
+            categoryImagenUrl: category.categoryImagenUrl
+        };
+        onSave(formattedCategory);
+    };
+
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <div className={styles.modalHeader}>
+                    <h2>{initialData ? 'Editar Categoría' : 'Nueva Categoría'}</h2>
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div className={styles.scrollContainer}>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Nombre</span>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={category.name}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Descripción</span>
+                                <textarea
+                                    name="description"
+                                    value={category.description}
+                                    onChange={handleChange}
+                                    className={styles.textarea}
+                                    rows="4"
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Url Imagen</span>
+                                <input
+                                    type="text"
+                                    name="categoryImagenUrl"
+                                    value={category.categoryImagenUrl}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                            {category.categoryImagenUrl && (
+                                <div className={styles.previewContainer}>
+                                    <img 
+                                        src={category.categoryImagenUrl} 
+                                        alt="Vista previa de la imagen" 
+                                        className={styles.previewImage} 
+                                        onError={(e) => e.target.style.display = 'none'}
+                                    />
+                                </div>
+                            )}
+                        </div>
+
+                        <div className={styles.formActions}>
+                            <button type="button" className={styles.cancelButton} onClick={onClose}>
+                                Cancelar
+                            </button>
+                            <button type="submit" className={styles.submitButton}>
+                                {initialData ? 'Guardar Cambios' : 'Crear Categoría'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default CategoryFormModal; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\CategoryTable\CategoryTable.jsx 
+----------------------------- 
+import { useState, useEffect } from "react";
+import { fetchCategories, deleteCategory, updateCategory, createCategory } from "../../../../services/adminApi";
+import CategoryFormModal from "../CategoryFormModal/CategoryFormModal";
+import styles from "./CategoryTable.module.css";
+
+const CategoryTable = () => {
+    const [categories, setCategories] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [currentCategory, setCurrentCategory] = useState(null);
+
+    useEffect(() => {
+        loadCategories();
+    }, []);
+
+    const loadCategories = async () => {
+        try {
+            const fetchedCategories = await fetchCategories();
+            setCategories(fetchedCategories);
+        } catch (error) {
+            console.error("Error cargando categorías:", error);
+        }
+    };
+
+    const handleAdd = () => {
+        setCurrentCategory(null);
+        setShowModal(true);
+    };
+
+    const handleEditClick = (category) => {
+        setCurrentCategory(category);
+        setShowModal(true);
+    };
+
+    const handleDelete = async (categoryId, categoryName) => {
+        const confirmDelete = window.confirm(`¿Estás seguro de eliminar la categoría ${categoryName}? Los productos asociados a ella serán desactivados`);
+        if (!confirmDelete) return;
+        try {
+            await deleteCategory(categoryId);
+            setCategories((prev) => prev.filter((category) => category.categoryId !== categoryId));
+            loadCategories();
+        } catch (error) {
+            console.error("Error eliminando categoría:", error);
+        }
+    };
+
+    const handleSave = async (categoryData) => {
+        try {
+            if (currentCategory) {
+                const updatedCategory = await updateCategory(currentCategory.categoryId, categoryData);
+                setCategories((prev) =>
+                    prev.map((category) => (category.categoryId === updatedCategory.categoryId ? updatedCategory : category))
+                );
+            } else {
+                const newCategory = await createCategory(categoryData);
+                setCategories((prev) => [...prev, newCategory]);
+            }
+            setShowModal(false);
+            setCurrentCategory(null);
+            loadCategories();
+        } catch (error) {
+            console.error("Error guardando categoría:", error);
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Gestión de Categorías</h1>
+                <button className={styles.addButton} onClick={handleAdd}>
+                    Nueva Categoría
+                </button>
+            </div>
+
+            <div className={styles.tableWrapper}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Descripción</th>
+                            <th>URL</th>
+                            <th>Imagen</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {categories.map((category) => (
+                            <tr key={category.id}>
+                                <td data-label="ID">{category.categoryId}</td>
+                                <td data-label="Nombre">{category.name}</td>
+                                <td data-label="Descripción">{category.description}</td>
+                                <td data-label="URL">{category.categoryImagenUrl}</td>
+                                <td data-label="Imagen">
+                                    {category.categoryImagenUrl && (
+                                        <img 
+                                            src={category.categoryImagenUrl} 
+                                            alt={`Imagen de ${category.name}`} 
+                                            className={styles.iconImage} 
+                                            onError={(e) => e.target.style.display = 'none'}
+                                        />
+                                    )}
+                                </td>
+                                <td data-label="Acciones" className={styles.actions}>
+                                    <button
+                                        className={styles.actionButton}
+                                        onClick={() => handleEditClick(category)}
+                                        aria-label="Editar"
+                                    >
+                                        <i className="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.delete}`}
+                                        onClick={() => handleDelete(category.categoryId, category.name)}
+                                        aria-label="Eliminar"
+                                    >
+                                        <i className="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {showModal && (
+                <CategoryFormModal
+                    initialData={currentCategory}
+                    onSave={handleSave}
+                    onClose={() => {
+                        setShowModal(false);
+                        setCurrentCategory(null);
+                    }}
+                />
+            )}
+        </div>
+    );
+};
+
+export default CategoryTable; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\OrderTable\OrderTable.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import { fetchOrders } from '../../../../services/adminApi';
+import styles from './OrderTable.module.css';
+
+const OrderTable = () => {
+  const [orders, setOrders] = useState([]);
+  const [expandedOrder, setExpandedOrder] = useState(null);
+
+  useEffect(() => {
+    const loadOrders = async () => {
+      const fetchedOrders = await fetchOrders();
+      setOrders(fetchedOrders);
+    };
+    loadOrders();
+  }, []);
+
+  const handleRowClick = (orderId) => (e) => {
+    if (!e.target.closest('button')) {
+      setExpandedOrder(expandedOrder === orderId ? null : orderId);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case 'pendiente': return '#6c5ce7';
+      case 'en curso': return '#2d98da';
+      case 'completado': return '#20bf6b';
+      case 'devuelto': return '#a5b1c2';
+      default: return '#d1d8e0';
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>Gestión de Pedidos</h2>
+        <button className={styles.newOrderButton}>
+          <i className="fas fa-plus"></i>
+          Nuevo Pedido
+        </button>
+      </div>
+
+      <div className={styles.tableWrapper}>
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Cliente</th>
+              <th>Fechas</th>
+              <th>Items</th>
+              <th>Total</th>
+              <th>Estado</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map(order => (
+              <>
+                <tr 
+                  key={order.id} 
+                  className={styles.mainRow}
+                  onClick={handleRowClick(order.id)}
+                >
+                  <td data-label="ID">#{order.id}</td>
+                  <td data-label="Cliente">{order.client.name}</td>
+                  <td data-label="Fechas">
+                    <div className={styles.dateGroup}>
+                      <i className="fas fa-calendar-alt"></i>
+                      {new Date(order.startDate).toLocaleDateString()} - 
+                      {new Date(order.endDate).toLocaleDateString()}
+                    </div>
+                  </td>
+                  <td data-label="Items">{order.items.length} artículos</td>
+                  <td data-label="Total">${order.total.toFixed(2)}</td>
+                  <td data-label="Estado">
+                    <span 
+                      className={styles.statusBadge}
+                      style={{ backgroundColor: getStatusColor(order.status) }}
+                    >
+                      {order.status}
+                    </span>
+                  </td>
+                  <td data-label="Acciones" className={styles.actions}>
+                    <button className={styles.actionButton}>
+                      <i className="fas fa-edit"></i>
+                    </button>
+                    <button className={styles.actionButton}>
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                </tr>
+
+                {expandedOrder === order.id && (
+                  <tr className={styles.detailsRow}>
+                    <td colSpan="7">
+                      <div className={styles.orderDetails}>
+                        <div className={styles.detailSection}>
+                          <h4><i className="fas fa-user"></i> Información del Cliente</h4>
+                          <p>{order.client.email}</p>
+                        </div>
+                        
+                        <div className={styles.detailSection}>
+                          <h4><i className="fas fa-calendar-week"></i> Periodo de Alquiler</h4>
+                          <p>
+                            {new Date(order.startDate).toLocaleDateString()} - 
+                            {new Date(order.endDate).toLocaleDateString()}
+                          </p>
+                        </div>
+
+                        <div className={styles.detailSection}>
+                          <h4><i className="fas fa-tshirt"></i> Artículos ({order.items.length})</h4>
+                          <div className={styles.itemsGrid}>
+                            {order.items.map((item, index) => (
+                              <div key={index} className={styles.itemCard}>
+                                <div className={styles.itemHeader}>
+                                  <span className={styles.itemName}>{item.clothingItem.name}</span>
+                                  <span className={styles.itemPrice}>${item.clothingItem.rentalPrice}/día</span>
+                                </div>
+                                <div className={styles.itemDetails}>
+                                  <span>Talla: {item.size}</span>
+                                  <span>Cantidad: {item.quantity}</span>
+                                  <span>Color: <div className={styles.colorDot} style={{ backgroundColor: item.clothingItem.color }} /></span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+};
+
+export default OrderTable; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\ProductFormModal\ProductFormModal.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import { fetchCategories, fetchColors, createImage, fetchAttributes } from '../../../../services/adminApi';
+import styles from './ProductFormModal.module.css';
+
+const ProductFormModal = ({ initialData, onSave, onClose }) => {
+    const [product, setProduct] = useState({
+        sku: '',
+        name: '',
+        colorId: '',
+        categoryId: '',
+        price: '',
+        stock: '',
+        size: '',
+        active: true,
+        images: [],
+        attributes: [],
+        description: ''
+    });
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [attributes, setAttributes] = useState([]);
+    const [imageUrl, setImageUrl] = useState('');
+
+
+    useEffect(() => {
+        const loadOptions = async () => {
+            try {
+                const fetchedCategories = await fetchCategories();
+                setCategories(fetchedCategories);
+                const fetchedColors = await fetchColors();
+                setColors(fetchedColors);
+                const fetchedAttributes = await fetchAttributes();
+                setAttributes(fetchedAttributes);
+            } catch (error) {
+                console.error("Error fetching categories/colors/attributes:", error);
+            }
+        };
+        loadOptions();
+
+        if (initialData) {
+            setProduct({
+                sku: initialData.sku || '',
+                name: initialData.name || '',
+                colorId: initialData.colorId || '',
+                categoryId: initialData.categoryId || '',
+                price: initialData.price || '',
+                stock: initialData.stock || '',
+                size: initialData.size || '',
+                active: initialData.active !== undefined ? initialData.active : true,
+                images: initialData.imageUrls || [], // Aquí corregimos
+                attributes: initialData.attributeIds || [], // Aquí corregimos
+                description: initialData.description || '',
+            });
+        }
+    }, [initialData]);
+
+    const handleChange = (e) => {
+        const { name, type, checked, value } = e.target;
+        const inputValue = type === 'checkbox' ? checked : value;
+        setProduct(prev => ({
+            ...prev,
+            [name]: inputValue
+        }));
+    };
+
+    const handleCategoryChange = (e) => {
+        setProduct(prev => ({ ...prev, categoryId: parseInt(e.target.value, 10) }));
+    };
+
+    const handleColorChange = (e) => {
+        setProduct(prev => ({ ...prev, colorId: parseInt(e.target.value, 10) }));
+    };
+
+    const handleAddImage = () => {
+        if (imageUrl.trim()) {
+            setProduct(prev => ({ ...prev, images: [...prev.images, imageUrl] }));
+            setImageUrl('');
+        }
+    };
+
+    const handleRemoveImage = (index) => {
+        setProduct(prev => {
+            const newImages = prev.images.filter((_, i) => i !== index);
+            return { ...prev, images: newImages };
+        });
+    };
+
+    const handleChangeAttributes = (e) => {
+        const { value, checked } = e.target;
+        const attrId = parseInt(value, 10); // Convertir a número
+    
+        setProduct(prev => {
+            let updatedAttributes = checked 
+                ? [...prev.attributes, attrId] 
+                : prev.attributes.filter(attr => attr !== attrId);
+    
+            return { ...prev, attributes: updatedAttributes };
+        });
+    };
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+
+            const formattedProduct = {
+                sku: product.sku,
+                description: product.description,
+                size: product.size,
+                name: product.name,
+                price: parseFloat(product.price),
+                stock: parseInt(product.stock, 10),
+                active: product.active,
+                categoryId: parseInt(product.categoryId, 10),
+                colorId: parseInt(product.colorId, 10),
+                imageUrls: product.images,
+                attributeIds: product.attributes.map(attr => parseInt(attr, 10))
+            };
+
+            onSave(formattedProduct);
+        } catch (error) {
+            console.error("Error saving product:", error);
+        } 
+    };
+
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <div className={styles.modalHeader}>
+                    <h2>{initialData ? 'Editar Producto' : 'Nuevo Producto'}</h2>
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div className={styles.scrollContainer}>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                         <div className={styles.formGroup}>
+                            <label>
+                                <span>SKU</span>
+                                <input
+                                    type="text"
+                                    name="sku"
+                                    value={product.sku}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Nombre del Producto</span>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={product.name}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Color</span>
+                                <select
+                                    name="colorId"
+                                    value={product.colorId}
+                                    onChange={handleColorChange}
+                                    className={styles.input}
+                                    required
+                                >
+                                    <option value="">Selecciona un color</option>
+                                    {colors.map(color => (
+                                        <option key={color.colorId} value={color.colorId}>{color.name}</option>
+                                    ))}
+                                </select>
+                            </label>
+                        </div>
+
+                        <div className={styles.grid}>
+                            <div className={styles.formGroup}>
+                                <label>
+                                    <span>Categoría</span>
+                                    <select
+                                        name="categoryId"
+                                        value={product.categoryId}
+                                        onChange={handleCategoryChange}
+                                        className={styles.input}
+                                        required
+                                    >
+                                        <option value="">Selecciona una categoría</option>
+                                        {categories.map(category => (
+                                            <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+                                        ))}
+                                    </select>
+                                </label>
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label>
+                                    <span>Precio</span>
+                                    <div className={styles.priceInput}>
+                                        <span className={styles.currency}>$</span>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            name="price"
+                                            value={product.price}
+                                            onChange={handleChange}
+                                            className={styles.input}
+                                            required
+                                        />
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                         <div className={styles.grid}>
+                            <div className={styles.formGroup}>
+                                <label>
+                                    <span>Talla</span>
+                                    <input
+                                        type="text"
+                                        name="size"
+                                        value={product.size}
+                                        onChange={handleChange}
+                                        className={styles.input}
+                                        required
+                                    />
+                                </label>
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label>
+                                    <span>Stock</span>
+                                    <input
+                                        type="number"
+                                        name="stock"
+                                        value={product.stock}
+                                        onChange={handleChange}
+                                        className={styles.input}
+                                        required
+                                    />
+                                </label>
+                            </div>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label className={styles.checkboxLabel}>
+                                <input
+                                    type="checkbox"
+                                    name="active"
+                                    checked={product.active}
+                                    onChange={handleChange}
+                                    className={styles.checkboxInput}
+                                />
+                                <span>Producto Activo</span>
+                            </label>
+                        </div>
+
+
+                        <div className={styles.formGroup}>
+                            <label><span>Imágenes</span></label>
+                            <div className={styles.imageInputContainer}>
+                                <input
+                                    type="text"
+                                    value={imageUrl}
+                                    onChange={(e) => setImageUrl(e.target.value)}
+                                    placeholder="Ingrese la URL de la imagen"
+                                    className={styles.input}
+                                />
+                                <button type="button" onClick={handleAddImage} className={styles.addButton}>
+                                    Añadir
+                                </button>
+                            </div>
+
+                            <div className={styles.imageGrid}>
+                                {product.images.map((img, index) => (
+                                    <div key={index} className={styles.imageItem}>
+                                        <img src={img} alt={`Imagen ${index + 1}`} className={styles.imagePreview} />
+                                        <button type="button" onClick={() => handleRemoveImage(index)} className={styles.removeButton}> x</button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Características</span>
+                                {attributes.length > 0 ? (
+                                    attributes.map(attr => (
+                                        <div key={attr.attributeId} className={styles.checkboxContainer}>
+                                            <label className={styles.checkboxAttributeLabel}>
+                                                <input
+                                                    type="checkbox"
+                                                    value={attr.attributeId}
+                                                    checked={product.attributes.includes(attr.attributeId) || false}
+                                                    onChange={handleChangeAttributes}
+                                                    className={styles.checkboxInput}
+                                                />
+                                                <img src={attr.iconUrl} alt="icono" />
+                                                <span>{attr.name}</span>
+                                            </label>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className={styles.noAttributesMessage}>No se ha registrado ninguna característica.</p>
+                                )}
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Descripción</span>
+                                <textarea
+                                    name="description"
+                                    value={product.description}
+                                    onChange={handleChange}
+                                    className={styles.textarea}
+                                    rows="4"
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        
+
+                        <div className={styles.formActions}>
+                            <button type="button" className={styles.cancelButton} onClick={onClose}>
+                                Cancelar
+                            </button>
+                            <button type="submit" className={styles.submitButton} >
+                                {initialData ? 'Guardar Cambios' : 'Crear Producto'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default ProductFormModal; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\ProductTable\ProductTable.jsx 
+----------------------------- 
+import { useState, useEffect } from "react";
+import {
+    fetchAdminProducts,
+    deleteProduct,
+    updateProduct, // Importa updateProduct (renombrado de editProduct)
+    registerProduct,
+    fetchColors,
+    fetchCategories,
+} from "../../../../services/adminApi";
+import ProductFormModal from "../ProductFormModal/ProductFormModal";
+import styles from "./ProductTable.module.css";
+
+const ProductTable = () => {
+
+    const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [colors, setColors] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [currentProduct, setCurrentProduct] = useState(null);
+
+    useEffect(() => {
+        loadProducts();
+        loadCategories();
+        loadColors();
+    }, []);
+
+    const loadProducts = async () => {
+        try {
+            const fetchedProducts = await fetchAdminProducts();
+            setProducts(fetchedProducts);
+        } catch (error) {
+            console.error("Error cargando productos:", error);
+        }
+    };
+
+    const loadCategories = async () => {
+        try {
+            const fetchedCategories = await fetchCategories();
+            setCategories(fetchedCategories);
+        } catch (error) {
+            console.error("Error cargando categorías:", error);
+        }
+    };
+
+    const loadColors = async () => {
+        try {
+            const fetchedColors = await fetchColors();
+            setColors(fetchedColors);
+        } catch (error) {
+            console.error("Error cargando colores:", error);
+        }
+    };
+
+    const handleAdd = () => {
+        setCurrentProduct(null);
+        setShowModal(true);
+    };
+
+    const handleEditClick = (product) => {
+        setCurrentProduct(product);
+        setShowModal(true);
+    };
+
+    const handleDelete = async (productId) => {
+        const confirmDelete = window.confirm("¿Estás seguro de eliminar este producto?");
+        if (!confirmDelete) return;
+        try {
+            await deleteProduct(productId);
+            setProducts((prev) => prev.filter((product) => product.clotheId !== productId));
+        } catch (error) {
+            console.error("Error eliminando producto:", error);
+            // Manejo de error para la eliminación, si es necesario
+        }
+    };
+
+    const handleSave = async (productData) => {
+        try {
+            if (currentProduct) {
+                // Modo edición
+                const updatedProduct = await updateProduct({ // Usa updateProduct aquí
+                    clotheId: currentProduct.clotheId, // Incluye clotheId para la petición PUT
+                    ...productData // Pasa el resto de la data del producto
+                });
+                setProducts((prev) =>
+                    prev.map((prod) => (prod.clotheId === updatedProduct.clotheId ? updatedProduct : prod))
+                );
+            } else {
+                // Modo agregar
+                const newProduct = await registerProduct(productData);
+                setProducts((prev) => [...prev, newProduct]);
+            }
+            setShowModal(false);
+            setCurrentProduct(null);
+            loadProducts(); // Recarga la lista de productos para reflejar los cambios
+            loadCategories();
+            loadColors();
+        } catch (error) {
+            console.error("Error guardando producto:", error);
+            // Manejo de error al guardar/editar producto, si es necesario
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Gestión de Productos</h1>
+                <button className={styles.addButton} onClick={handleAdd}>
+                    Nuevo Producto
+                </button>
+            </div>
+
+            <div className={styles.tableWrapper}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Color</th>
+                            <th>Categoría</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {products.map((product) => {
+                            const categoryName = categories.find((c) => c.categoryId === product.categoryId)?.name || "Sin categoría";
+                            const colorName = colors.find((c) => c.colorId === product.colorId)?.name || "Sin color";
+
+                            return (
+                            <tr key={product.clotheId}>
+                                <td data-label="ID">{product.clotheId}</td>
+                                <td data-label="Nombre">{product.name}</td>
+                                <td data-label="Color">
+                                    <span
+                                        className={styles.colorBadge}
+                                        style={{ backgroundColor: colorName || "transparent" }}
+                                    />
+                                    {colorName || "Sin color"}
+                                </td>
+                                <td data-label="Categoría">{categoryName || "Sin categoría"}</td>
+                                <td data-label="Precio">${product.price}</td>
+                                <td data-label="Acciones" className={styles.actions}>
+                                    <button
+                                        className={styles.actionButton}
+                                        onClick={() => handleEditClick(product)}
+                                        aria-label="Editar"
+                                    >
+                                        <i className="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.delete}`}
+                                        onClick={() => handleDelete(product.clotheId)}
+                                        aria-label="Eliminar"
+                                    >
+                                        <i className="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+            </div>
+
+            {showModal && (
+                <ProductFormModal
+                    initialData={currentProduct}
+                    onSave={handleSave}
+                    onClose={() => {
+                        setShowModal(false);
+                        setCurrentProduct(null);
+                    }}
+                />
+            )}
+        </div>
+    );
+};
+
+export default ProductTable; 
+ 
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\UserFormModal\UserFormModal.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import styles from './UserFormModal.module.css';
+
+const UserFormModal = ({ initialData, onSave, onClose }) => {
+    const [user, setUser] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        password: '',
+        role: 'USER',
+        id: null
+    });
+
+    useEffect(() => {
+        if (initialData) {
+            setUser({
+                firstName: initialData.firstName || '',
+                lastName: initialData.lastName || '',
+                email: initialData.email || '',
+                password: '', // Se deja la contraseña vacía en edición inicialmente
+                role: initialData.role || 'USER',
+                id: initialData.id
+            });
+        }
+    }, [initialData]);
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setUser(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const formattedUser = {
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            password: user.password, // Se envía la contraseña (puede estar vacía si no se cambió)
+            role: user.role
+        };
+        onSave(formattedUser);
+    };
+
+    return (
+        <div className={styles.modalOverlay}>
+            <div className={styles.modalContent}>
+                <div className={styles.modalHeader}>
+                    <h2>{initialData ? 'Editar Usuario' : 'Nuevo Usuario'}</h2>
+                    <button className={styles.closeButton} onClick={onClose}>
+                        <i className="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <div className={styles.scrollContainer}>
+                    <form onSubmit={handleSubmit} className={styles.form}>
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Nombre</span>
+                                <input
+                                    type="text"
+                                    name="firstName"
+                                    value={user.firstName}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Apellido</span>
+                                <input
+                                    type="text"
+                                    name="lastName"
+                                    value={user.lastName}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Email</span>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={user.email}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                    disabled={!!initialData}
+                                />
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Contraseña</span>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={user.password}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    // No es requerido en edición, pero si en creación
+                                />
+                                <p className={styles.passwordHelper}>
+                                    {initialData ? "Dejar en blanco para mantener la contraseña actual." : "Contraseña requerida para nuevos usuarios."}
+                                </p>
+                            </label>
+                        </div>
+
+                        <div className={styles.formGroup}>
+                            <label>
+                                <span>Rol</span>
+                                <select
+                                    name="role"
+                                    value={user.role}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    required
+                                >
+                                    <option value="USER">Usuario</option>
+                                    <option value="ADMIN">Administrador</option>
+                                </select>
+                            </label>
+                        </div>
+
+
+                        <div className={styles.formActions}>
+                            <button type="button" className={styles.cancelButton} onClick={onClose}>
+                                Cancelar
+                            </button>
+                            <button type="submit" className={styles.submitButton}>
+                                {initialData ? 'Guardar Cambios' : 'Crear Usuario'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default UserFormModal; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\admin\ui\UserTable\UserTable.jsx 
+----------------------------- 
+import { useState, useEffect } from "react";
+import { fetchUsers, deleteUser, updateUser, registerUser } from "../../../../services/adminApi";
+import UserFormModal from "../UserFormModal/UserFormModal";
+import styles from "./UserTable.module.css";
+
+const UserTable = () => {
+    const [users, setUsers] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+    const [currentUser, setCurrentUser] = useState(null);
+
+    useEffect(() => {
+        loadUsers();
+    }, []);
+
+    const loadUsers = async () => {
+        try {
+            const fetchedUsers = await fetchUsers();
+            setUsers(fetchedUsers);
+        } catch (error) {
+            console.error("Error cargando usuarios:", error);
+        }
+    };
+
+    const handleAdd = () => {
+        setCurrentUser(null);
+        setShowModal(true);
+    };
+
+    const handleEditClick = (user) => {
+        setCurrentUser(user);
+        setShowModal(true);
+    };
+
+    const handleDelete = async (userId) => {
+        const confirmDelete = window.confirm("¿Estás seguro de eliminar este usuario?");
+        if (!confirmDelete) return;
+        try {
+            await deleteUser(userId);
+            setUsers((prev) => prev.filter((user) => user.id !== userId));
+            loadUsers();
+        } catch (error) {
+            console.error("Error eliminando usuario:", error);
+        }
+    };
+
+    const handleSave = async (userData) => {
+        try {
+            if (currentUser) {
+                const updatedUser = await updateUser(currentUser.id, userData);
+                setUsers((prev) =>
+                    prev.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+                );
+            } else {
+                const newUser = await registerUser(userData);
+                setUsers((prev) => [...prev, newUser]);
+            }
+            setShowModal(false);
+            setCurrentUser(null);
+            loadUsers();
+        } catch (error) {
+            console.error("Error guardando usuario:", error);
+        }
+    };
+
+    return (
+        <div className={styles.container}>
+            <div className={styles.header}>
+                <h1 className={styles.title}>Gestión de Usuarios</h1>
+                <button className={styles.addButton} onClick={handleAdd}>
+                    Nuevo Usuario
+                </button>
+            </div>
+
+            <div className={styles.tableWrapper}>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Email</th>
+                            <th>Rol</th> 
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {users.map((user) => (
+                            <tr key={user.id}>
+                                <td data-label="ID">{user.id}</td>
+                                <td data-label="Nombre">{user.firstName}</td>
+                                <td data-label="Apellido">{user.lastName}</td>
+                                <td data-label="Email">{user.email}</td>
+                                <td data-label="Rol">{user.role}</td> 
+                                <td data-label="Acciones" className={styles.actions}>
+                                    <button
+                                        className={styles.actionButton}
+                                        onClick={() => handleEditClick(user)}
+                                        aria-label="Editar"
+                                    >
+                                        <i className="fa-solid fa-pen"></i>
+                                    </button>
+                                    <button
+                                        className={`${styles.actionButton} ${styles.delete}`}
+                                        onClick={() => handleDelete(user.id)}
+                                        aria-label="Eliminar"
+                                    >
+                                        <i className="fas fa-trash-alt"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
+
+            {showModal && (
+                <UserFormModal
+                    initialData={currentUser}
+                    onSave={handleSave}
+                    onClose={() => {
+                        setShowModal(false);
+                        setCurrentUser(null);
+                    }}
+                />
+            )}
+        </div>
+    );
+};
+
+export default UserTable; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteFooter\WebsiteFooter.jsx 
+----------------------------- 
+import styles from "./WebsiteFooter.module.css";
+import logo from "../../../../assets/logoDresscode.webp";
+import { Link } from "react-router-dom";
+export const WebsiteFooter = () => {
+  return (
+    <footer className={styles.footerPage}>
+        <article className={styles.logo}>
+            <Link className={styles.linkFoooter} to="/">
+                <img className={styles.imgLogo} src={logo} alt="logo"/>
+                <span className={styles.fraseLogo}>Tu moda tu estilo</span>
+            </Link>
+        </article>
+        <article className={styles.fCopy}>
+            <span className={styles.tCopy}>© Grupo 5 DH 2025</span>
+        </article>
+        <article className={styles.redes}>
+            <a className={styles.contenedorLogoRed}><i className="fa-solid fa-envelope"></i></a>
+            <a className={styles.contenedorLogoRed}><i className="fa-brands fa-facebook"></i></a>
+            <a className={styles.contenedorLogoRed}><i className="fa-brands fa-instagram"></i></a>
+            <a className={styles.contenedorLogoRed}><i className="fa-brands fa-x-twitter"></i></a>
+        </article>
+    </footer>
+  )
+}
+
+export default WebsiteFooter; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteHeader\WebsiteHeader.jsx 
+----------------------------- 
+import { useAuth } from "../../../../context/AuthContext"; 
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom"; // ✅ Importar useNavigate
+import UserMenu from "../../ui/UserMenu/UserMenu.jsx";
+import styles from "./WebsiteHeader.module.css";
+import logoImage from "../../../../assets/logoDresscode.webp";
+
+const WebsiteHeader = () => {
+  const { user } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate(); // ✅ Hook para redireccionar
+
+  return (
+    <header className={styles.header}>
+      <div className={styles.container}>
+        {/* Bloque izquierdo: logotipo y lema */}
+        <div className={styles.leftBlock}>
+          <Link to="/" className={styles.logoLink}>
+            <img src={logoImage} alt="Dresscode Logo" className={styles.logoImage} />
+            <h1 className={styles.logo}>Dresscode</h1>
+            <span className={styles.slogan}>Tu moda, tu estilo</span>
+          </Link>
+        </div>
+
+        {/* Mostrar opciones según autenticación */}
+        {!user ? (
+          <>
+            {/* Menú responsive */}
+            <button className={styles.menuButton} onClick={() => setMenuOpen(!menuOpen)}>
+              <i className={menuOpen ? "fas fa-times" : "fas fa-bars"}></i>
+            </button>
+
+            <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
+              <button className={styles.button} onClick={() => navigate("/register")}>Crear cuenta</button> {/* ✅ Redirigir a /register */}
+              <button className={styles.button} onClick={() => navigate("/login")}>Iniciar sesión</button> {/* ✅ Redirigir a /login */}
+            </nav>
+          </>
+        ) : (
+          <UserMenu />
+        )}
+      </div>
+    </header>
+  );
+};
+
+export default WebsiteHeader; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteSidebar\WebsiteSidebar.jsx 
+----------------------------- 
+import React, { useState, useEffect } from 'react';
+import styles from './WebsiteSidebar.module.css';
+
+const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, selectedCategories, onSelectCategory, products }) => { 
+  const [isCategoryOpen, setIsCategoryOpen] = useState(true);
+  const [isSizeOpen, setIsSizeOpen] = useState(false);
+  const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
+
+  const categoryCounts = categories.map(category => ({
+    ...category,
+    count: products.filter(product => product.categoryId === category.categoryId).length,
+  }));
+
+  return (
+    <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> 
+      <div className={styles.filterSection}>
+        <div className={styles.filterHeader} onClick={() => setIsCategoryOpen(!isCategoryOpen)}>
+          Categoría
+          <span className={styles.arrow}>{isCategoryOpen ? '▲' : '▼'}</span>
+        </div>
+        {isCategoryOpen && (
+          <ul className={styles.filterList}>
+            {categoryCounts.map(category => (
+              <li key={category.categoryId} className={styles.filterItem}>
+                <label>
+                  <input type="checkbox" value={category.categoryId} checked={selectedCategories.includes(category.categoryId)} onChange={() => onSelectCategory(category.categoryId)} />
+                  {category.name} <span className={styles.filterCount}>({category.count})</span>
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className={styles.filterSection}>
+        <div className={styles.filterHeader} onClick={() => setIsSizeOpen(!isSizeOpen)}>
+          Talla
+          <span className={styles.arrow}>{isSizeOpen ? '▲' : '▼'}</span>
+        </div>
+        {isSizeOpen && (
+          <ul className={styles.filterList}>
+            {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
+              <li key={size} className={styles.filterItem}>
+                <label>
+                  <input type="checkbox" value={size} />
+                  {size} <span className={styles.filterCount}>(10)</span> {/* Ejemplo de conteo */}
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className={styles.filterSection}>
+        <div className={styles.filterHeader} onClick={() => setIsAvailabilityOpen(!isAvailabilityOpen)}>
+          Disponibilidad
+          <span className={styles.arrow}>{isAvailabilityOpen ? '▲' : '▼'}</span>
+        </div>
+        {isAvailabilityOpen && (
+          <ul className={styles.filterList}>
+            {['Disponible', 'Sin Disponibilidad'].map(availability => (
+              <li key={availability} className={styles.filterItem}>
+                <label>
+                  <input type="checkbox" value={availability} />
+                  {availability} <span className={styles.filterCount}>(5)</span> {/* Ejemplo de conteo */}
+                </label>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <button className={styles.closeButton} onClick={toggleMobileSidebar}>Cerrar Filtros</button>
+    </aside>
+  );
+};
+
+export default WebsiteSidebar;
+ 
+ 
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\Modal\Modal.jsx 
+----------------------------- 
+import { useState } from 'react';
+import styles from './Modal.module.css';
+
+const Modal = ({ isOpen, onClose, images, onSelectImage }) => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const imagesPerPage = 9; // 3 columnas x 3 filas
+  const totalPages = Math.ceil(images.length / imagesPerPage);
+
+  if (!isOpen) return null;
+
+  const startIndex = (currentPage - 1) * imagesPerPage;
+  const visibleImages = images.slice(startIndex, startIndex + imagesPerPage);
+
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modalContent}>
+        <button className={styles.closeButton} onClick={onClose}>&times;</button>
+
+        {/* Grid de imágenes */}
+        <div className={styles.imageGrid}>
+          {visibleImages.map((image, index) => (
+            <img
+              key={index}
+              src={image} // Aquí usamos directamente la URL
+              alt={`Imagen ${index + 1}`}
+              className={styles.modalImage}
+              onClick={() => {
+                onSelectImage(image);
+                onClose();
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Controles de paginación */}
+        <div className={styles.paginationControls}>
+          <button 
+            onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} 
+            disabled={currentPage === 1}
+            className={styles.navButton}
+          >
+            &larr; Anterior
+          </button>
+          
+          <span>Página {currentPage} de {totalPages}</span>
+          
+          <button 
+            onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} 
+            disabled={currentPage === totalPages}
+            className={styles.navButton}
+          >
+            Siguiente &rarr;
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Modal; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\Pagination\Pagination.jsx 
+----------------------------- 
+import React from 'react';
+import styles from "./Pagination.module.css";
+
+const Pagination = ({ totalPosts, postsPerPage, setCurrentPage, currentPage }) => {
+    let lastPage = Math.ceil(totalPosts / postsPerPage);
+    let pages = [];
+
+    for (let i = 1; i <= lastPage; i++) {
+        pages.push(i);
+    }
+
+    return (
+        <div className={styles.pagination}>
+            <button 
+                onClick={() => setCurrentPage(1)} 
+                disabled={currentPage === 1}
+            >
+                &lt;&lt;
+            </button>
+            <button 
+                onClick={() => setCurrentPage(currentPage - 1)} 
+                disabled={currentPage === 1}
+            >
+                &lt;
+            </button>
+
+            {pages.map((page, index) => (
+                <button
+                    className={page === currentPage ? styles.active : ''}
+                    key={index}
+                    onClick={() => setCurrentPage(page)}
+                >
+                    {page}
+                </button>
+            ))}
+
+            <button 
+                onClick={() => setCurrentPage(currentPage + 1)} 
+                disabled={currentPage === lastPage}
+            >
+                &gt;
+            </button>
+            <button 
+                onClick={() => setCurrentPage(lastPage)} 
+                disabled={currentPage === lastPage}
+            >
+                &gt;&gt;
+            </button>
+        </div>
+    );
+};
+
+export default Pagination;
+ 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductCard\ProductCard.jsx 
+----------------------------- 
+import styles from './ProductCard.module.css';
+
+const ProductCard = ({ product, categories, colors, onClick }) => {
+  const handleClick = () => {
+    if (onClick) {
+      onClick();
+    } else {
+      // Si no se pasa onClick, redirigir directamente al producto
+      // Suponiendo que product.id está definido
+      // Asumiendo que la navegación a producto se hace con  `/product/${product.id}`
+      // Verifica y ajusta la ruta según tu enrutamiento
+      // navigate(`/product/${product.id}`); // Asegúrate de tener useNavigate importado si lo usas aquí
+    }
+  };
+
+    const productImage = product.imageUrls?.length > 0 
+    ? `${product.imageUrls[0]}` 
+    : 'https://via.placeholder.com/200';
+
+  const productName = product.name || "Nombre no disponible";
+  const productPrice = product.price !== null && product.price !== undefined 
+    ? `$${product.price.toFixed(2)}` 
+    : "Precio no disponible";
+  const category = categories.find(cat => cat.categoryId === product.categoryId);
+  const categoryName = category ? category.name : "Sin categoría";
+  const color = colors.find(col => col.colorId === product.colorId);
+  const productColorName = color ? color.name : "transparent";
+    
+
+  return (
+    <div className={styles.productCard}>
+      <div className={styles.productContainer} onClick={handleClick}>
+        <div className={styles.imageContainer}>
+          <img src={productImage} alt={productName} className={styles.image} />
+        </div>
+        <div className={styles.details}>
+          <div className={styles.rowDetails}>
+            <p className={styles.category}>{categoryName}</p>
+            <div 
+              className={styles.colorBox} 
+              style={{ backgroundColor: productColorName }}
+            ></div>
+
+          </div>
+          <div className={styles.rowDetails}>
+            <h3 className={styles.title}>{productName}</h3>
+            <p className={styles.price}>{productPrice}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductCard;
+ 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductDetail\ProductDetail.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import { fetchAttributes } from '../../../../services/adminApi';
+import styles from './ProductDetail.module.css';
+
+const ProductDetail = ({ size, sku, categoryId, colorId, attributesIds, categories, colors }) => {
+  const [attributes, setAttributes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedAttributes = await fetchAttributes();
+        setAttributes(fetchedAttributes.filter(attr => attributesIds.includes(attr.attributeId)));
+      } catch (error) {
+        console.error("Error al obtener atributos:", error);
+      }
+    };
+
+    fetchData();
+  }, [attributesIds]);
+
+  const category = categories.find(cat => cat.categoryId === categoryId);
+  const color = colors.find(col => col.colorId === colorId);
+
+  return (
+    <div>
+      <div className={styles.metaGrid}>
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-tag"></i> Categoría
+          </span>
+          <span className={styles.metaValue}>{category?.name || "Sin categoría"}</span>
+        </div>
+
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-palette"></i> Color
+          </span>
+          <span className={styles.metaValue}>{color?.name || "Sin color"}</span>
+        </div>
+
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-ruler"></i> Talla
+          </span>
+          <span className={styles.metaValue}>{size}</span>
+        </div>
+
+        <div className={styles.metaItem}>
+          <span className={styles.metaLabel}>
+            <i className="fa-solid fa-barcode"></i> SKU
+          </span>
+          <span className={styles.metaValue}>{sku}</span>
+        </div>
+      </div>
+
+      {attributes.length > 0 && (
+        <div className={styles.attributesSection}>
+          <h2 className={styles.sectionTitle}>Características</h2>
+          <div className={styles.metaGrid}>
+            {attributes.map((attr) => (
+              <div key={attr.attributeId} className={styles.metaItem}>
+                <label className={styles.metaLabel}>
+                  <img src={attr.iconUrl} alt={attr.name} className={styles.attributeIcon} />
+                  <span className={styles.metaValue}>{attr.name}</span>
+                </label>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ProductDetail;
+ 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\ProductGallery\ProductGallery.jsx 
+----------------------------- 
+import { useState } from 'react';
+import Modal from '../Modal/Modal';
+import styles from './ProductGallery.module.css';
+
+const ProductGallery = ({ images = [] }) => {
+  const [selectedImage, setSelectedImage] = useState(images.length > 0 ? images[0] : '');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  return (
+    <div className={styles.gallery}>
+      {/* Imagen principal */}
+      <div className={styles.mainImageContainer}>
+        <img
+          src={selectedImage}
+          alt="Imagen principal del producto"
+          className={styles.mainImage}
+        />
+      </div>
+
+      {/* Miniaturas */}
+      <div className={styles.gridContainer}>
+        <div className={styles.imageGrid}>
+          {images
+          .filter(image => image !== selectedImage) // Evita repetir la imagen seleccionada
+          .slice(0, 4) // Solo mostramos 4 miniaturas
+          .map((image, index) => (
+            <img
+              key={index}
+              src={image}
+              alt={`Vista ${index + 1} del producto`}
+              className={styles.thumbnail}
+              onClick={() => setSelectedImage(image)}
+            />
+          ))}
+        </div>
+
+
+          <button 
+            className={styles.viewMoreButton} 
+            onClick={() => setIsModalOpen(true)}
+          >
+            Ver Más
+          </button>
+      </div>
+
+      {/* Modal para ver todas las imágenes */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        images={images}
+        onSelectImage={setSelectedImage}
+      />
+    </div>
+  );
+};
+
+export default ProductGallery; 
+ 
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\SearchBar\SearchBar.jsx 
+----------------------------- 
+import styles from './SearchBar.module.css';
+
+const SearchBar = () => {
+  return (
+    <div className={styles.searchBar}>
+      <button className={styles.button}><i className="fa-solid fa-magnifying-glass"></i></button>
+      <input type="text" placeholder="Buscar" className={styles.input} />
+
+    </div>
+  );
+};
+
+export default SearchBar;
+ 
+ 
+
+
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\ui\UserMenu\UserMenu.jsx 
+----------------------------- 
+import { useAuth } from "../../../../context/AuthContext";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // 👈 Importamos useNavigate
+import styles from "./UserMenu.module.css";
+
+const UserMenu = () => {
+  const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate(); // 👈 Hook para redirigir
+
+  if (!user) return null; // No mostrar el menú si no hay usuario autenticado
+
+  // Obtener iniciales del nombre y apellido
+  const getInitials = (nombre, apellido) => {
+    return `${nombre.charAt(0)}${apellido.charAt(0)}`.toUpperCase();
+  };
+
+  return (
+    <div className={styles.userMenu}>
+      {/* Avatar con iniciales */}
+      <div className={styles.avatar} onClick={() => setMenuOpen(!menuOpen)}>
+        {getInitials(user.firstName, user.lastName)}
+      </div>
+
+      {/* Modal con opciones */}
+      {menuOpen && (
+        <div className={styles.dropdownMenu}>
+          <p>¡Hola, {user.firstName}!</p>
+          <ul>
+            <li><i className="fa-solid fa-user"></i> Información personal</li>
+            <li><i className="fa-solid fa-calendar"></i> Mis reservas</li>
+            
+            {user.role === "ROLE_ADMIN" && (
+              <li onClick={() => navigate("/administrador/dashboard")}><i className="fa-solid fa-gear"></i> Panel de administración
+              </li>
+            )}
+            {user.role === "ROLE_ADMIN" && (
+              <li onClick={() => navigate("/")}><i className="fa-solid fa-home"></i> Ir a home
+              </li>
+            )}
+            <li onClick={logout} className={styles.logout}><i className="fa-solid fa-right-from-bracket"></i> Cerrar sesión</li>
+          </ul>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default UserMenu;
+ 
+ 
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\context\AuthContext.jsx 
+----------------------------- 
+/* import { createContext, useContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const navigate = useNavigate(); // Asegura que se use dentro de un BrowserRouter
+
+  useEffect(() => {
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUser({
+          email: decoded.sub,
+          firstName: decoded.firstName,
+          lastName: decoded.lastName,
+          role: decoded.role[0], // Porque viene como array
+        });
+      } catch (error) {
+        console.error("Error al decodificar el token:", error);
+        logout();
+      }
+    }
+  }, [token]);
+
+  const register = async (userData) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) throw new Error("Error en el registro");
+      return await response.json();
+    } catch (error) {
+      console.error("Error en el registro:", error);
+      throw error;
+    }
+  };
+
+  const login = async (credentials) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) throw new Error("Credenciales incorrectas");
+
+      const data = await response.json();
+      localStorage.setItem("token", data.jwt);
+      setToken(data.jwt);
+
+      const decoded = jwtDecode(data.jwt);
+      setUser({
+        email: decoded.sub,
+        firstName: decoded.firstName,
+        lastName: decoded.lastName,
+        role: decoded.role[0],
+      });
+    } catch (error) {
+      console.error("Error en el login:", error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setUser(null);
+    setTimeout(() => navigate("/"), 0); // 🔹 Asegura que la navegación se haga después del renderizado
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, token, register, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+ */
+
+import { createContext, useContext, useState, useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
+const AuthContext = createContext();
+
+export const useAuth = () => useContext(AuthContext);
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const verifyToken = async () => {
+      if (token) {
+        try {
+          const decoded = jwtDecode(token);
+          setUser({
+            email: decoded.sub,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            role: decoded.role[0],
+          });
+        } catch (error) {
+          console.error("Error al decodificar el token:", error);
+          logout();
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        setIsLoading(false);
+      }
+    };
+
+    verifyToken();
+  }, [token]);
+
+  const register = async (userData) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) throw new Error("Error en el registro");
+      return await response.json();
+    } catch (error) {
+      console.error("Error en el registro:", error);
+      throw error;
+    }
+  };
+
+  const login = async (credentials) => {
+    try {
+      const response = await fetch("http://localhost:8080/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) throw new Error("Credenciales incorrectas");
+
+      const data = await response.json();
+      localStorage.setItem("token", data.jwt);
+      setToken(data.jwt);
+    } catch (error) {
+      console.error("Error en el login:", error);
+      throw error;
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setUser(null);
+    setTimeout(() => navigate("/"), 0);
+  };
+
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      token, 
+      isLoading,
+      register, 
+      login, 
+      logout 
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\context\ProtectedRoute.jsx 
+----------------------------- 
+/* import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { user } = useAuth();
+  const location = useLocation();
+
+  if (!user) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (adminOnly && user.role !== "ROLE_ADMIN") {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute; */
+
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import LoadingSpinner from "../components/LoadingSpinner"; // Crea este componente o usa un div simple
+
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const { user, isLoading } = useAuth();
+  const location = useLocation();
+
+  if (isLoading) {
+    return <LoadingSpinner />; // O <div>Cargando...</div>
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace state={{ from: location }} />;
+  }
+
+  if (adminOnly && user.role !== "ROLE_ADMIN") {
+    return <Navigate to="/" replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\AttributeListPage\AttributeListPage.jsx 
+----------------------------- 
+import AttributeTable from '../../../components/admin/ui/AttributeTable/AttributeTable';
+import styles from './AttributeListPage.module.css';
+
+const AttributesListPage = () => {
+    return (
+        <div className={styles.attributesPageContainer}>
+            <AttributeTable />
+        </div>
+    );
+};
+
+export default AttributesListPage; 
+ 
+
+   
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\CategoryListPage\CategoryListPage.jsx 
+----------------------------- 
+import CategoryTable from '../../../components/admin/ui/CategoryTable/CategoryTable';
+import styles from './CategoryListPage.module.css';
+
+const CategoriesListPage = () => {
+    return (
+        <div className={styles.categoriesPageContainer}>
+            <CategoryTable />
+        </div>
+    );
+};
+
+export default CategoriesListPage; 
+ 
+   
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\DashboardPage\DashboardPage.jsx 
+----------------------------- 
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import ProductFormModal from '../../../components/admin/ui/ProductFormModal/ProductFormModal';
+import styles from './DashboardPage.module.css';
+
+const DashboardPage = () => {
+  const [showProductModal, setShowProductModal] = useState(false);
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.statsCard}>
+          <div className={styles.statItem}>
+            <i className="fas fa-box"></i>
+            <div>
+              <span className={styles.statNumber}>152</span>
+              <span className={styles.statLabel}>Productos</span>
+            </div>
+          </div>
+          <div className={styles.statItem}>
+            <i className="fas fa-shopping-bag"></i>
+            <div>
+              <span className={styles.statNumber}>89</span>
+              <span className={styles.statLabel}>Pedidos Activos</span>
+            </div>
+          </div>
+          <div className={styles.statItem}>
+            <i className="fa-solid fa-user"></i>
+            <div>
+              <span className={styles.statNumber}>89</span>
+              <span className={styles.statLabel}>Usuarios</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.grid}>
+        <Link to="/administrador/products" className={styles.card}>
+          <i className="fas fa-box"></i>
+          <h3>Gestión de Productos</h3>
+          <p>Administra tu catálogo de productos</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/orders" className={styles.card}>
+          <i className="fas fa-shopping-bag"></i>
+          <h3>Gestión de Pedidos</h3>
+          <p>Revisa y gestiona los pedidos</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/users" className={styles.card}>
+          <i className="fa-solid fa-user"></i>
+          <h3>Gestión de Usuarios</h3>
+          <p>Revisa y gestiona los usuarios</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/categories" className={styles.card}>
+          <i className="fa-solid fa-tags"></i>
+          <h3>Gestión de Categorías</h3>
+          <p>Revisa y gestiona las categorías</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+
+        <Link to="/administrador/attributes" className={styles.card}>
+          <i className="fa-solid fa-sliders"></i>
+          <h3>Gestión de Características</h3>
+          <p>Revisa y gestiona las características</p>
+          <span className={styles.cardLink}>Ver detalles <i className="fas fa-arrow-right"></i></span>
+        </Link>
+      </div>
+{/* 
+      <button 
+        className={styles.fab} 
+        onClick={() => setShowProductModal(true)}
+        aria-label="Añadir producto"
+      >
+        <i className="fas fa-plus"></i>
+      </button> */}
+
+      {showProductModal && (
+        <ProductFormModal 
+          onSave={() => {
+            setShowProductModal(false);
+            // Aquí puedes agregar lógica para actualizar la lista de productos
+          }} 
+          onClose={() => setShowProductModal(false)} 
+        />
+      )}
+    </div>
+  );
+};
+
+export default DashboardPage; 
+ 
+
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\OrdersListPage\OrdersListPage.jsx 
+----------------------------- 
+import OrderTable from '../../../components/admin/ui/OrderTable/OrderTable';
+import styles from './OrderListPage.module.css'; // Importa el archivo de estilos
+
+const OrdersListPage = () => {
+  return (
+    <div className={styles.ordersPageContainer}>
+      <OrderTable />
+    </div>
+  );
+};
+
+export default OrdersListPage;
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\ProductListPage\ProductListPage.jsx 
+----------------------------- 
+import ProductTable from '../../../components/admin/ui/ProductTable/ProductTable';
+import styles from './ProductListPage.module.css'; // Importa el archivo de estilos
+
+const ProductsListPage = () => {
+  return (
+    <div className={styles.productsPageContainer}>
+      <ProductTable />
+    </div>
+  );
+};
+
+export default ProductsListPage;
+ 
+ 
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\Admin\UserListPage\UserListPage.jsx 
+----------------------------- 
+import UserTable from '../../../components/admin/ui/UserTable/UserTable';
+import styles from './UserListPage.module.css'; // Importa el archivo de estilos para UsersListPage
+
+const UsersListPage = () => {
+    return (
+        <div className={styles.usersPageContainer}> {/* Contenedor principal con estilos de UsersListPage */}
+            <UserTable /> {/* Renderiza el componente UserTable */}
+        </div>
+    );
+};
+
+export default UsersListPage; 
+ 
+ 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\HomePage\HomePage.jsx 
+----------------------------- 
+// HomePage.js
+import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { fetchCategories, fetchProducts, fetchColors } from '../../services/api';
+import styles from './HomePage.module.css';
+import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
+import Pagination from '../../components/website/ui/Pagination/Pagination';
+import SearchBar from '../../components/website/ui/SearchBar/SearchBar';
+import CategoryList from '../../components/website/ui/CategoryList/CategoryList';
+import WebsiteSidebar from '../../components/website/layout/WebsiteSidebar/WebsiteSidebar';
+
+const HomePage = () => {
+  const [colors, setColors] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 10;
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadCategoriesAndProducts = async () => {
+      const fetchedCategories = await fetchCategories();
+      const fetchedProducts = await fetchProducts();
+      const fetchedColors = await fetchColors();
+      setColors(fetchedColors);
+      setCategories(fetchedCategories);
+      setProducts(fetchedProducts.sort(() => Math.random() - 0.5));
+      setFilteredProducts(fetchedProducts);
+    };
+    loadCategoriesAndProducts();
+  }, []);
+
+  const handleCategorySelect = (categoryId) => {
+    setSelectedCategories((prevSelected) => {
+      const isSelected = prevSelected.includes(categoryId);
+      const newSelected = isSelected
+        ? prevSelected.filter(id => id !== categoryId)
+        : [...prevSelected, categoryId];
+
+      setFilteredProducts(
+        newSelected.length === 0
+          ? products
+          : products.filter(product => newSelected.includes(product.categoryId))
+      );
+
+      return newSelected;
+    });
+  };
+
+  const clearFilters = () => {
+    setSelectedCategories([]);
+    setFilteredProducts(products);
+  };
+
+  const toggleMobileSidebar = () => {
+    setIsMobileSidebarOpen(!isMobileSidebarOpen);
+  };
+
+  const currentPosts = filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+
+  return (
+    <div className={styles.homePage}>
+      <div className={styles.topSection}>
+        <SearchBar className={styles.searchBar} />
+        <CategoryList 
+          categories={categories} 
+          selectedCategories={selectedCategories} 
+          onSelectCategory={handleCategorySelect} 
+        />
+        <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}>
+          Filtros
+        </button>
+      </div>
+
+      <div className={styles.homePageContainer}>
+        <WebsiteSidebar 
+          className={styles.sidebar} 
+          isMobileSidebarOpen={isMobileSidebarOpen} 
+          toggleMobileSidebar={toggleMobileSidebar} 
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSelectCategory={handleCategorySelect}
+          products={products} 
+        />
+
+        <main className={styles.mainContent}>
+          <h3>Recomendaciones <span>Mostrando {filteredProducts.length} de {products.length} productos.</span></h3>
+
+          <div className={styles.productGrid}>
+            {currentPosts.map(product => (
+              <ProductCard key={product.clotheId} product={product} categories={categories} colors={colors} onClick={() => navigate(`/product/${product.clotheId}`)} />
+            ))}
+          </div>
+          <Pagination totalPosts={filteredProducts.length} postsPerPage={postsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        </main>
+      </div>
+
+      {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>}
+    </div>
+  );
+};
+
+export default HomePage; 
+ 
+
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\LoginPage\LoginPage.jsx 
+----------------------------- 
+/* eslint-disable no-unused-vars */
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import styles from "./LoginPage.module.css";
+
+const LoginPage = () => {
+  const { login } = useAuth();
+  const navigate = useNavigate();
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+
+  const handleChange = (e) => {
+    setCredentials({ ...credentials, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(credentials);
+      navigate("/");
+    } catch (err) {
+      setError("Email o contraseña incorrectos");
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.loginBox}>
+        <h2 className={styles.title}>Iniciar Sesión</h2>
+        {error && <p className={styles.error}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Contraseña"
+            onChange={handleChange}
+            required
+            className={styles.input}
+          />
+          <button type="submit" className={styles.button}>Ingresar</button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default LoginPage;
+ 
+ 
+
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\ProductPage\ProductPage.jsx 
+----------------------------- 
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { fetchProductById, fetchCategories, fetchColors } from '../../services/api';
+import styles from './ProductPage.module.css';
+import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
+import ProductDetail from '../../components/website/ui/ProductDetail/ProductDetail';
+import LoadingSpinner from '../../components/LoadingSpinner';
+
+const ProductPage = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [product, setProduct] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [colors, setColors] = useState([]);
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      try {
+        const fetchedProduct = await fetchProductById(id);
+        const fetchedCategories = await fetchCategories();
+        const fetchedColors = await fetchColors();
+
+        setProduct(fetchedProduct);
+        setCategories(fetchedCategories);
+        setColors(fetchedColors);
+      } catch (error) {
+        console.error("Error al obtener el producto:", error);
+      }
+    };
+
+    loadProduct();
+  }, [id]);
+
+  if (!product) return <LoadingSpinner />;
+
+  return (
+    <div className={styles.productPage}>
+      <div className={styles.header}>
+        
+        <h1 className={styles.productTitle}>{product.name}</h1>
+        <button className={styles.backButton} onClick={() => navigate(-1)}>
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
+      </div>
+
+      <div className={styles.galleryContainer}>
+        <ProductGallery images={product.imageUrls} />
+      </div>
+
+      <div className={styles.detailsGrid}>
+        <ProductDetail
+          size={product.size}
+          sku={product.sku}
+          categoryId={product.categoryId}
+          colorId={product.colorId}
+          attributesIds={product.attributeIds}
+          categories={categories}
+          colors={colors}
+        />
+
+        <div className={styles.priceSection}>
+          <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
+          <span 
+            className={styles.stockStatus}
+            style={{ color: product.stock > 0 ? '#4CAF50' : '#F44336' }}
+          >
+            {product.stock > 0 ? `Disponible (${product.stock} unidades)` : 'Agotado'}
+          </span>
+          <button className={styles.addToCartButton}>
+            Añadir al carrito
+            <i className="fa-solid fa-cart-plus"></i>
+          </button>
+          <div className={styles.descriptionSection}>
+            <h2 className={styles.sectionTitle}>Descripción</h2>
+            <p className={styles.productDescription}>{product.description}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductPage; 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\RegisterPage\RegisterPage.jsx 
+----------------------------- 
+import { useState } from "react";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import styles from "./RegisterPage.module.css";
+
+const RegisterPage = () => {
+  const { register } = useAuth();
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+
+  // Validaciones
+  const validateInput = () => {
+    const nameRegex = /^[A-Za-zÁÉÍÓÚáéíóúÑñ]+( [A-Za-zÁÉÍÓÚáéíóúÑñ]+)*$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@#$%^&*!])[A-Za-z\d@#$%^&*!]{8,}$/;
+
+    if (userData.firstName.trim().length < 3 || !nameRegex.test(userData.firstName)) {
+      return "Nombre inválido: mínimo 3 caracteres, sin espacios iniciales o finales.";
+    }
+    if (userData.lastName.trim().length < 3 || !nameRegex.test(userData.lastName)) {
+      return "Apellido inválido: mínimo 3 caracteres, sin espacios iniciales o finales.";
+    }
+    if (!emailRegex.test(userData.email)) {
+      return "Correo electrónico inválido.";
+    }
+    if (!passwordRegex.test(userData.password)) {
+      return "Contraseña inválida: mínimo 8 caracteres, con al menos una letra, un número y un carácter especial (@, #, $, etc.).";
+    }
+    return null;
+  };
+
+  const handleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationError = validateInput();
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    try {
+      await register(userData);
+      navigate("/");
+    } catch (err) {
+      setError("Error en el registro. Intenta de nuevo.");
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.registerBox}>
+        <h2 className={styles.title}>Registro</h2>
+        {error && <p className={styles.error}>{error}</p>}
+        <form onSubmit={handleSubmit}>
+          <input className={styles.input} type="text" name="firstName" placeholder="Nombre" onChange={handleChange} required />
+          <input className={styles.input} type="text" name="lastName" placeholder="Apellido" onChange={handleChange} required />
+          <input className={styles.input} type="email" name="email" placeholder="Email" onChange={handleChange} required />
+          <input className={styles.input} type="password" name="password" placeholder="Contraseña" onChange={handleChange} required />
+          <button className={styles.button} type="submit">Registrarse</button>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export default RegisterPage;
+ 
+ 
+
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\adminApi.js 
+----------------------------- 
+const API_URL = "http://localhost:8080";
+
+// ==================== PRODUCTOS ====================
+export const registerProduct = async (productData) => {
+  const response = await fetch(`${API_URL}/clothe`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(productData)
+  });
+  if (!response.ok) throw new Error('Error al registrar el producto');
+  return await response.json();
+};
+
+export const fetchAdminProducts = async () => {
+  const response = await fetch(`${API_URL}/clothe`, {
+  });
+  if (!response.ok) throw new Error('Error obteniendo productos');
+  return await response.json();
+};
+
+export const updateProduct = async (productData) => {
+  const response = await fetch(`${API_URL}/clothe/${productData.clotheId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(productData)
+  });
+  if (!response.ok) throw new Error('Error actualizando producto');
+  return await response.json();
+};
+
+export const deleteProduct = async (productId) => {
+  const response = await fetch(`${API_URL}/clothe/${productId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando producto');
+  return true;
+};
+
+// ==================== USUARIOS ====================
+export const registerUser = async (userData) => {
+  const response = await fetch(`${API_URL}/auth/register`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(userData)
+  });
+  if (!response.ok) throw new Error('Error registrando usuario');
+  return await response.json();
+};
+
+export const fetchUsers = async () => {
+  const response = await fetch(`${API_URL}/user`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo usuarios');
+  return await response.json();
+};
+
+export const deleteUser = async (userId) => {
+  const response = await fetch(`${API_URL}/user/${userId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando usuario');
+  return true;
+};
+
+export const updateUser = async (userId, userData) => {
+  const response = await fetch(`${API_URL}/user/${userId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(userData)
+  });
+  if (!response.ok) throw new Error('Error actualizando usuario');
+  return await response.json();
+};
+
+// ==================== PEDIDOS ====================
+// Mantenemos temporalmente los datos mock
+import { getOrders } from "./ordersData";
+export const fetchOrders = getOrders;
+
+
+// ==================== CATEGORÍAS ====================
+export const createCategory = async (categoryData) => {
+  const response = await fetch(`${API_URL}/category`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(categoryData)
+  });
+  if (!response.ok) throw new Error('Error al crear la categoría');
+  return await response.json();
+};
+
+export const updateCategory = async (categoryId, categoryData) => {
+  const response = await fetch(`${API_URL}/category/${categoryId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(categoryData)
+  });
+  if (!response.ok) throw new Error('Error actualizando categoría');
+  return await response.json();
+};
+
+export const fetchCategories = async () => {
+  const response = await fetch(`${API_URL}/category`, {
+  });
+  if (!response.ok) throw new Error('Error obteniendo categorías');
+  return await response.json();
+};
+
+export const fetchCategoryById = async (categoryId) => {
+  const response = await fetch(`${API_URL}/category/${categoryId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo categoría');
+  return await response.json();
+};
+
+export const deleteCategory = async (categoryId) => {
+  const response = await fetch(`${API_URL}/category/${categoryId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando categoría');
+  return true;
+};
+
+// ==================== COLORES ====================
+export const createColor = async (colorData) => {
+  const response = await fetch(`${API_URL}/color`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(colorData)
+  });
+  if (!response.ok) throw new Error('Error al crear el color');
+  return await response.json();
+};
+
+export const updateColor = async (colorData) => {
+  const response = await fetch(`${API_URL}/color`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(colorData)
+  });
+  if (!response.ok) throw new Error('Error actualizando color');
+  return await response.json();
+};
+
+export const fetchColors = async () => {
+  const response = await fetch(`${API_URL}/color`, {
+    headers: { "Content-Type": "application/json",
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo colores');
+  return await response.json();
+};
+
+export const fetchColorById = async (colorId) => {
+  const response = await fetch(`${API_URL}/color/${colorId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo color');
+  return await response.json();
+};
+
+export const deleteColor = async (colorId) => {
+  const response = await fetch(`${API_URL}/color/${colorId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando color');
+  return true;
+};
+
+// ==================== IMÁGENES ====================
+export const createImage = async (imageData) => {
+  const response = await fetch(`${API_URL}/imagen`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(imageData)
+  });
+  if (!response.ok) throw new Error('Error al crear la imagen');
+  return await response.json();
+};
+
+export const updateImage = async (imageData) => {
+  const response = await fetch(`${API_URL}/imagen`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(imageData)
+  });
+  if (!response.ok) throw new Error('Error actualizando imagen');
+  return await response.json();
+};
+
+export const fetchImages = async () => {
+  const response = await fetch(`${API_URL}/imagen`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo imágenes');
+  return await response.json();
+};
+
+export const fetchImageById = async (imageId) => {
+  const response = await fetch(`${API_URL}/imagen/${imageId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo imagen');
+  return await response.json();
+};
+
+export const deleteImage = async (imageId) => {
+  const response = await fetch(`${API_URL}/imagen/${imageId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando imagen');
+  return true;
+};
+
+// ==================== ATRIBUTOS ====================
+export const createAttribute = async (attributeData) => {
+  const response = await fetch(`${API_URL}/attribute`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(attributeData)
+  });
+  if (!response.ok) throw new Error('Error al crear el atributo');
+  return await response.json();
+};
+
+export const fetchAttributes = async () => {
+  const response = await fetch(`${API_URL}/attribute`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo atributos');
+  return await response.json();
+};
+
+export const fetchAttributeById = async (attributeId) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo color');
+  return await response.json();
+};
+
+export const updateAttribute = async (attributeId, attributeData) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(attributeData)
+  });
+  if (!response.ok) throw new Error('Error actualizando atributo');
+  return await response.json();
+};
+
+export const deleteAttribute = async (attributeId) => {
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando atributo');
+  return true;
+}; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\api.js 
+----------------------------- 
+const API_URL = "http://localhost:8080";
+
+export const fetchCategories = async () => {
+  const response = await fetch(`${API_URL}/category`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo categorías');
+  return await response.json();
+};
+
+export const fetchColors = async () => {
+  const response = await fetch(`${API_URL}/color`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo colores');
+  return await response.json();
+};
+
+export const fetchProducts = async () => {
+  const response = await fetch(`${API_URL}/clothe`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo productos');
+  return await response.json();
+};
+
+export const fetchProductById = async (id) => {
+  const response = await fetch(`${API_URL}/clothe/${id}`, {
+
+  });
+  if (!response.ok) throw new Error('Error obteniendo producto');
+  return await response.json();
+}; 
+ 
