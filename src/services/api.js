@@ -31,3 +31,9 @@ export const fetchProductById = async (id) => {
   if (!response.ok) throw new Error('Error obteniendo producto');
   return await response.json();
 };
+
+export const searchProducts = async (query) => {
+  const response = await fetch(`${API_URL}/clothe/search?name=${encodeURIComponent(query)}`);
+  if (!response.ok) throw new Error('Error en la búsqueda');
+  return await response.json();
+};

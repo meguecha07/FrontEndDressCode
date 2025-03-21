@@ -1,7 +1,6 @@
-// HomePage.js
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchCategories, fetchProducts, fetchColors } from '../../services/api';
+import { fetchCategories, fetchProducts, fetchColors, searchProducts } from '../../services/api';
 import styles from './HomePage.module.css';
 import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
 import Pagination from '../../components/website/ui/Pagination/Pagination';
@@ -16,10 +15,10 @@ const HomePage = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  
+  const [searchResults, setSearchResults] = useState(null);
+  const [searchQuery, setSearchQuery] = useState(''); // Current search query
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 10;
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,25 +34,55 @@ const HomePage = () => {
     loadCategoriesAndProducts();
   }, []);
 
+  // Apply category filters to products
+  useEffect(() => {
+    // Only filter by category if there's no search active
+    if (!searchResults) {
+      setFilteredProducts(
+        selectedCategories.length === 0
+          ? products
+          : products.filter(product => selectedCategories.includes(product.categoryId))
+      );
+    }
+  }, [selectedCategories, products, searchResults]);
+
+  const handleSearch = async (query) => {
+    try {
+      // Usamos filteredProducts que ya contiene los productos filtrados por categoría
+      const results = filteredProducts.filter(product => 
+        product.name.toLowerCase().includes(query.toLowerCase()) ||
+        product.description.toLowerCase().includes(query.toLowerCase())
+      );
+      
+      setSearchResults(results);
+      setCurrentPage(1);
+      setSearchQuery(query);
+    } catch (error) {
+      console.error("Error en la búsqueda:", error);
+      setSearchResults([]);
+    }
+  };
+
   const handleCategorySelect = (categoryId) => {
     setSelectedCategories((prevSelected) => {
       const isSelected = prevSelected.includes(categoryId);
-      const newSelected = isSelected
+      
+      // Update selectedCategories
+      return isSelected
         ? prevSelected.filter(id => id !== categoryId)
         : [...prevSelected, categoryId];
-
-      setFilteredProducts(
-        newSelected.length === 0
-          ? products
-          : products.filter(product => newSelected.includes(product.categoryId))
-      );
-
-      return newSelected;
     });
   };
 
-  const clearFilters = () => {
+  const handleClearSearch = () => {
+    setSearchResults(null);
+    setSearchQuery('');
+  };
+
+  const clearAllFilters = () => {
     setSelectedCategories([]);
+    setSearchResults(null);
+    setSearchQuery('');
     setFilteredProducts(products);
   };
 
@@ -61,45 +90,77 @@ const HomePage = () => {
     setIsMobileSidebarOpen(!isMobileSidebarOpen);
   };
 
-  const currentPosts = filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+  // Compute displayed products and counts
+  const displayedProducts = searchResults || 
+    filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
+    
+  const resultsCount = searchResults ? searchResults.length : filteredProducts.length;
+  const hasActiveFilters = searchQuery || selectedCategories.length > 0;
 
   return (
     <div className={styles.homePage}>
       <div className={styles.topSection}>
-        <SearchBar className={styles.searchBar} />
-        <CategoryList 
-          categories={categories} 
-          selectedCategories={selectedCategories} 
-          onSelectCategory={handleCategorySelect} 
+        <SearchBar
+          className={styles.searchBar}
+          onSearch={handleSearch}
+          searchQuery={searchQuery}
+          onClear={handleClearSearch}
+          filteredProducts={filteredProducts}
+        />
+        <CategoryList
+          categories={categories}
+          selectedCategories={selectedCategories}
+          onSelectCategory={handleCategorySelect}
         />
         <button className={styles.filterButtonMobile} onClick={toggleMobileSidebar}>
           Filtros
         </button>
       </div>
-
       <div className={styles.homePageContainer}>
-        <WebsiteSidebar 
-          className={styles.sidebar} 
-          isMobileSidebarOpen={isMobileSidebarOpen} 
-          toggleMobileSidebar={toggleMobileSidebar} 
+        <WebsiteSidebar
+          className={styles.sidebar}
+          isMobileSidebarOpen={isMobileSidebarOpen}
+          toggleMobileSidebar={toggleMobileSidebar}
           categories={categories}
           selectedCategories={selectedCategories}
           onSelectCategory={handleCategorySelect}
-          products={products} 
+          products={products}
         />
-
         <main className={styles.mainContent}>
-          <h3>Recomendaciones <span>Mostrando {filteredProducts.length} de {products.length} productos.</span></h3>
-
+          <div className={styles.resultsHeader}>
+            <h3>
+              {searchResults ? 'Resultados de búsqueda' : 'Recomendaciones'}
+              <span>
+                Mostrando {resultsCount} {searchResults ? 'resultados' : `de ${products.length} productos`}
+              </span>
+            </h3>
+            {hasActiveFilters && (
+              <button className={styles.clearAllButton} onClick={clearAllFilters}>
+                Limpiar todos los filtros
+              </button>
+            )}
+          </div>
           <div className={styles.productGrid}>
-            {currentPosts.map(product => (
-              <ProductCard key={product.clotheId} product={product} categories={categories} colors={colors} onClick={() => navigate(`/product/${product.clotheId}`)} />
+            {displayedProducts.map(product => (
+              <ProductCard
+                key={product.clotheId}
+                product={product}
+                categories={categories}
+                colors={colors}
+                onClick={() => navigate(`/product/${product.clotheId}`)}
+              />
             ))}
           </div>
-          <Pagination totalPosts={filteredProducts.length} postsPerPage={postsPerPage} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+          {!searchResults && (
+            <Pagination
+              totalPosts={filteredProducts.length}
+              postsPerPage={postsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
+          )}
         </main>
       </div>
-
       {isMobileSidebarOpen && <div className={styles.sidebarOverlay} onClick={toggleMobileSidebar}></div>}
     </div>
   );

@@ -128,3 +128,49 @@
       z-index: 99; /* Debe estar debajo del sidebar (z-index: 100) */
     }
   }
+  .resultsHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .clearAllButton {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+  }
+  
+  .clearAllButton:hover {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  .filterChip {
+    display: inline-flex;
+    align-items: center;
+    background-color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    margin: 0.25rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-size: 0.85rem;
+  }
+  
+  .removeFilterButton {
+    background: none;
+    border: none;
+    margin-left: 0.5rem;
+    padding: 0;
+    cursor: pointer;
+    color: #999;
+  }
+  
+  .removeFilterButton:hover {
+    color: #666;
+  }
