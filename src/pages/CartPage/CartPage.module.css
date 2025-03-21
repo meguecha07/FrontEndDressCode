@@ -84,16 +84,19 @@
 }
 
 .totalContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin: 2rem 0;
+  width: 100%;
 }
 
 .totalPrice {
   color: #20bf6b;
   font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0;
 }
+
 
 .reserveButton {
   width: 100%;
@@ -140,4 +143,84 @@
   .summary {
     padding: 1.5rem;
   }
+}
+
+
+.datePicker {
+  display: grid;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.dateGroup {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.dateGroup label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #444;
+  font-weight: 500;
+}
+
+.dateGroup input {
+  padding: 0.8rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.dateGroup input:focus {
+  outline: none;
+  border-color: #20bf6b;
+  box-shadow: 0 0 0 2px rgba(32, 191, 107, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .datePicker {
+    gap: 1rem;
+    padding: 1rem;
+  }
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.totalRow:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.totalRow:first-child {
+  padding-top: 0;
+}
+.totalLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 1.1rem;
+  color: #2d3436;
+}
+
+.totalLabel i {
+  font-size: 1.2rem;
+  color: #636e72;
+}
+
+/* Añadir transición suave para hover */
+.totalRow:not(:last-child):hover {
+  background-color: rgba(233, 236, 239, 0.3);
+  transition: background-color 0.2s ease;
 }

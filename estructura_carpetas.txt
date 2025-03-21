@@ -54,6 +54,10 @@ C:\DRESSCODE - PROYECTOINTEGRADORC4G5\FRONTENDDRESSCODE\SRC
 |   |               UserTable.jsx
 |   |               UserTable.module.css
 |   |               
+|   +---Notification
+|   |       Notification.jsx
+|   |       Notification.module.css
+|   |       
 |   \---website
 |       +---layout
 |       |   +---WebsiteFooter
@@ -131,6 +135,14 @@ C:\DRESSCODE - PROYECTOINTEGRADORC4G5\FRONTENDDRESSCODE\SRC
 |   |           UserListPage.jsx
 |   |           UserListPage.module.css
 |   |           
+|   +---CartPage
+|   |       CartPage.jsx
+|   |       CartPage.module.css
+|   |       
+|   +---FavoritesPage
+|   |       FavoritesPage.jsx
+|   |       FavoritesPage.module.css
+|   |       
 |   +---HomePage
 |   |       HomePage.jsx
 |   |       HomePage.module.css
@@ -172,6 +184,8 @@ import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import CategoriesListPage from "./pages/Admin/CategoryListPage/CategoryListPage";
 import AttributesListPage from "./pages/Admin/AttributeListPage/AttributeListPage";
+import CartPage from './pages/CartPage/CartPage';
+import FavoritesPage from './pages/FavoritesPage/FavoritesPage';
 
 function App() {
   const location = useLocation();
@@ -197,14 +211,23 @@ function App() {
       {isAdminRoute && <AdminHeader />}
 
       <Routes>
+
+      <Route path="/favorites" element={
+  <ProtectedRoute>
+    <FavoritesPage />
+  </ProtectedRoute>
+} />
+
         {/* Redirección desde /admin */}
         <Route path="/administrador" element={<Navigate to="/administrador/dashboard" replace />} />
 
         {/* Rutas públicas */}
         <Route path="/" element={<HomePage />} />
         <Route path="/product/:id" element={<ProductPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+        
 
         {/* Rutas protegidas para administración */}
         <Route
@@ -284,7 +307,7 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 );
  
-
+ 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\LoadingSpinner.jsx 
 ----------------------------- 
 export default function LoadingSpinner() {
@@ -1835,6 +1858,44 @@ const UserTable = () => {
 
 export default UserTable; 
  
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\Notification\Notification.jsx 
+----------------------------- 
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import styles from './Notification.module.css';
+
+const Notification = ({ message, onClose, buttonLabel, buttonAction }) => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const timer = setTimeout(() => onClose(), 3000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className={`${styles.notification} ${message.includes('eliminado') ? styles.remove : styles.add}`}>
+      <div className={styles.content}>
+        <i className={`fa-solid ${message.includes('eliminado') ? 'fa-trash-can' : 'fa-circle-check'}`}></i>
+        <span>{message}</span>
+      </div>
+      
+      {buttonLabel && (
+        <button 
+          className={styles.actionButton}
+          onClick={() => {
+            buttonAction && buttonAction(navigate);
+            onClose();
+          }}
+        >
+          {buttonLabel} <i className="fa-solid fa-arrow-right"></i>
+        </button>
+      )}
+    </div>
+  );
+};
+
+export default Notification; 
+ 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\components\website\layout\WebsiteFooter\WebsiteFooter.jsx 
 ----------------------------- 
 import styles from "./WebsiteFooter.module.css";
@@ -2545,95 +2606,6 @@ export default UserMenu;
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\context\AuthContext.jsx 
 ----------------------------- 
-/* import { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-
-const AuthContext = createContext();
-
-export const useAuth = () => useContext(AuthContext);
-
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem("token") || "");
-  const navigate = useNavigate(); // Asegura que se use dentro de un BrowserRouter
-
-  useEffect(() => {
-    if (token) {
-      try {
-        const decoded = jwtDecode(token);
-        setUser({
-          email: decoded.sub,
-          firstName: decoded.firstName,
-          lastName: decoded.lastName,
-          role: decoded.role[0], // Porque viene como array
-        });
-      } catch (error) {
-        console.error("Error al decodificar el token:", error);
-        logout();
-      }
-    }
-  }, [token]);
-
-  const register = async (userData) => {
-    try {
-      const response = await fetch("http://localhost:8080/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-
-      if (!response.ok) throw new Error("Error en el registro");
-      return await response.json();
-    } catch (error) {
-      console.error("Error en el registro:", error);
-      throw error;
-    }
-  };
-
-  const login = async (credentials) => {
-    try {
-      const response = await fetch("http://localhost:8080/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) throw new Error("Credenciales incorrectas");
-
-      const data = await response.json();
-      localStorage.setItem("token", data.jwt);
-      setToken(data.jwt);
-
-      const decoded = jwtDecode(data.jwt);
-      setUser({
-        email: decoded.sub,
-        firstName: decoded.firstName,
-        lastName: decoded.lastName,
-        role: decoded.role[0],
-      });
-    } catch (error) {
-      console.error("Error en el login:", error);
-      throw error;
-    }
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken("");
-    setUser(null);
-    setTimeout(() => navigate("/"), 0); // 🔹 Asegura que la navegación se haga después del renderizado
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, token, register, login, logout }}>
-      {children}
-    </AuthContext.Provider>
-  );
-};
-
- */
-
 import { createContext, useContext, useState, useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom";
@@ -2654,6 +2626,7 @@ export const AuthProvider = ({ children }) => {
         try {
           const decoded = jwtDecode(token);
           setUser({
+            id: decoded.idUser,
             email: decoded.sub,
             firstName: decoded.firstName,
             lastName: decoded.lastName,
@@ -2951,6 +2924,292 @@ const UsersListPage = () => {
 
 export default UsersListPage; 
  
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\CartPage\CartPage.jsx 
+----------------------------- 
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { createReservation } from '../../services/api';
+import Notification from '../../components/Notification/Notification';
+import styles from './CartPage.module.css';
+
+const CartPage = () => {
+  const { user } = useAuth();
+  const [cartItems, setCartItems] = useState([]);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    button: null
+  });
+  const [dates, setDates] = useState({
+    startDate: '',
+    endDate: ''
+  });
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadCartItems = () => {
+      const items = JSON.parse(localStorage.getItem('cartItems')) || [];
+      setCartItems(items);
+    };
+    
+    loadCartItems();
+    window.addEventListener('storage', loadCartItems);
+    
+    return () => {
+      window.removeEventListener('storage', loadCartItems);
+    };
+  }, []);
+
+  const handleRemoveItem = (index) => {
+    const removedItem = cartItems[index];
+    const newItems = cartItems.filter((_, i) => i !== index);
+    
+    localStorage.setItem('cartItems', JSON.stringify(newItems));
+    setCartItems(newItems);
+    
+    setNotification({
+      show: true,
+      message: `${removedItem.name} eliminado del carrito`,
+      button: {
+        label: 'Deshacer',
+        action: () => {
+          const restoredItems = [...newItems];
+          restoredItems.splice(index, 0, removedItem);
+          localStorage.setItem('cartItems', JSON.stringify(restoredItems));
+          setCartItems(restoredItems);
+        }
+      }
+    });
+  };
+
+  const handleFinalizeReservation = async () => {
+    if (!user) {
+      setNotification({
+        show: true,
+        message: 'Debes iniciar sesión para reservar',
+        button: {
+          label: 'Iniciar sesión',
+          action: () => navigate('/login')
+        }
+      });
+      return;
+    }
+
+    if (!user || !dates.startDate || !dates.endDate) return;
+
+    try {
+      const reservationData = {
+        userId: user.id,
+        startDate: dates.startDate,
+        endDate: dates.endDate,
+        status: "PENDIENTE",
+        isPaid: false,
+        items: cartItems.map(item => ({ clotheId: item.clotheId }))
+      };
+
+      await createReservation(reservationData);
+      localStorage.removeItem('cartItems');
+      navigate('/reservation-success');
+    } catch (error) {
+      console.error('Error creating reservation:', error);
+      setNotification({
+        show: true,
+        message: 'Error al crear la reserva. Intenta nuevamente.',
+        button: null
+      });
+    }
+  };
+
+  // Nuevo handler para fechas
+const handleDateChange = (e) => {
+  const { name, value } = e.target;
+  setDates(prev => ({
+    ...prev,
+    [name]: value
+  }));
+  
+  // Actualizar fecha mínima de fin si es startDate
+  if (name === 'startDate' && dates.endDate < value) {
+    setDates(prev => ({ ...prev, endDate: value }));
+  }
+};
+
+  const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+
+  return (
+    <div className={styles.container}>
+      {notification.show && (
+        <Notification 
+          message={notification.message}
+          buttonLabel={notification.button?.label}
+          buttonAction={notification.button?.action}
+          onClose={() => setNotification({ show: false, message: '', button: null })}
+        />
+      )}
+      
+      <h1 className={styles.title}>
+        <i className="fa-solid fa-cart-shopping"></i> Carrito de Reservas
+      </h1>
+      
+      {cartItems.length === 0 ? (
+        <div className={styles.emptyCart}>
+          <i className="fa-regular fa-face-sad-tear"></i>
+          <p>Tu carrito está vacío</p>
+        </div>
+      ) : (
+        <>
+          <div className={styles.itemsContainer}>
+            {cartItems.map((item, index) => (
+              <div key={index} className={styles.itemCard}>
+                <img 
+                  src={item.image} 
+                  alt={item.name} 
+                  className={styles.itemImage}
+                  onClick={() => navigate(`/product/${item.clotheId}`)}
+                />
+                <div className={styles.itemDetails}>
+                  <h3>{item.name}</h3>
+                  <div className={styles.itemInfo}>
+                    <p><i className="fa-solid fa-ruler"></i> Talla: {item.size}</p>
+                    <p><i className="fa-solid fa-tag"></i> Precio: ${item.price.toFixed(2)}</p>
+                  </div>
+                  <button 
+                    onClick={() => handleRemoveItem(index)}
+                    className={styles.removeButton}
+                    aria-label="Eliminar del carrito"
+                  >
+                    <i className="fa-solid fa-trash-can"></i> Eliminar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className={styles.summary}>
+          <div className={styles.datePicker}>
+  <div className={styles.dateGroup}>
+    <label>
+      <i className="fa-solid fa-calendar-start"></i> Fecha de inicio:
+    </label>
+    <input
+      type="date"
+      name="startDate"
+      value={dates.startDate}
+      onChange={handleDateChange}
+      min={new Date().toISOString().split('T')[0]}
+      required
+    />
+  </div>
+  
+  <div className={styles.dateGroup}>
+    <label>
+      <i className="fa-solid fa-calendar-end"></i> Fecha de fin:
+    </label>
+    <input
+      type="date"
+      name="endDate"
+      value={dates.endDate}
+      onChange={handleDateChange}
+      min={dates.startDate || new Date().toISOString().split('T')[0]}
+      required
+    />
+  </div>
+</div>
+            <div className={styles.totalContainer}>
+              <h2><i className="fa-solid fa-receipt"></i> Total:</h2>
+              <h2 className={styles.totalPrice}>${total.toFixed(2)}</h2>
+            </div>
+            <button 
+              onClick={handleFinalizeReservation}
+              className={styles.reserveButton}
+              disabled={!user || cartItems.length === 0 || !dates.startDate || !dates.endDate}
+              title={!user ? "Inicia sesión para reservar" : ""}
+            >
+              {user ? (
+                <>
+                  <i className="fa-solid fa-lock"></i> Finalizar Reserva
+                </>
+              ) : (
+                <>
+                  <i className="fa-solid fa-right-to-bracket"></i> Iniciar sesión
+                </>
+              )}
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default CartPage; 
+ 
+Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\FavoritesPage\FavoritesPage.jsx 
+----------------------------- 
+import { useAuth } from '../../context/AuthContext';
+import { deleteFavorite } from '../../services/api';
+import ProductCard from '../../components/website/ui/ProductCard/ProductCard';
+import Notification from '../../components/Notification/Notification';
+import styles from './FavoritesPage.module.css';
+import { useState, useEffect } from 'react';
+const FavoritesPage = () => {
+  const { user } = useAuth();
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [showNotification, setShowNotification] = useState(false);
+
+  const handleRemoveFavorite = async (clotheId) => {
+    try {
+      await deleteFavorite(user.id, clotheId);
+      setNotificationMessage('Eliminado de favoritos');
+      setShowNotification(true);
+      
+      // Actualización manual de la UI
+      user.favoriteClothes = user.favoriteClothes.filter(item => item.clotheId !== clotheId);
+    } catch (error) {
+      console.error("Error eliminando favorito:", error);
+      setNotificationMessage('Error al eliminar favorito');
+      setShowNotification(true);
+    }
+  };
+
+  return (
+    <div className={styles.container}>
+      {showNotification && <Notification message={notificationMessage} onClose={() => setShowNotification(false)} />}
+      
+      <h1 className={styles.title}>Tus Favoritos</h1>
+      
+      <div className={styles.grid}>
+        {user?.favoriteClothes?.map((product) => (
+          <div key={product.clotheId} className={styles.cardContainer}>
+            <ProductCard 
+              product={product} 
+              categories={[]} 
+              colors={[]} 
+            />
+            <button 
+              className={styles.removeButton}
+              onClick={() => handleRemoveFavorite(product.clotheId)}
+            >
+              Eliminar
+              <i className="fa-solid fa-trash-can"></i>
+            </button>
+          </div>
+        ))}
+        
+        {user?.favoriteClothes?.length === 0 && (
+          <div className={styles.empty}>
+            <i className="fa-regular fa-heart-circle-broken"></i>
+            <p>Aún no tienes favoritos guardados</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default FavoritesPage; 
+ 
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\HomePage\HomePage.jsx 
 ----------------------------- 
 import { useNavigate } from 'react-router-dom';
@@ -3243,18 +3502,28 @@ Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\pages\
 ----------------------------- 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { fetchProductById, fetchCategories, fetchColors } from '../../services/api';
+import { useAuth } from '../../context/AuthContext';
+import { fetchProductById, fetchCategories, fetchColors, addFavorite, deleteFavorite } from '../../services/api';
 import styles from './ProductPage.module.css';
 import ProductGallery from '../../components/website/ui/ProductGallery/ProductGallery';
 import ProductDetail from '../../components/website/ui/ProductDetail/ProductDetail';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import Notification from '../../components/Notification/Notification';
 
 const ProductPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [colors, setColors] = useState([]);
+  const [notification, setNotification] = useState({
+    show: false,
+    message: '',
+    button: null
+  });
+  const [isInCart, setIsInCart] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -3266,22 +3535,123 @@ const ProductPage = () => {
         setProduct(fetchedProduct);
         setCategories(fetchedCategories);
         setColors(fetchedColors);
+        checkCartStatus(fetchedProduct.clotheId);
+        checkFavoriteStatus(fetchedProduct.clotheId);
       } catch (error) {
         console.error("Error al obtener el producto:", error);
       }
     };
 
+    const checkCartStatus = (productId) => {
+      const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+      setIsInCart(cartItems.some(item => item.clotheId === productId));
+    };
+
+    const checkFavoriteStatus = (productId) => {
+      if (user?.favoriteClothes) {
+        const isFav = user.favoriteClothes.some(fav => fav.clotheId === productId);
+        setIsFavorite(isFav);
+      }
+    };
+
     loadProduct();
-  }, [id]);
+  }, [id, user]);
+
+  const handleCartAction = () => {
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const actionMessage = isInCart 
+      ? `${product.name} eliminado del carrito` 
+      : `${product.name} añadido al carrito`;
+
+    const newNotification = {
+      show: true,
+      message: actionMessage,
+      button: {
+        label: 'Ver Carrito',
+        action: () => navigate('/cart')
+      }
+    };
+
+    if (isInCart) {
+      cartItems = cartItems.filter(item => item.clotheId !== product.clotheId);
+    } else {
+      cartItems.push({
+        clotheId: product.clotheId,
+        name: product.name,
+        price: product.price,
+        size: product.size,
+        image: product.imageUrls[0]
+      });
+    }
+    
+    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+    setIsInCart(!isInCart);
+    setNotification(newNotification);
+  };
+
+  const handleFavoriteAction = async () => {
+    if (!user) {
+      setNotification({
+        show: true,
+        message: 'Debes iniciar sesión para manejar favoritos',
+        button: {
+          label: 'Iniciar sesión',
+          action: () => navigate('/login')
+        }
+      });
+      return;
+    }
+
+    try {
+      if (isFavorite) {
+        await deleteFavorite(user.id, product.clotheId);
+        setNotification({
+          show: true,
+          message: 'Eliminado de favoritos',
+          button: null
+        });
+      } else {
+        await addFavorite(user.id, product.clotheId);
+        setNotification({
+          show: true,
+          message: 'Añadido a favoritos',
+          button: {
+            label: 'Ver Favoritos',
+            action: () => navigate('/favorites')
+          }
+        });
+      }
+      setIsFavorite(!isFavorite);
+    } catch (error) {
+      console.error("Error en favoritos:", error);
+      setNotification({
+        show: true,
+        message: 'Error al actualizar favoritos',
+        button: null
+      });
+    }
+  };
 
   if (!product) return <LoadingSpinner />;
 
   return (
     <div className={styles.productPage}>
+      {notification.show && (
+        <Notification 
+          message={notification.message}
+          buttonLabel={notification.button?.label}
+          buttonAction={notification.button?.action}
+          onClose={() => setNotification({ show: false, message: '', button: null })}
+        />
+      )}
+      
       <div className={styles.header}>
-        
         <h1 className={styles.productTitle}>{product.name}</h1>
-        <button className={styles.backButton} onClick={() => navigate(-1)}>
+        <button 
+          className={styles.backButton} 
+          onClick={() => navigate(-1)}
+          aria-label="Volver atrás"
+        >
           <i className="fa-solid fa-arrow-left"></i>
         </button>
       </div>
@@ -3309,10 +3679,33 @@ const ProductPage = () => {
           >
             {product.stock > 0 ? `Disponible (${product.stock} unidades)` : 'Agotado'}
           </span>
-          <button className={styles.addToCartButton}>
-            Añadir al carrito
-            <i className="fa-solid fa-cart-plus"></i>
+
+          <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
+          <button 
+            className={`${styles.addToCartButton} ${isInCart ? styles.removeFromCart : ''}`}
+            onClick={handleCartAction}
+          >
+            {isInCart ? (
+              <>
+                Eliminar del carrito
+                <i className="fa-solid fa-trash-can"></i>
+              </>
+            ) : (
+              <>
+                Añadir al carrito
+                <i className="fa-solid fa-cart-plus"></i>
+              </>
+            )}
           </button>
+          <button 
+          className={`${styles.favoriteButton} ${isFavorite ? styles.isFavorite : ''}`}
+          onClick={handleFavoriteAction}
+          aria-label={isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
+        >
+          <i className={`fa-heart ${isFavorite ? 'fa-solid' : 'fa-regular'}`}></i>
+        </button>
+        </div>
+
           <div className={styles.descriptionSection}>
             <h2 className={styles.sectionTitle}>Descripción</h2>
             <p className={styles.productDescription}>{product.description}</p>
@@ -3775,6 +4168,89 @@ export const searchProducts = async (query) => {
   const response = await fetch(`${API_URL}/clothe/search?name=${encodeURIComponent(query)}`);
   if (!response.ok) throw new Error('Error en la búsqueda');
   return await response.json();
+};
+
+// ==================== RESERVAS ====================
+export const createReservation = async (reservationData) => {
+  const response = await fetch(`${API_URL}/reservations`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(reservationData)
+  });
+  if (!response.ok) throw new Error('Error creando reserva');
+  return await response.json();
+};
+
+export const getReservations = async () => {
+  const response = await fetch(`${API_URL}/reservations`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reservas');
+  return await response.json();
+};
+
+export const updateReservation = async (reservationId, reservationData) => {
+  const response = await fetch(`${API_URL}/reservations/${reservationId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(reservationData)
+  });
+  if (!response.ok) throw new Error('Error actualizando reserva');
+  return await response.json();
+};
+
+export const deleteReservation = async (reservationId) => {
+  const response = await fetch(`${API_URL}/reservations/${reservationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando reserva');
+  return true;
+};
+
+export const returnReservation = async (reservationId) => {
+  const response = await fetch(`${API_URL}/reservations/${reservationId}/return`, {
+    method: 'PUT',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error devolviendo reserva');
+  return await response.json();
+};
+
+
+// Eliminar getFavorites y mantener solo estos endpoints
+export const addFavorite = async (userId, clotheId) => {
+  const response = await fetch(`${API_URL}/user/${userId}/favorite/${clotheId}`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error añadiendo favorito');
+  return await response.json();
+};
+
+export const deleteFavorite = async (userId, clotheId) => {
+  const response = await fetch(`${API_URL}/user/${userId}/favorite/${clotheId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando favorito');
+  return true;
 }; 
  
 Contenido de: C:\Dresscode - ProyectoIntegradorC4G5\FrontEndDressCode\src\services\ordersData.js 
