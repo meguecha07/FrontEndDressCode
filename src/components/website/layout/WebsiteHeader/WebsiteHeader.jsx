@@ -32,7 +32,7 @@ const WebsiteHeader = () => {
 
             <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`}>
               <button className={styles.button} onClick={() => navigate("/register")}>Crear cuenta</button> {/* ✅ Redirigir a /register */}
-              <button className={styles.button} onClick={() => navigate("/login")}>Iniciarr sesión</button> {/* ✅ Redirigir a /login */}
+              <button className={styles.button} onClick={() => navigate("/login")}>Iniciar sesión</button> {/* ✅ Redirigir a /login */}
             </nav>
           </>
         ) : (
