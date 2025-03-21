@@ -14,6 +14,8 @@ const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSizes, setSelectedSizes] = useState([]);
+  const [selectedAvailability, setSelectedAvailability] = useState([]);
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
   const [searchResults, setSearchResults] = useState(null);
   const [searchQuery, setSearchQuery] = useState(''); // Current search query
@@ -34,21 +36,42 @@ const HomePage = () => {
     loadCategoriesAndProducts();
   }, []);
 
-  // Apply category filters to products
+  // Aplicar todos los filtros (categorías, tallas, disponibilidad)
   useEffect(() => {
-    // Only filter by category if there's no search active
     if (!searchResults) {
-      setFilteredProducts(
-        selectedCategories.length === 0
-          ? products
-          : products.filter(product => selectedCategories.includes(product.categoryId))
-      );
+      let filtered = [...products];
+      
+      // Filtro por categorías
+      if (selectedCategories.length > 0) {
+        filtered = filtered.filter(product => selectedCategories.includes(product.categoryId));
+      }
+      
+      // Filtro por tallas
+      if (selectedSizes.length > 0) {
+        filtered = filtered.filter(product => selectedSizes.includes(product.size));
+      }
+      
+      // Filtro por disponibilidad
+      if (selectedAvailability.length > 0) {
+        filtered = filtered.filter(product => {
+          if (selectedAvailability.includes('Disponible') && product.active) {
+            return true;
+          }
+          if (selectedAvailability.includes('Sin Disponibilidad') && !product.active) {
+            return true;
+          }
+          return false;
+        });
+      }
+      
+      setFilteredProducts(filtered);
+      setCurrentPage(1); // Reiniciar a la primera página al aplicar filtros
     }
-  }, [selectedCategories, products, searchResults]);
+  }, [selectedCategories, selectedSizes, selectedAvailability, products, searchResults]);
 
   const handleSearch = async (query) => {
     try {
-      // Usamos filteredProducts que ya contiene los productos filtrados por categoría
+      // Usamos filteredProducts que ya contiene los productos filtrados por categoría, talla y disponibilidad
       const results = filteredProducts.filter(product => 
         product.name.toLowerCase().includes(query.toLowerCase()) ||
         product.description.toLowerCase().includes(query.toLowerCase())
@@ -74,6 +97,26 @@ const HomePage = () => {
     });
   };
 
+  const handleSizeSelect = (size) => {
+    setSelectedSizes((prevSelected) => {
+      const isSelected = prevSelected.includes(size);
+      
+      return isSelected
+        ? prevSelected.filter(s => s !== size)
+        : [...prevSelected, size];
+    });
+  };
+
+  const handleAvailabilitySelect = (availability) => {
+    setSelectedAvailability((prevSelected) => {
+      const isSelected = prevSelected.includes(availability);
+      
+      return isSelected
+        ? prevSelected.filter(a => a !== availability)
+        : [...prevSelected, availability];
+    });
+  };
+
   const handleClearSearch = () => {
     setSearchResults(null);
     setSearchQuery('');
@@ -81,6 +124,8 @@ const HomePage = () => {
 
   const clearAllFilters = () => {
     setSelectedCategories([]);
+    setSelectedSizes([]);
+    setSelectedAvailability([]);
     setSearchResults(null);
     setSearchQuery('');
     setFilteredProducts(products);
@@ -95,7 +140,8 @@ const HomePage = () => {
     filteredProducts.slice((currentPage - 1) * postsPerPage, currentPage * postsPerPage);
     
   const resultsCount = searchResults ? searchResults.length : filteredProducts.length;
-  const hasActiveFilters = searchQuery || selectedCategories.length > 0;
+  const hasActiveFilters = searchQuery || selectedCategories.length > 0 || 
+                           selectedSizes.length > 0 || selectedAvailability.length > 0;
 
   return (
     <div className={styles.homePage}>
@@ -125,6 +171,10 @@ const HomePage = () => {
           selectedCategories={selectedCategories}
           onSelectCategory={handleCategorySelect}
           products={products}
+          selectedSizes={selectedSizes}
+          onSelectSize={handleSizeSelect}
+          selectedAvailability={selectedAvailability}
+          onSelectAvailability={handleAvailabilitySelect}
         />
         <main className={styles.mainContent}>
           <div className={styles.resultsHeader}>
@@ -141,17 +191,23 @@ const HomePage = () => {
             )}
           </div>
           <div className={styles.productGrid}>
-            {displayedProducts.map(product => (
-              <ProductCard
-                key={product.clotheId}
-                product={product}
-                categories={categories}
-                colors={colors}
-                onClick={() => navigate(`/product/${product.clotheId}`)}
-              />
-            ))}
+            {displayedProducts.length > 0 ? (
+              displayedProducts.map(product => (
+                <ProductCard
+                  key={product.clotheId}
+                  product={product}
+                  categories={categories}
+                  colors={colors}
+                  onClick={() => navigate(`/product/${product.clotheId}`)}
+                />
+              ))
+            ) : (
+              <div className={styles.noResults}>
+                No se encontraron productos con los filtros seleccionados
+              </div>
+            )}
           </div>
-          {!searchResults && (
+          {!searchResults && filteredProducts.length > 0 && (
             <Pagination
               totalPosts={filteredProducts.length}
               postsPerPage={postsPerPage}

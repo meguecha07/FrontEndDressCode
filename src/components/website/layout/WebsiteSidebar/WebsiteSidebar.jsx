@@ -1,15 +1,41 @@
 import React, { useState, useEffect } from 'react';
 import styles from './WebsiteSidebar.module.css';
 
-const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, selectedCategories, onSelectCategory, products }) => { 
+const WebsiteSidebar = ({ 
+  isMobileSidebarOpen, 
+  toggleMobileSidebar, 
+  categories, 
+  selectedCategories, 
+  onSelectCategory, 
+  products, 
+  selectedSizes,
+  onSelectSize,
+  selectedAvailability,
+  onSelectAvailability
+}) => { 
   const [isCategoryOpen, setIsCategoryOpen] = useState(true);
   const [isSizeOpen, setIsSizeOpen] = useState(false);
   const [isAvailabilityOpen, setIsAvailabilityOpen] = useState(false);
 
+  // Calcular conteo de productos por categoría
   const categoryCounts = categories.map(category => ({
     ...category,
     count: products.filter(product => product.categoryId === category.categoryId).length,
   }));
+
+  // Calcular conteo de productos por talla
+  const sizeCounts = {};
+  const availableSizes = ['S', 'M', 'L', 'XL', 'XXL'];
+  
+  availableSizes.forEach(size => {
+    sizeCounts[size] = products.filter(product => product.size === size).length;
+  });
+
+  // Calcular conteo de productos por disponibilidad
+  const availabilityCounts = {
+    'Disponible': products.filter(product => product.active === true).length,
+    'Sin Disponibilidad': products.filter(product => product.active === false).length
+  };
 
   return (
     <aside className={`${styles.sidebar} ${isMobileSidebarOpen ? styles.open : ''}`}> 
@@ -23,7 +49,12 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
             {categoryCounts.map(category => (
               <li key={category.categoryId} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={category.categoryId} checked={selectedCategories.includes(category.categoryId)} onChange={() => onSelectCategory(category.categoryId)} />
+                  <input 
+                    type="checkbox" 
+                    value={category.categoryId} 
+                    checked={selectedCategories.includes(category.categoryId)} 
+                    onChange={() => onSelectCategory(category.categoryId)} 
+                  />
                   {category.name} <span className={styles.filterCount}>({category.count})</span>
                 </label>
               </li>
@@ -39,11 +70,16 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
         </div>
         {isSizeOpen && (
           <ul className={styles.filterList}>
-            {['XS', 'S', 'M', 'L', 'XL', 'XXL'].map(size => (
+            {availableSizes.map(size => (
               <li key={size} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={size} />
-                  {size} <span className={styles.filterCount}>(10)</span> {/* Ejemplo de conteo */}
+                  <input 
+                    type="checkbox" 
+                    value={size} 
+                    checked={selectedSizes.includes(size)}
+                    onChange={() => onSelectSize(size)}
+                  />
+                  {size} <span className={styles.filterCount}>({sizeCounts[size] || 0})</span>
                 </label>
               </li>
             ))}
@@ -58,11 +94,16 @@ const WebsiteSidebar = ({ isMobileSidebarOpen, toggleMobileSidebar, categories, 
         </div>
         {isAvailabilityOpen && (
           <ul className={styles.filterList}>
-            {['Disponible', 'Sin Disponibilidad'].map(availability => (
+            {Object.keys(availabilityCounts).map(availability => (
               <li key={availability} className={styles.filterItem}>
                 <label>
-                  <input type="checkbox" value={availability} />
-                  {availability} <span className={styles.filterCount}>(5)</span> {/* Ejemplo de conteo */}
+                  <input 
+                    type="checkbox" 
+                    value={availability}
+                    checked={selectedAvailability.includes(availability)}
+                    onChange={() => onSelectAvailability(availability)}
+                  />
+                  {availability} <span className={styles.filterCount}>({availabilityCounts[availability]})</span>
                 </label>
               </li>
             ))}
