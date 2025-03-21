@@ -1,0 +1,12 @@
+.empty {
+  text-align: center;
+  padding: 4rem;
+  color: #666;
+  grid-column: 1 / -1;
+}
+
+.empty i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  color: #ddd;
+}
