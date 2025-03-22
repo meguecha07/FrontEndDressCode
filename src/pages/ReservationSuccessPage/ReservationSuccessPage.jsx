@@ -1,5 +1,4 @@
-import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './ReservationSuccessPage.module.css';
 
 const ReservationSuccessPage = () => {
@@ -7,33 +6,69 @@ const ReservationSuccessPage = () => {
   const navigate = useNavigate();
   const reservation = state?.reservation;
 
+  // Función para formatear fechas de manera segura
+  const formatSafeDate = (dateString) => {
+    try {
+      const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+      return new Date(dateString).toLocaleDateString('es-ES', options);
+    } catch (error) {
+      console.error('Error formateando fecha:', error);
+      return 'Fecha inválida';
+    }
+  };
+
+  // Validación completa de la estructura de la reserva
+  const isValidReservation = reservation && 
+    typeof reservation === 'object' &&
+    Number.isInteger(reservation.reservationId) &&
+    typeof reservation.startDate === 'string' &&
+    typeof reservation.endDate === 'string' &&
+    Array.isArray(reservation.items) &&
+    reservation.items.length > 0;
+
+  // Función para calcular días de diferencia
+  const calculateDays = (start, end) => {
+    try {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      const diffTime = Math.abs(endDate - startDate);
+      return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    } catch {
+      return 0;
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.header}>
-          <div className={styles.checkmark}>✓</div>
+          <div className={styles.checkmark} role="img" aria-label="Reserva exitosa">✓</div>
           <h1>¡Reserva Exitosa!</h1>
           <p className={styles.subtitle}>Tu reserva ha sido confirmada</p>
         </div>
 
-        {reservation && (
+        {isValidReservation ? (
           <div className={styles.details}>
             <div className={styles.detailItem}>
               <span>Número de Reserva:</span>
-              <strong>#{reservation.reservationId}</strong>
+              <strong data-testid="reservation-id">#{reservation.reservationId}</strong>
             </div>
             
             <div className={styles.detailItem}>
               <span>Periodo de alquiler:</span>
               <strong>
-                {new Date(reservation.startDate).toLocaleDateString()} - 
-                {new Date(reservation.endDate).toLocaleDateString()}
+                {formatSafeDate(reservation.startDate)} - {formatSafeDate(reservation.endDate)}
+                <span className={styles.daysCount}>
+                  ({calculateDays(reservation.startDate, reservation.endDate)} días)
+                </span>
               </strong>
             </div>
 
             <div className={styles.detailItem}>
               <span>Total:</span>
-              <strong>${reservation.totalPrice.toFixed(2)}</strong>
+              <strong>
+                ${(reservation.totalPrice?.toFixed(2) || '0.00').replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
+              </strong>
             </div>
 
             <div className={styles.itemsSection}>
@@ -41,16 +76,37 @@ const ReservationSuccessPage = () => {
               <div className={styles.itemsGrid}>
                 {reservation.items.map((item, index) => (
                   <div key={index} className={styles.itemCard}>
-                    <h4>{item.clotheName}</h4>
+                    <h4>{item.clotheName || 'Producto sin nombre'}</h4>
                     <div className={styles.itemDetails}>
-                      <span>Precio/día: ${item.price.toFixed(2)}</span>
-                      <span>Días: {item.rentalDays}</span>
-                      <span>Subtotal: ${item.subtotal.toFixed(2)}</span>
+                      <div>
+                        <span>Precio/día:</span>
+                        <span>${(item.price || 0).toFixed(2)}</span>
+                      </div>
+                      <div>
+                        <span>Días:</span>
+                        <span>{item.rentalDays || calculateDays(reservation.startDate, reservation.endDate)}</span>
+                      </div>
+                      <div>
+                        <span>Subtotal:</span>
+                        <span>${(item.subtotal || 0).toFixed(2)}</span>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+          </div>
+        ) : (
+          <div className={styles.errorMessage}>
+{/*             <p>No se pudieron cargar los detalles de la reserva</p>
+            <p>Por favor verifica tu correo electrónico o contacta al soporte</p>
+            <button 
+              onClick={() => navigate('/contact')}
+              className={styles.contactButton}
+              aria-label="Contactar al soporte"
+            >
+              <i className="fas fa-life-ring"></i> Soporte técnico
+            </button> */}
           </div>
         )}
 
@@ -58,15 +114,20 @@ const ReservationSuccessPage = () => {
           <button 
             onClick={() => navigate('/')}
             className={styles.continueShopping}
+            aria-label="Volver a la tienda"
           >
-            Seguir comprando
+            <i className="fas fa-arrow-left"></i> Seguir comprando
           </button>
-          <button 
-            onClick={() => navigate('/my-reservations')}
-            className={styles.viewReservations}
-          >
-            Ver mis reservas
-          </button>
+          
+          {isValidReservation && (
+            <button 
+              onClick={() => navigate(`/reservations/${reservation.reservationId}`)}
+              className={styles.viewDetails}
+              aria-label="Ver detalles completos"
+            >
+              <i className="fas fa-file-invoice"></i> Ver detalles completos
+            </button>
+          )}
         </div>
       </div>
     </div>
