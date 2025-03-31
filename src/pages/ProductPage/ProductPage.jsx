@@ -8,6 +8,7 @@ import ProductDetail from "../../components/website/ui/ProductDetail/ProductDeta
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Notification from "../../components/Notification/Notification";
 import ShareModal from "../../components/website/ui/ShareModal/ShareModal";
+import PoliciesList from "../../components/website/ui/PoliciesList/PoliciesList";
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -266,6 +267,7 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
+      <PoliciesList></PoliciesList>
     </div>
   );
 };
