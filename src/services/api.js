@@ -1,4 +1,4 @@
-const API_URL = "https://terrific-light-production.up.railway.app";
+const API_URL = "http://localhost:8080";
 
 export const fetchCategories = async () => {
   const response = await fetch(`${API_URL}/category`, {
