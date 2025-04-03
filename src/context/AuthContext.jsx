@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
             email: decoded.sub,
             firstName: decoded.firstName,
             lastName: decoded.lastName,
-            role: decoded.role[0],
+            role: decoded.role[0].replace("ROLE_", ""),
           });
         } catch (error) {
           console.error("Error al decodificar el token:", error);

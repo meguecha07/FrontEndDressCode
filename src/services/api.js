@@ -97,6 +97,11 @@ export const returnReservation = async (reservationId) => {
   return await response.json();
 };
 
+export const getReservedDates = async (clotheId) => {
+  const response = await fetch(`${API_URL}/reservations/reserved-dates/${clotheId}`);
+  if (!response.ok) throw new Error('Error obteniendo fechas reservadas');
+  return await response.json(); // Devuelve las fechas reservadas
+};
 
 // Eliminar getFavorites y mantener solo estos endpoints
 export const addFavorite = async (userId, clotheId) => {

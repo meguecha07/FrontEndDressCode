@@ -50,7 +50,7 @@ const policies = [
 const PoliciesList = () => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Política de Uso</h2>
+      <h2 className={styles.title}>Políticas de Uso</h2>
       <div className={styles.policiesGrid}>
         {policies.map((policy, index) => (
           <div key={index} className={styles.policyCard}>

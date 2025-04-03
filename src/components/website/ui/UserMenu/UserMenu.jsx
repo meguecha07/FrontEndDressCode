@@ -36,7 +36,7 @@ const UserMenu = () => {
               <i className="fa-solid fa-cart-shopping"></i> Carrito
             </li>
 
-            {user.role === "ROLE_ADMIN" && (
+            {user.role === "ADMIN" && (
               <>
                 <li onClick={() => navigate('/administrador/dashboard')}>
                   <i className="fa-solid fa-gear"></i> Panel Admin

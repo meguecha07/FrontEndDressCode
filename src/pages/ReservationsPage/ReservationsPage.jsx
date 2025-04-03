@@ -44,6 +44,19 @@ const ReservationsPage = () => {
     }
   };
 
+  // Función para formatear las fechas en formato 'yyyy-mm-dd'
+  const formatDate = (date) => {
+    const validDate = new Date(date);
+    if (isNaN(validDate)) return 'Fecha no disponible';
+
+    // Formato 'yyyy-mm-dd'
+    const year = validDate.getUTCFullYear();
+    const month = String(validDate.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(validDate.getUTCDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  };
+
   if (loading) return <LoadingSpinner />;
   if (error) return <div className={styles.error}>{error}</div>;
 
@@ -71,17 +84,13 @@ const ReservationsPage = () => {
               <div className={styles.reservationHeader}>
                 <div>
                   <h3>Reserva #{reservation.reservationId}</h3>
-                  <span className={styles.dates}>
-                    {new Date(reservation.startDate).toLocaleDateString()} - 
-                    {new Date(reservation.endDate).toLocaleDateString()}
+                  <span 
+                    className={styles.status}
+                    style={{ backgroundColor: getStatusColor(reservation.status) }}
+                  >
+                    {reservation.status}
                   </span>
                 </div>
-                <span 
-                  className={styles.status}
-                  style={{ backgroundColor: getStatusColor(reservation.status) }}
-                >
-                  {reservation.status}
-                </span>
               </div>
 
               <div className={styles.details}>
@@ -102,6 +111,9 @@ const ReservationsPage = () => {
                     <div className={styles.itemDetails}>
                       <span>${item.price.toFixed(2)}/día</span>
                       <span>{item.rentalDays} días</span>
+                      <div className={styles.itemDates}>
+                        <span>{formatDate(item.startDate)} - {formatDate(item.endDate)}</span>
+                      </div>
                     </div>
                   </div>
                 ))}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchAttributes } from '../../../../services/adminApi';
+import { fetchAttributeById } from '../../../../services/adminApi';
 import styles from './ProductDetail.module.css';
 
 const ProductDetail = ({ size, sku, categoryId, colorId, attributesIds, categories, colors }) => {
@@ -8,8 +8,19 @@ const ProductDetail = ({ size, sku, categoryId, colorId, attributesIds, categori
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedAttributes = await fetchAttributes();
-        setAttributes(fetchedAttributes.filter(attr => attributesIds.includes(attr.attributeId)));
+        // Crear una lista vacía para almacenar los atributos
+        const fetchedAttributes = [];
+
+        // Iterar sobre los IDs de atributos y obtener los atributos
+        for (const id of attributesIds) {
+          const attribute = await fetchAttributeById(id);
+          if (attribute) {
+            fetchedAttributes.push(attribute);
+          }
+        }
+
+        // Actualizar el estado con la lista de atributos
+        setAttributes(fetchedAttributes);
       } catch (error) {
         console.error("Error al obtener atributos:", error);
       }
@@ -53,20 +64,29 @@ const ProductDetail = ({ size, sku, categoryId, colorId, attributesIds, categori
         </div>
       </div>
 
-      {attributes.length > 0 && (
+      {/* Mostrar atributos si existen */}
+      {attributes.length > 0 ? (
         <div className={styles.attributesSection}>
           <h2 className={styles.sectionTitle}>Características</h2>
           <div className={styles.metaGrid}>
             {attributes.map((attr) => (
               <div key={attr.attributeId} className={styles.metaItem}>
                 <label className={styles.metaLabel}>
-                  <img src={attr.iconUrl} alt={attr.name} className={styles.attributeIcon} />
-                  <span className={styles.metaValue}>{attr.name}</span>
+                  {attr.iconUrl && (
+                    <img
+                      src={attr.iconUrl}
+                      alt={attr.name}
+                      className={styles.attributeIcon}
+                    />
+                  )}
+                  <span className={styles.metaValue}>{attr.name}: {attr.value}</span>
                 </label>
               </div>
             ))}
           </div>
         </div>
+      ) : (
+        <p>No hay atributos disponibles para este producto.</p>
       )}
     </div>
   );

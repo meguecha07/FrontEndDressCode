@@ -9,7 +9,6 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
         colorId: '',
         categoryId: '',
         price: '',
-        stock: '',
         size: '',
         active: true,
         images: [],
@@ -44,7 +43,6 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 colorId: initialData.colorId || '',
                 categoryId: initialData.categoryId || '',
                 price: initialData.price || '',
-                stock: initialData.stock || '',
                 size: initialData.size || '',
                 active: initialData.active !== undefined ? initialData.active : true,
                 images: initialData.imageUrls || [], // Aquí corregimos
@@ -109,7 +107,6 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                 size: product.size,
                 name: product.name,
                 price: parseFloat(product.price),
-                stock: parseInt(product.stock, 10),
                 active: product.active,
                 categoryId: parseInt(product.categoryId, 10),
                 colorId: parseInt(product.colorId, 10),
@@ -218,8 +215,7 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                                 </label>
                             </div>
                         </div>
-                         <div className={styles.grid}>
-                            <div className={styles.formGroup}>
+                        <div className={styles.formGroup}>
                                 <label>
                                     <span>Talla</span>
                                     <input
@@ -231,21 +227,6 @@ const ProductFormModal = ({ initialData, onSave, onClose }) => {
                                         required
                                     />
                                 </label>
-                            </div>
-
-                            <div className={styles.formGroup}>
-                                <label>
-                                    <span>Stock</span>
-                                    <input
-                                        type="number"
-                                        name="stock"
-                                        value={product.stock}
-                                        onChange={handleChange}
-                                        className={styles.input}
-                                        required
-                                    />
-                                </label>
-                            </div>
                         </div>
 
                         <div className={styles.formGroup}>

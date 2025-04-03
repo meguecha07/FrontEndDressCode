@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -18,11 +17,20 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       await login(credentials);
-      navigate("/");
+  
+      // Redirige a la URL guardada (si existe), de lo contrario, al inicio
+      const redirectUrl = localStorage.getItem('redirectAfterLogin');
+      if (redirectUrl) {
+        localStorage.removeItem('redirectAfterLogin');
+        navigate(redirectUrl);
+      } else {
+        navigate("/"); // Redirige al inicio si no hay URL guardada
+      }
     } catch (err) {
       setError("Email o contraseña incorrectos");
     }
   };
+  
 
   return (
     <div className={styles.container}>

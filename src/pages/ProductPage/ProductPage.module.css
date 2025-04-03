@@ -268,3 +268,107 @@
 .shareButton i{
   color: #123380 !important;
 }
+
+/* Estilo para el contenedor del calendario */
+.dateSelector {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.dateSelector label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.dateSelector input {
+  padding: 1rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.dateSelector input:focus {
+  border-color: #123380;
+  outline: none;
+}
+
+/* Estilo cuando las fechas no están disponibles */
+.dateSelector p {
+  color: #ff4444;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  font-weight: 600;
+}
+
+/* Estilo para los botones de "Añadir al carrito" y "Eliminar del carrito" */
+.addToCartButton {
+  padding: 1.5rem;
+  font-size: 1.1rem;
+  background: #000;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.addToCartButton:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.addToCartButton:hover:not(:disabled) {
+  background: #333;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.addToCartButton i {
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dateSelector {
+    gap: 0.8rem;
+  }
+
+  .dateSelector input {
+    padding: 0.8rem;
+    font-size: 1rem;
+  }
+}
+
+/* Estilo adicional para el botón "Añadir al carrito" cuando está deshabilitado */
+.addToCartButton:disabled {
+  background: #dcdcdc;
+  color: #aaa;
+}
+
+.addToCartButton:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.buttons{
+  display: flex;
+  gap: 15px;
+}
+
+.reservedDate {
+  text-decoration: line-through; /* Tachado de la fecha */
+  background-color: grey; /* Puedes cambiar el color de fondo si lo prefieres */
+  color: white; /* Cambia el color del texto si lo necesitas */
+}

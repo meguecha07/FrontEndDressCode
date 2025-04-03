@@ -19,6 +19,12 @@ const CartPage = () => {
   });
   const navigate = useNavigate();
 
+  // Función para formatear la fecha en formato YYYY-MM-DD
+  const formatDate = (date) => {
+    const newDate = new Date(date);
+    return newDate.toLocaleDateString('es-ES');  // Cambia 'es-ES' si prefieres otro formato
+  };
+
   // Calcular días de alquiler
   const getDaysBetween = (startDate, endDate) => {
     if (!startDate || !endDate) return 0;
@@ -30,19 +36,35 @@ const CartPage = () => {
     return Math.floor(diff / (1000 * 60 * 60 * 24)) + 1;
   };
 
-  const days = getDaysBetween(dates.startDate, dates.endDate);
-  const dailySubtotal = cartItems.reduce((sum, item) => sum + item.price, 0);
-  const total = dailySubtotal * days;
+  // Calcular subtotal y total
+  const getCartSubtotals = () => {
+    return cartItems.map(item => {
+      const days = getDaysBetween(item.startDate, item.endDate);
+      return item.price * days;
+    });
+  };
+
+  const dailySubtotals = getCartSubtotals();
+  const total = dailySubtotals.reduce((sum, subtotal) => sum + subtotal, 0);
 
   useEffect(() => {
     const loadCartItems = () => {
       const items = JSON.parse(localStorage.getItem('cartItems')) || [];
       setCartItems(items);
+
+      // Si hay productos en el carrito, establecer las fechas de inicio y fin
+      if (items.length > 0) {
+        const firstItem = items[0];
+        setDates({
+          startDate: firstItem.startDate,
+          endDate: firstItem.endDate
+        });
+      }
     };
-    
+
     loadCartItems();
     window.addEventListener('storage', loadCartItems);
-    
+
     return () => {
       window.removeEventListener('storage', loadCartItems);
     };
@@ -88,19 +110,33 @@ const CartPage = () => {
     try {
       const reservationData = {
         userId: user.id,
-        startDate: dates.startDate,
-        endDate: dates.endDate,
-        status: "PENDIENTE",
-        isPaid: false,
-        items: cartItems.map(item => ({
-          clotheId: item.clotheId,
-          price: item.price,
-          rentalDays: days,
-          subtotal: item.price * days
-        }))
+        date: new Date().toISOString().split('T')[0],  // Fecha actual de la reserva
+        items: cartItems.map(item => {
+          const days = getDaysBetween(item.startDate, item.endDate);
+          // Asegúrate de que las fechas no sean null
+          if (!item.startDate || !item.endDate) {
+            throw new Error('Las fechas de inicio y fin deben ser válidas');
+          }
+          return {
+            clotheId: item.clotheId,
+            startDate: item.startDate,  // Verifica que esta fecha no sea null
+            endDate: item.endDate,      // Verifica que esta fecha no sea null
+            price: item.price,
+            rentalDays: days,
+            subtotal: item.price * days
+          };
+        }),
+        totalPrice: total,
+        surcharge: 0,  // Si tienes cargos adicionales, los puedes calcular aquí
+        refund: 0,     // Si hay reembolsos, los puedes calcular aquí
+        status: "PENDIENTE",  // El estado de la reserva
+        isPaid: false
       };
 
+      // Llamar a la API para crear la reserva
       await createReservation(reservationData);
+      
+      // Limpiar el carrito y redirigir al usuario
       localStorage.removeItem('cartItems');
       navigate('/reservation-success', { state: { reservation: reservationData } });
     } catch (error) {
@@ -113,16 +149,10 @@ const CartPage = () => {
     }
   };
 
-  const handleDateChange = (e) => {
-    const { name, value } = e.target;
-    setDates(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    
-    if (name === 'startDate' && dates.endDate < value) {
-      setDates(prev => ({ ...prev, endDate: value }));
-    }
+  // Obtener la fecha actual (hoy)
+  const getCurrentDate = () => {
+    const today = new Date();
+    return today.toISOString().split('T')[0]; // Formato: YYYY-MM-DD
   };
 
   return (
@@ -148,80 +178,59 @@ const CartPage = () => {
       ) : (
         <>
           <div className={styles.itemsContainer}>
-            {cartItems.map((item, index) => (
-              <div key={index} className={styles.itemCard}>
-                <img 
-                  src={item.image} 
-                  alt={item.name} 
-                  className={styles.itemImage}
-                  onClick={() => navigate(`/product/${item.clotheId}`)}
-                />
-                <div className={styles.itemDetails}>
-                  <h3>{item.name}</h3>
-                  <div className={styles.itemInfo}>
-                    <p><i className="fa-solid fa-ruler"></i> Talla: {item.size}</p>
-                    <p><i className="fa-solid fa-tag"></i> Precio diario: ${item.price.toFixed(2)}</p>
+            {cartItems.map((item, index) => {
+              const days = getDaysBetween(item.startDate, item.endDate);
+              const subtotal = item.price * days;
+              return (
+                <div key={index} className={styles.itemCard}>
+                  <img 
+                    src={item.image} 
+                    alt={item.name} 
+                    className={styles.itemImage}
+                  />
+                  <div className={styles.itemDetails}>
+                    <h3>{item.name}</h3>
+                    <p><strong>Descripción:</strong> {item.description}</p>
+                    <div className={styles.itemInfo}>
+                      <p><i className="fa-solid fa-ruler"></i> Talla: {item.size}</p>
+                      <p><i className="fa-solid fa-tag"></i> Precio diario: ${item.price.toFixed(2)}</p>
+                      <p><strong>Fecha de inicio:</strong> {formatDate(item.startDate)}</p> 
+                      <p><strong>Fecha de fin:</strong> {formatDate(item.endDate)}</p> 
+                      <p><strong>Subtotal:</strong> ${subtotal.toFixed(2)}</p>
+                    </div>
+                    <button 
+                      onClick={() => handleRemoveItem(index)}
+                      className={styles.removeButton}
+                      aria-label="Eliminar del carrito"
+                    >
+                      <i className="fa-solid fa-trash-can"></i> Eliminar
+                    </button>
                   </div>
-                  <button 
-                    onClick={() => handleRemoveItem(index)}
-                    className={styles.removeButton}
-                    aria-label="Eliminar del carrito"
-                  >
-                    <i className="fa-solid fa-trash-can"></i> Eliminar
-                  </button>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className={styles.summary}>
-            <div className={styles.datePicker}>
-              <div className={styles.dateGroup}>
-                <label>
-                  <i className="fa-solid fa-calendar-start"></i> Fecha de inicio:
-                </label>
-                <input
-                  type="date"
-                  name="startDate"
-                  value={dates.startDate}
-                  onChange={handleDateChange}
-                  min={new Date().toISOString().split('T')[0]}
-                  required
-                />
-              </div>
-              
-              <div className={styles.dateGroup}>
-                <label>
-                  <i className="fa-solid fa-calendar-end"></i> Fecha de fin:
-                </label>
-                <input
-                  type="date"
-                  name="endDate"
-                  value={dates.endDate}
-                  onChange={handleDateChange}
-                  min={dates.startDate || new Date().toISOString().split('T')[0]}
-                  required
-                />
-              </div>
+            <div className={styles.userInfo}>
+              <h3>Detalles del usuario</h3>
+              <p><strong>Nombre:</strong> {user.firstName} {user.lastName}</p>
+              <p><strong>Email:</strong> {user.email}</p>
+            </div>
+
+            <div className={styles.dateInfo}>
+              <p><strong>Fecha de reserva:</strong> {getCurrentDate()}</p> 
             </div>
 
             <div className={styles.totalContainer}>
-  <div className={styles.totalRow}>
-    <span>Subtotal diario:</span>
-    <span>${dailySubtotal.toFixed(2)}</span>
-  </div>
-  <div className={styles.totalRow}>
-    <span>Días de alquiler:</span>
-    <span>{days} día{days !== 1 && 's'}</span>
-  </div>
-  <div className={styles.totalRow}>
-    <div className={styles.totalLabel}>
-      <i className="fa-solid fa-receipt"></i>
-      <span>Total:</span>
-    </div>
-    <h2 className={styles.totalPrice}>${total.toFixed(2)}</h2>
-  </div>
-</div>
+              <div className={styles.totalRow}>
+                <div className={styles.totalLabel}>
+                  <i className="fa-solid fa-receipt"></i>
+                  <span>Total:</span>
+                </div>
+                <h2 className={styles.totalPrice}>${total.toFixed(2)}</h2>
+              </div>
+            </div>
 
             <button 
               onClick={handleFinalizeReservation}

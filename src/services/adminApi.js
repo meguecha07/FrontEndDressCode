@@ -294,11 +294,7 @@ export const fetchAttributes = async () => {
 };
 
 export const fetchAttributeById = async (attributeId) => {
-  const response = await fetch(`${API_URL}/attribute/${attributeId}`, {
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('token')}`
-    }
-  });
+  const response = await fetch(`${API_URL}/attribute/${attributeId}`);
   if (!response.ok) throw new Error('Error obteniendo color');
   return await response.json();
 };
