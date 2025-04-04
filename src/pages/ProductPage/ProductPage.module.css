@@ -132,6 +132,35 @@
   font-size: 1.2rem;
 }
 
+.starRating {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.ratingContainer{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reviewsSection {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.reviewSubSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 50%;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .detailsGrid {

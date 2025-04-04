@@ -62,6 +62,16 @@ export const getReservations = async () => {
   return await response.json();
 };
 
+export const getReservationsByUser = async (userId) => {
+  const response = await fetch(`${API_URL}/reservations/user/${userId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reservas del usuario');
+  return await response.json();
+};
+
 export const updateReservation = async (reservationId, reservationData) => {
   const response = await fetch(`${API_URL}/reservations/${reservationId}`, {
     method: 'PUT',
@@ -97,8 +107,6 @@ export const returnReservation = async (reservationId) => {
   return await response.json();
 };
 
-
-// Eliminar getFavorites y mantener solo estos endpoints
 export const addFavorite = async (userId, clotheId) => {
   const response = await fetch(`${API_URL}/user/${userId}/favorite/${clotheId}`, {
     method: 'POST',
@@ -128,5 +136,93 @@ export const getUser = async (userId) => {
     }
   });
   if (!response.ok) throw new Error('Error obteniendo usuario');
+  return await response.json();
+};
+
+// ==================== REVIEW  ====================
+export const createReview = async (reviewData) => {
+  const response = await fetch(`${API_URL}/review`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(reviewData)
+  });
+  if (!response.ok) throw new Error('Error creando review');
+  return await response.json();
+};
+
+export const getAllReviews = async () => {
+  const response = await fetch(`${API_URL}/review`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reviews');
+  return await response.json();
+};
+
+export const getReviewById = async (reviewId) => {
+  const response = await fetch(`${API_URL}/review/${reviewId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo review');
+  return await response.json();
+};
+
+export const updateReview = async (reviewId, reviewData) => {
+  const response = await fetch(`${API_URL}/review/${reviewId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(reviewData)
+  });
+  if (!response.ok) throw new Error('Error actualizando review');
+  return await response.json();
+};
+
+export const deleteReview = async (reviewId) => {
+  const response = await fetch(`${API_URL}/review/${reviewId}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error eliminando review');
+  return true;
+};
+
+export const getReviewsByClotheId = async (clotheId) => {
+  const response = await fetch(`${API_URL}/review/clothe/${clotheId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reviews de la prenda');
+  return await response.json();
+};
+
+export const getReviewsByUserId = async (userId) => {
+  const response = await fetch(`${API_URL}/review/user/${userId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reviews del usuario');
+  return await response.json();
+};
+
+export const getClotheRating = async (clotheId) => {
+  const response = await fetch(`${API_URL}/review/clothe/${clotheId}/rating`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo puntuación de la prenda');
   return await response.json();
 };
