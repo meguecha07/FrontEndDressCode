@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "https://triumphant-appreciation-production.up.railway.app";
 
 export const fetchCategories = async () => {
   const response = await fetch(`${API_URL}/category`, {});
@@ -114,10 +114,7 @@ export const returnReservation = async (reservationId) => {
   return await response.json();
 };
 
-<<<<<<< HEAD
-=======
-// Eliminar getFavorites y mantener solo estos endpoints
->>>>>>> dev
+// ==================== FAVORITOS ====================
 export const addFavorite = async (userId, clotheId) => {
   const response = await fetch(
     `${API_URL}/user/${userId}/favorite/${clotheId}`,
@@ -155,7 +152,6 @@ export const getUser = async (userId) => {
   if (!response.ok) throw new Error("Error obteniendo usuario");
   return await response.json();
 };
-<<<<<<< HEAD
 
 // ==================== REVIEW  ====================
 export const createReview = async (reviewData) => {
@@ -244,5 +240,3 @@ export const getClotheRating = async (clotheId) => {
   if (!response.ok) throw new Error('Error obteniendo puntuación de la prenda');
   return await response.json();
 };
-=======
->>>>>>> dev

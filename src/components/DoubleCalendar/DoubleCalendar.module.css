@@ -1,0 +1,186 @@
+/* Contenedor principal */
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  z-index: 100;
+}
+
+/* Botón principal */
+.triggerButton {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  color: #4b5563;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.triggerButton:hover {
+  border-color: #6366F1;
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.1);
+}
+
+/* Icono calendario */
+.triggerButton .fa-calendar-days {
+  color: #6366F1;
+  font-size: 1.1rem;
+  width: 20px;
+}
+
+/* Texto de fechas */
+.datesText {
+  flex-grow: 1;
+  text-align: left;
+  font-weight: 500;
+}
+
+/* Botón de limpiar */
+.clearButton {
+  background: none;
+  border: none;
+  padding: 0.2rem;
+  color: #9ca3af;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.clearButton:hover {
+  color: #ef4444;
+}
+
+.clearButton .fa-xmark {
+  font-size: 0.9rem;
+}
+
+/* Calendario desplegable */
+.calendarDropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  left: 0;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  animation: slideDown 0.3s ease;
+  z-index: 200;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Estilos del DatePicker */
+.doubleCalendar :global(.react-datepicker) {
+  font-family: inherit;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: none;
+  display: flex !important;
+  flex-direction: row !important;
+  width: auto !important;
+}
+
+.doubleCalendar :global(.react-datepicker__month-container) {
+  float: none !important;
+  width: auto !important;
+}
+
+.doubleCalendar :global(.react-datepicker__header) {
+  background: #f3f4f6;
+  border-bottom: 1px solid #e5e7eb;
+  border-radius: 8px 8px 0 0;
+}
+
+.doubleCalendar :global(.react-datepicker__day--selected) {
+  background-color: #6366F1 !important;
+  border-radius: 50%;
+  color: white !important;
+}
+
+.doubleCalendar :global(.react-datepicker__day--in-selecting-range) {
+  background-color: #e0e7ff !important;
+  color: #4b5563 !important;
+}
+
+.doubleCalendar :global(.react-datepicker__day--in-range) {
+  background-color: #e0e7ff !important;
+  color: #4b5563 !important;
+}
+
+.doubleCalendar :global(.react-datepicker__day--range-start),
+.doubleCalendar :global(.react-datepicker__day--range-end) {
+  background-color: #6366F1 !important;
+  color: white !important;
+  border-radius: 50% !important;
+}
+
+.doubleCalendar :global(.react-datepicker__day--keyboard-selected) {
+  background-color: #4f46e5 !important;
+}
+
+.doubleCalendar :global(.react-datepicker__day:hover) {
+  border-radius: 50%;
+}
+
+/* Días deshabilitados */
+.disabledDay {
+  background-color: #f3f4f6 !important;
+  color: #d1d5db !important;
+  cursor: not-allowed;
+  text-decoration: line-through;
+  position: relative;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .calendarDropdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    max-width: 600px;
+    z-index: 1000;
+  }
+ 
+  .doubleCalendar :global(.react-datepicker) {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .doubleCalendar :global(.react-datepicker) {
+    flex-direction: column !important;
+  }
+  
+  .doubleCalendar :global(.react-datepicker__month-container) {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .triggerButton {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+ 
+  .triggerButton .fa-calendar-days {
+    font-size: 1rem;
+  }
+}

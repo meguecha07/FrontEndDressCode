@@ -75,12 +75,14 @@ h1 {
 .itemsSection h3 {
   color: #2d3436;
   margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #eee;
 }
 
 .itemsGrid {
   display: grid;
-  gap: 1rem;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 }
 
 .itemCard {
@@ -88,21 +90,81 @@ h1 {
   padding: 1.5rem;
   border-radius: 8px;
   border: 1px solid #eee;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.itemCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .itemCard h4 {
   margin: 0 0 1rem 0;
   color: #2d3436;
+  font-size: 1.1rem;
 }
 
 .itemDetails {
-  display: grid;
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
-.itemDetails span {
+.itemDetailRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.itemDetailRow span:first-child {
   color: #636e72;
   font-size: 0.9rem;
+}
+
+.itemDetailRow span:last-child {
+  color: #2d3436;
+  font-weight: 500;
+}
+
+.daysCount {
+  color: #636e72;
+  font-size: 0.8rem;
+  margin-left: 0.5rem;
+  font-weight: normal;
+}
+
+.totalSection {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.totalRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.1rem;
+}
+
+.totalRow span {
+  color: #636e72;
+}
+
+.totalRow strong {
+  color: #2d3436;
+  font-size: 1.3rem;
+}
+
+.errorMessage {
+  text-align: center;
+  padding: 2rem;
+  color: #d63031;
+  background: #ffebee;
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.errorMessage p {
+  margin: 0.5rem 0;
 }
 
 .actions {
@@ -120,11 +182,17 @@ h1 {
   font-weight: 500;
   transition: all 0.3s ease;
   flex: 1;
+  min-width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
 }
 
 .continueShopping {
   background: #f8f9fa;
   color: #2d3436;
+  border: 1px solid #ddd;
 }
 
 .continueShopping:hover {
@@ -142,10 +210,18 @@ h1 {
 
 @media (max-width: 768px) {
   .card {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
   }
   
   .actions {
     flex-direction: column;
+  }
+
+  .continueShopping, .viewReservations {
+    width: 100%;
+  }
+
+  .itemsGrid {
+    grid-template-columns: 1fr;
   }
 }

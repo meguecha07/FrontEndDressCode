@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useAuth } from "../../context/AuthContext";
 import {
   fetchProductById,
@@ -11,6 +11,7 @@ import {
   getReviewsByClotheId,
   getClotheRating,
   getReservationsByUser,
+  getReservations
 } from "../../services/api";
 import styles from "./ProductPage.module.css";
 import ProductGallery from "../../components/website/ui/ProductGallery/ProductGallery";
@@ -23,6 +24,7 @@ import StarRating from "../../components/website/ui/StarRating/StarRating";
 import BarChart from "../../components/website/ui/BarChart/BarChart";
 import UserReview from "../../components/website/ui/UserReview/UserReview";
 import ModalAddReview from "../../components/website/ui/ModalAddReview/ModalAddReview";
+import DoubleCalendar from "../../components/DoubleCalendar/DoubleCalendar";
 
 const ProductPage = () => {
   const navigate = useNavigate();
@@ -45,6 +47,22 @@ const ProductPage = () => {
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [showAddReviewModal, setShowAddReviewModal] = useState(false);
   const [hasReservation, setHasReservation] = useState(false);
+  const [reservations, setReservations] = useState([]);
+  const [selectedDates, setSelectedDates] = useState({
+    start: null,
+    end: null
+  });
+  const [conflictReservation, setConflictReservation] = useState(null);
+
+  const activeReservations = useMemo(() => {
+    if (!product) return [];
+    return reservations.flatMap(reservation => 
+      reservation.items.filter(item => 
+        item.clotheId === product.clotheId && 
+        item.itemReservationStatus !== "DEVUELTO"
+      )
+    );
+  }, [reservations, product]);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -55,7 +73,6 @@ const ProductPage = () => {
         const fetchedReviews = await getReviewsByClotheId(id);
         const fetchedRating = await getClotheRating(id);
 
-        // Procesar las reviews para contar cuántas hay por cada estrella
         const counts = [0, 0, 0, 0, 0];
         fetchedReviews.forEach((review) => {
           counts[review.rating - 1] += 1;
@@ -64,10 +81,20 @@ const ProductPage = () => {
         setProduct(fetchedProduct);
         setCategories(fetchedCategories);
         setColors(fetchedColors);
-        checkCartStatus(fetchedProduct.clotheId);
         setReviews(fetchedReviews);
         setRating(fetchedRating || 0);
         setReviewCounts(counts);
+
+        // Cargar fechas del carrito si existe
+        const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+        const existingItem = cartItems.find(item => item.clotheId === fetchedProduct.clotheId);
+        if (existingItem) {
+          setSelectedDates({
+            start: new Date(existingItem.startDate + 'T00:00:00'),
+            end: new Date(existingItem.endDate + 'T00:00:00')
+          });
+          setIsInCart(true);
+        }
       } catch (error) {
         console.error("Error al obtener los datos del producto:", error);
       }
@@ -78,72 +105,111 @@ const ProductPage = () => {
         try {
           const data = await getUser(user.id);
           setUserData(data);
-          checkFavoriteStatus(data);
+          if (product) {
+            const isFav = data.favoriteClothes?.some(
+              (fav) => fav.clotheId === product.clotheId
+            );
+            setIsFavorite(isFav);
+          }
         } catch (error) {
           console.error("Error cargando datos de usuario:", error);
         }
       }
     };
 
-    const checkCartStatus = (productId) => {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      setIsInCart(cartItems.some((item) => item.clotheId === productId));
-    };
-
-    const checkFavoriteStatus = (userData) => {
-      if (userData?.favoriteClothes && product) {
-        const isFav = userData.favoriteClothes.some(
-          (fav) => fav.clotheId === product.clotheId
-        );
-        setIsFavorite(isFav);
+    const loadReservationsData = async () => {
+      try {
+        const reservationsData = await getReservations();
+        setReservations(reservationsData);
+      } catch (error) {
+        console.error("Error obteniendo reservaciones:", error);
       }
     };
 
     loadProduct();
     loadUserData();
+    loadReservationsData();
   }, [id, user]);
 
   useEffect(() => {
-    if (userData && product) {
-      const isFav = userData.favoriteClothes?.some(
-        (fav) => fav.clotheId === product.clotheId
-      );
-      setIsFavorite(isFav);
+    if (activeReservations.length > 0) {
+      setConflictReservation(activeReservations[0]);
+    } else {
+      setConflictReservation(null);
     }
-  }, [userData, product]);
+  }, [activeReservations]);
+
+  const handleDatesChange = (start, end) => {
+    if (start && end) {
+      setSelectedDates({ start, end });
+    } else if (start) {
+      setSelectedDates(prev => ({ 
+        start: start,
+        end: prev.end 
+      }));
+    }
+  };
 
   const handleCartAction = () => {
+    if (conflictReservation) {
+      setNotification({
+        show: true,
+        message: "Este ítem no está disponible para reserva en este momento",
+        button: null
+      });
+      return;
+    }
+
     let cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const actionMessage = isInCart
-      ? `${product.name} eliminado del carrito`
-      : `${product.name} añadido al carrito`;
+    const existingIndex = cartItems.findIndex(item => item.clotheId === product.clotheId);
 
-    const newNotification = {
-      show: true,
-      message: actionMessage,
-      button: {
-        label: "Ver Carrito",
-        action: () => navigate("/cart"),
-      },
-    };
-
-    if (isInCart) {
-      cartItems = cartItems.filter(
-        (item) => item.clotheId !== product.clotheId
-      );
+    if (existingIndex !== -1) {
+      // Eliminar del carrito
+      cartItems = cartItems.filter((_, i) => i !== existingIndex);
+      setIsInCart(false);
+      setSelectedDates({ start: null, end: null });
+      setNotification({
+        show: true,
+        message: "Producto eliminado del carrito",
+        button: null
+      });
     } else {
+      // Añadir al carrito
+      if (!selectedDates.start || !selectedDates.end) {
+        setNotification({
+          show: true,
+          message: "Debes seleccionar las fechas de reserva",
+          button: null,
+        });
+        return;
+      }
+      
       cartItems.push({
         clotheId: product.clotheId,
         name: product.name,
         price: product.price,
         size: product.size,
         image: product.imageUrls[0],
+        startDate: selectedDates.start.toISOString().split('T')[0],
+        endDate: selectedDates.end.toISOString().split('T')[0]
+      });
+      setIsInCart(true);
+      setNotification({
+        show: true,
+        message: `${product.name} añadido al carrito`,
+        button: { label: "Ver Carrito", action: () => navigate("/cart") }
       });
     }
 
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    setIsInCart(!isInCart);
-    setNotification(newNotification);
+  };
+
+  const handleNotifyMe = () => {
+    setNotification({
+      show: true,
+      message: "Te notificaremos cuando el producto esté disponible",
+      button: null
+    });
   };
 
   const handleFavoriteAction = async () => {
@@ -179,7 +245,6 @@ const ProductPage = () => {
         });
       }
 
-      // Actualizar datos de usuario después de la acción
       const updatedUser = await getUser(user.id);
       setUserData(updatedUser);
     } catch (error) {
@@ -194,7 +259,7 @@ const ProductPage = () => {
 
   useEffect(() => {
     const checkUserReservations = async () => {
-      if (user) {
+      if (user && product) {
         try {
           const reservations = await getReservationsByUser(user.id);
           const reservationExists = reservations.some((reservation) =>
@@ -207,12 +272,19 @@ const ProductPage = () => {
       }
     };
 
-    if (product) {
-      checkUserReservations();
-    }
+    if (product) checkUserReservations();
   }, [user, product]);
 
   if (!product) return <LoadingSpinner />;
+
+  const hasDateChanged = () => {
+    if (!isInCart || !selectedDates.start || !selectedDates.end) return false;
+    const cartItem = JSON.parse(localStorage.getItem("cartItems"))
+      ?.find(item => item.clotheId === product.clotheId);
+      
+    return cartItem?.startDate !== selectedDates.start.toISOString().split('T')[0] ||
+           cartItem?.endDate !== selectedDates.end.toISOString().split('T')[0];
+  };
 
   return (
     <div className={styles.productPage}>
@@ -221,9 +293,7 @@ const ProductPage = () => {
           message={notification.message}
           buttonLabel={notification.button?.label}
           buttonAction={notification.button?.action}
-          onClose={() =>
-            setNotification({ show: false, message: "", button: null })
-          }
+          onClose={() => setNotification({ show: false, message: "", button: null })}
         />
       )}
 
@@ -238,8 +308,7 @@ const ProductPage = () => {
               } else {
                 setNotification({
                   show: true,
-                  message:
-                    "Debes tener una reserva para calificar este producto",
+                  message: "Debes tener una reserva para calificar este producto",
                   button: null,
                 });
               }
@@ -284,37 +353,69 @@ const ProductPage = () => {
               : "Agotado"}
           </span>
 
+          <DoubleCalendar
+            reservations={reservations}
+            productId={product.clotheId}
+            onDatesChange={handleDatesChange}
+            initialStartDate={selectedDates.start}
+            initialEndDate={selectedDates.end}
+          />
+
+          {conflictReservation && (
+            <div className={styles.conflictMessage}>
+              <p>
+                Este ítem ya se encuentra reservado del {" "}
+                {new Date(conflictReservation.startDate + 'T00:00:00').toLocaleDateString()} al {" "}
+                {conflictReservation.returnDate 
+                  ? new Date(conflictReservation.returnDate + 'T00:00:00').toLocaleDateString()
+                  : new Date(conflictReservation.endDate + 'T00:00:00').toLocaleDateString()}
+              </p>
+              <button 
+                className={styles.notifyButton}
+                onClick={handleNotifyMe}
+              >
+                Notificarme cuando esté disponible
+              </button>
+            </div>
+          )}
+
           <div style={{ display: "flex", gap: "15px", alignItems: "center" }}>
-            <button
-              className={`${styles.addToCartButton} ${
-                isInCart ? styles.removeFromCart : ""
-              }`}
-              onClick={handleCartAction}
-            >
-              {isInCart ? (
-                <>
-                  Eliminar del carrito
-                  <i className="fa-solid fa-trash-can"></i>
-                </>
-              ) : (
-                <>
-                  Añadir al carrito
-                  <i className="fa-solid fa-cart-plus"></i>
-                </>
-              )}
-            </button>
+            {!conflictReservation && (
+              <button
+                className={`${styles.addToCartButton} ${
+                  isInCart ? styles.removeFromCart : ""
+                }`}
+                onClick={handleCartAction}
+                disabled={!isInCart && (!selectedDates.start || !selectedDates.end)}
+              >
+                {isInCart ? (
+                  hasDateChanged() ? (
+                    <>
+                      Actualizar fechas
+                      <i className="fa-solid fa-arrows-rotate"></i>
+                    </>
+                  ) : (
+                    <>
+                      Eliminar del carrito
+                      <i className="fa-solid fa-trash-can"></i>
+                    </>
+                  )
+                ) : (
+                  <>
+                    Añadir al carrito
+                    <i className="fa-solid fa-cart-plus"></i>
+                  </>
+                )}
+              </button>
+            )}
             <button
               className={`${styles.favoriteButton} ${
                 isFavorite ? styles.isFavorite : ""
               }`}
               onClick={handleFavoriteAction}
-              aria-label={
-                isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"
-              }
+              aria-label={isFavorite ? "Eliminar de favoritos" : "Añadir a favoritos"}
             >
-              <i
-                className={`fa-heart ${isFavorite ? "fa-solid" : "fa-regular"}`}
-              ></i>
+              <i className={`fa-heart ${isFavorite ? "fa-solid" : "fa-regular"}`}></i>
             </button>
 
             <button
@@ -356,7 +457,7 @@ const ProductPage = () => {
             {reviews.map((review) => (
               <UserReview
                 key={review.reviewId}
-                userName={`${user.firstName} ${user.lastName}`}
+                userName={`${user?.firstName || 'Anónimo'} ${user?.lastName || ''}`}
                 date="Fecha no disponible"
                 review={review.comment}
                 rating={review.rating}
@@ -371,11 +472,9 @@ const ProductPage = () => {
       {showAddReviewModal && (
         <ModalAddReview
           productId={product.clotheId}
-          onClose={() => {
-            setShowAddReviewModal(false);
-          }}
+          onClose={() => setShowAddReviewModal(false)}
           onReviewSubmitted={(newReview) => {
-            setReviews((prevReviews) => [...prevReviews, newReview]);
+            setReviews(prev => [...prev, newReview]);
             setShowAddReviewModal(false);
           }}
         />

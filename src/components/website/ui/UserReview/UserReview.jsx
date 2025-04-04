@@ -11,7 +11,6 @@ function UserReview({ userName, date, rating, review }) {
         <div className={styles.Rating}>
           <StarRating rating={rating} setRating={null} readOnly />
         </div>
-        {/*<p>Reseñado el {date}</p> */}
         <p>{review}</p>
       </div>
     );

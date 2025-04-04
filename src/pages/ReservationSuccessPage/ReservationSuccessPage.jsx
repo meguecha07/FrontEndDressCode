@@ -17,14 +17,16 @@ const ReservationSuccessPage = () => {
     }
   };
 
-  // Validación completa de la estructura de la reserva
+  // Validación de la estructura de la reserva actualizada
   const isValidReservation = reservation && 
     typeof reservation === 'object' &&
-    Number.isInteger(reservation.reservationId) &&
-    typeof reservation.startDate === 'string' &&
-    typeof reservation.endDate === 'string' &&
     Array.isArray(reservation.items) &&
-    reservation.items.length > 0;
+    reservation.items.length > 0 &&
+    reservation.items.every(item => 
+      typeof item.clotheId === 'number' &&
+      typeof item.startDate === 'string' &&
+      typeof item.endDate === 'string'
+    );
 
   // Función para calcular días de diferencia
   const calculateDays = (start, end) => {
@@ -36,6 +38,15 @@ const ReservationSuccessPage = () => {
     } catch {
       return 0;
     }
+  };
+
+  // Calcular el precio total basado en los items
+  const calculateTotal = () => {
+    if (!isValidReservation) return 0;
+    return reservation.items.reduce((sum, item) => {
+      const days = calculateDays(item.startDate, item.endDate);
+      return sum + (item.price * days);
+    }, 0);
   };
 
   return (
@@ -50,25 +61,8 @@ const ReservationSuccessPage = () => {
         {isValidReservation ? (
           <div className={styles.details}>
             <div className={styles.detailItem}>
-              <span>Número de Reserva:</span>
-              <strong data-testid="reservation-id">#{reservation.reservationId}</strong>
-            </div>
-            
-            <div className={styles.detailItem}>
-              <span>Periodo de alquiler:</span>
-              <strong>
-                {formatSafeDate(reservation.startDate)} - {formatSafeDate(reservation.endDate)}
-                <span className={styles.daysCount}>
-                  ({calculateDays(reservation.startDate, reservation.endDate)} días)
-                </span>
-              </strong>
-            </div>
-
-            <div className={styles.detailItem}>
-              <span>Total:</span>
-              <strong>
-                ${(reservation.totalPrice?.toFixed(2) || '0.00').replace(/\B(?=(\d{3})+(?!\d))/g, ',')}
-              </strong>
+              <span>Fecha de creación:</span>
+              <strong>{new Date().toLocaleDateString('es-ES')}</strong>
             </div>
 
             <div className={styles.itemsSection}>
@@ -76,37 +70,44 @@ const ReservationSuccessPage = () => {
               <div className={styles.itemsGrid}>
                 {reservation.items.map((item, index) => (
                   <div key={index} className={styles.itemCard}>
-                    <h4>{item.clotheName || 'Producto sin nombre'}</h4>
+                    <h4>{item.name || `Producto ${item.clotheId}`}</h4>
                     <div className={styles.itemDetails}>
-                      <div>
+                      <div className={styles.itemDetailRow}>
+                        <span>Fechas:</span>
+                        <span>
+                          {formatSafeDate(item.startDate)} - {formatSafeDate(item.endDate)}
+                          <span className={styles.daysCount}>
+                            ({calculateDays(item.startDate, item.endDate)} días)
+                          </span>
+                        </span>
+                      </div>
+                      <div className={styles.itemDetailRow}>
                         <span>Precio/día:</span>
                         <span>${(item.price || 0).toFixed(2)}</span>
                       </div>
-                      <div>
-                        <span>Días:</span>
-                        <span>{item.rentalDays || calculateDays(reservation.startDate, reservation.endDate)}</span>
-                      </div>
-                      <div>
+                      <div className={styles.itemDetailRow}>
                         <span>Subtotal:</span>
-                        <span>${(item.subtotal || 0).toFixed(2)}</span>
+                        <span>
+                          ${(item.price * calculateDays(item.startDate, item.endDate)).toFixed(2)}
+                        </span>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
+
+            <div className={styles.totalSection}>
+              <div className={styles.totalRow}>
+                <span>Total:</span>
+                <strong>${calculateTotal().toFixed(2)}</strong>
+              </div>
+            </div>
           </div>
         ) : (
           <div className={styles.errorMessage}>
-{/*             <p>No se pudieron cargar los detalles de la reserva</p>
-            <p>Por favor verifica tu correo electrónico o contacta al soporte</p>
-            <button 
-              onClick={() => navigate('/contact')}
-              className={styles.contactButton}
-              aria-label="Contactar al soporte"
-            >
-              <i className="fas fa-life-ring"></i> Soporte técnico
-            </button> */}
+            <p>No se pudieron cargar los detalles completos de la reserva</p>
+            <p>Por favor verifica tu correo electrónico para más información</p>
           </div>
         )}
 
@@ -119,15 +120,13 @@ const ReservationSuccessPage = () => {
             <i className="fas fa-arrow-left"></i> Seguir comprando
           </button>
           
-          {isValidReservation && (
-            <button 
-              onClick={() => navigate(`/reservations/${reservation.reservationId}`)}
-              className={styles.viewDetails}
-              aria-label="Ver detalles completos"
-            >
-              <i className="fas fa-file-invoice"></i> Ver detalles completos
-            </button>
-          )}
+          <button 
+            onClick={() => navigate('/my-reservations')}
+            className={styles.viewReservations}
+            aria-label="Ver mis reservas"
+          >
+            <i className="fas fa-calendar-alt"></i> Ver mis reservas
+          </button>
         </div>
       </div>
     </div>
