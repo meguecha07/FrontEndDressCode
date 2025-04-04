@@ -132,6 +132,52 @@
   font-size: 1.2rem;
 }
 
+.starRating {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+}
+
+.ratingContainer{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reviewsSection {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.reviewSubSection {
+  gap: 0.4rem;
+  width: 50%;
+}
+
+.scrollableReviews {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.scrollableReviews::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollableReviews::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollableReviews::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
+}
+
 /* Responsive Design */
 @media (max-width: 1024px) {
   .detailsGrid {
@@ -183,6 +229,15 @@
   .addToCartButton {
     padding: 1.2rem;
     font-size: 1rem;
+  }
+
+  .reviewsSection{
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .reviewSubSection {
+    width: 100%;
   }
 }
 

@@ -50,9 +50,9 @@ const ShareModal = ({ isOpen, onClose, product}) => {
                             rows={4}
                         />
                         <div className={styles.socialButtons}>
-                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('facebook')}><i class="fa-brands fa-facebook"></i></button>
-                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('twitter')}><i class="fa-brands fa-x-twitter"></i></button>
-                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('instagram')}><i class="fa-brands fa-instagram"></i></button>
+                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('facebook')}><i className="fa-brands fa-facebook"></i></button>
+                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('twitter')}><i className="fa-brands fa-x-twitter"></i></button>
+                            <button className={styles.socialButton} onClick={() => shareOnSocialMedia('instagram')}><i className="fa-brands fa-instagram"></i></button>
                         </div>
                     </div>
                 </div>
