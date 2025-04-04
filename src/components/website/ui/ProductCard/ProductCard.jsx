@@ -63,7 +63,8 @@ const ProductCard = ({ product, categories, colors, onClick }) => {
           </div>
           <div className={styles.rowDetails}>
             <h3 className={styles.title}>{productName}</h3>
-            <StarRating rating={rating} />
+            <StarRating rating={rating} /> 
+            <p className={styles.AvgRating}>({rating} de 5.0)</p>
             <p className={styles.price}>{productPrice}</p>
           </div>
         </div>

@@ -27,17 +27,25 @@ const ModalAddReview = ({ productId, onClose, onReviewSubmitted }) => {
   };
 
   return (
-    <div className={styles.modal}>
+    <div className={styles.modalOverlay}>
       <div className={styles.modalContent}>
-        <h2>Agregar Reseña</h2>
-        <StarRating rating={rating} setRating={setRating} />
-        <textarea
-          className={styles.textarea}
-          placeholder="Escribe tu reseña aquí..."
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <div className={styles.actions}>
+        <div className={styles.modalHeader}>
+            <h2>Agregar Reseña</h2>
+            <button className={styles.closeButton} onClick={onClose}>
+                <i className="fas fa-times"></i>
+            </button>
+        </div>
+        <div className={styles.modalContent}>
+            <p>Califica la prenda del 0 al 5</p>
+            <StarRating rating={rating} setRating={setRating} />
+            <textarea
+                className={styles.textarea}
+                placeholder="Escribe tu reseña aquí..."
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+            />
+        </div>
+        <div className={styles.modalActions}>
           <button onClick={onClose} className={styles.cancelButton}>
             Cancelar
           </button>

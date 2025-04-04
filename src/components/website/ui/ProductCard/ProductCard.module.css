@@ -65,6 +65,11 @@
     margin-top: auto; /* Empuja el precio hacia abajo en el contenedor details */
   }
   
+  .AvgRating{
+    font-size: 12px;
+    padding: 0;
+    margin: 0;
+  }
   
   /* Media query para diseño móvil (pantallas más pequeñas de 768px de ancho) */
   @media (max-width: 975px) {

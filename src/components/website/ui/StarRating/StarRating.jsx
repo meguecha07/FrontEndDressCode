@@ -10,7 +10,7 @@ function StarRating({ rating, setRating }) {
             className={styles.star}
             style={{
               cursor: "pointer",
-              color: rating >= star ? "gold" : "gray",
+              color: rating >= star ? "#ffa41c" : "gray",
               fontSize: "24px",
             }}
             onClick={() => {

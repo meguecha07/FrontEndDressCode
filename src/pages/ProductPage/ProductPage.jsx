@@ -10,7 +10,7 @@ import {
   getUser,
   getReviewsByClotheId,
   getClotheRating,
-  getReservationsByUser
+  getReservationsByUser,
 } from "../../services/api";
 import styles from "./ProductPage.module.css";
 import ProductGallery from "../../components/website/ui/ProductGallery/ProductGallery";
@@ -206,7 +206,7 @@ const ProductPage = () => {
         }
       }
     };
-  
+
     if (product) {
       checkUserReservations();
     }
@@ -238,7 +238,8 @@ const ProductPage = () => {
               } else {
                 setNotification({
                   show: true,
-                  message: "Debes tener una reserva para calificar este producto",
+                  message:
+                    "Debes tener una reserva para calificar este producto",
                   button: null,
                 });
               }
@@ -246,17 +247,6 @@ const ProductPage = () => {
           >
             <StarRating rating={rating} setRating={null} readOnly />
             <span>({rating.toFixed(1)} de 5.0)</span>
-
-            {showAddReviewModal && (
-              <ModalAddReview
-                productId={product.clotheId}
-                onClose={() => setShowAddReviewModal(false)}
-                onReviewSubmitted={(newReview) => {
-                  setReviews((prevReviews) => [...prevReviews, newReview]);
-                  setShowAddReviewModal(false);
-                }}
-              />
-            )}
           </div>
         </div>
         <button
@@ -357,25 +347,39 @@ const ProductPage = () => {
             <p>({rating.toFixed(1)} de 5.0)</p>
           </div>
           <div>
-            
             <BarChart bars={5} values={reviewCounts} color="#4CAF50" />
           </div>
         </div>
         <div className={styles.reviewSubSection}>
           <h2>Principales reseñas</h2>
-          {reviews.map((review) => (
-            <UserReview
-              key={review.reviewId}
-              userName={`${user.firstName} ${user.lastName}`}
-              date="Fecha no disponible"
-              review={review.comment}
-              rating={review.rating}
-            />
-          ))}
+          <div className={styles.scrollableReviews}>
+            {reviews.map((review) => (
+              <UserReview
+                key={review.reviewId}
+                userName={`${user.firstName} ${user.lastName}`}
+                date="Fecha no disponible"
+                review={review.comment}
+                rating={review.rating}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
       <PoliciesList></PoliciesList>
+
+      {showAddReviewModal && (
+        <ModalAddReview
+          productId={product.clotheId}
+          onClose={() => {
+            setShowAddReviewModal(false);
+          }}
+          onReviewSubmitted={(newReview) => {
+            setReviews((prevReviews) => [...prevReviews, newReview]);
+            setShowAddReviewModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };

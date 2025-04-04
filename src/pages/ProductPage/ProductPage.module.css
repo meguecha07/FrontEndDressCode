@@ -155,10 +155,27 @@
 }
 
 .reviewSubSection {
-  display: flex;
-  flex-direction: column;
   gap: 0.4rem;
   width: 50%;
+}
+
+.scrollableReviews {
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.scrollableReviews::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollableReviews::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollableReviews::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 3px;
 }
 
 /* Responsive Design */
@@ -212,6 +229,15 @@
   .addToCartButton {
     padding: 1.2rem;
     font-size: 1rem;
+  }
+
+  .reviewsSection{
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .reviewSubSection {
+    width: 100%;
   }
 }
 

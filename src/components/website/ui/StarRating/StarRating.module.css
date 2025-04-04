@@ -1,6 +1,7 @@
 .StarRating {
     display: flex;
     gap: 0.5em; /* Espaciado entre las estrellas */
+    padding: 0;
   }
   
   .star {
