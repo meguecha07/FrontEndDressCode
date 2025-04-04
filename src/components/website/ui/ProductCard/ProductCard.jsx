@@ -1,7 +1,4 @@
 import styles from './ProductCard.module.css';
-import StarRating from '../StarRating/StarRating';
-import { getClotheRating } from '../../../../services/api';
-import { useState, useEffect } from 'react';
 
 const ProductCard = ({ product, categories, colors, onClick }) => {
   const handleClick = () => {
@@ -28,23 +25,7 @@ const ProductCard = ({ product, categories, colors, onClick }) => {
   const categoryName = category ? category.name : "Sin categoría";
   const color = colors.find(col => col.colorId === product.colorId);
   const productColorName = color ? color.name : "transparent";
-  const [rating, setRating] = useState(0);
-
-  useEffect(() => {
-    const fetchRating = async () => {
-      try {
-        const fetchedRating = await getClotheRating(product.clotheId);
-        setRating(fetchedRating || 0);
-        console.log(fetchedRating);
-      } catch (error) {
-        console.error("Error al obtener el rating del producto:", error);
-      }
-    };
-
-    if (product?.clotheId) {
-      fetchRating();
-    }
-  }, [product?.clotheId]);
+    
 
   return (
     <div className={styles.productCard}>
@@ -63,8 +44,6 @@ const ProductCard = ({ product, categories, colors, onClick }) => {
           </div>
           <div className={styles.rowDetails}>
             <h3 className={styles.title}>{productName}</h3>
-            <StarRating rating={rating} /> 
-            <p className={styles.AvgRating}>({rating} de 5.0)</p>
             <p className={styles.price}>{productPrice}</p>
           </div>
         </div>
