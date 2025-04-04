@@ -1,4 +1,4 @@
-const API_URL = "https://terrific-light-production.up.railway.app";
+const API_URL = "https://triumphant-appreciation-production.up.railway.app";
 
 export const fetchCategories = async () => {
   const response = await fetch(`${API_URL}/category`, {
@@ -87,8 +87,35 @@ export const deleteReservation = async (reservationId) => {
 };
 
 export const returnReservation = async (reservationId) => {
-  const response = await fetch(`${API_URL}/reservations/${reservationId}/return`, {
-    method: 'PUT',
+  const response = await fetch(
+    `${API_URL}/reservations/${reservationId}/return`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    }
+  );
+  if (!response.ok) throw new Error("Error devolviendo reserva");
+  return await response.json();
+};
+
+// ==================== REVIEW  ====================
+export const createReview = async (reviewData) => {
+  const response = await fetch(`${API_URL}/review`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    },
+    body: JSON.stringify(reviewData)
+  });
+  if (!response.ok) throw new Error('Error creando review');
+  return await response.json();
+};
+
+export const getAllReviews = async () => {
+  const response = await fetch(`${API_URL}/review`, {
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
@@ -127,6 +154,26 @@ export const getUser = async (userId) => {
       'Authorization': `Bearer ${localStorage.getItem('token')}`
     }
   });
-  if (!response.ok) throw new Error('Error obteniendo usuario');
+  if (!response.ok) throw new Error('Error obteniendo reviews de la prenda');
+  return await response.json();
+};
+
+export const getReviewsByUserId = async (userId) => {
+  const response = await fetch(`${API_URL}/review/user/${userId}`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo reviews del usuario');
+  return await response.json();
+};
+
+export const getClotheRating = async (clotheId) => {
+  const response = await fetch(`${API_URL}/review/clothe/${clotheId}/rating`, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+  if (!response.ok) throw new Error('Error obteniendo puntuación de la prenda');
   return await response.json();
 };

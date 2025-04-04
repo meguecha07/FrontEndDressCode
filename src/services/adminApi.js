@@ -1,4 +1,4 @@
-const API_URL = "https://terrific-light-production.up.railway.app";
+const API_URL = "https://triumphant-appreciation-production.up.railway.app";
 
 // ==================== PRODUCTOS ====================
 export const registerProduct = async (productData) => {
