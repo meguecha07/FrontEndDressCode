@@ -1,0 +1,11 @@
+.StarRating {
+    display: flex;
+    gap: 0.5em; /* Espaciado entre las estrellas */
+    padding: 0;
+  }
+  
+  .star {
+    font-size: 2em; /* Tamaño relativo al contenedor */
+    cursor: pointer;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }

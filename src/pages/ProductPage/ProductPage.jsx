@@ -1,21 +1,39 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import { fetchProductById, fetchCategories, fetchColors, addFavorite, deleteFavorite, getUser} from "../../services/api";
+import {
+  fetchProductById,
+  fetchCategories,
+  fetchColors,
+  addFavorite,
+  deleteFavorite,
+  getUser,
+  getReviewsByClotheId,
+  getClotheRating,
+  getReservationsByUser,
+} from "../../services/api";
 import styles from "./ProductPage.module.css";
 import ProductGallery from "../../components/website/ui/ProductGallery/ProductGallery";
 import ProductDetail from "../../components/website/ui/ProductDetail/ProductDetail";
 import LoadingSpinner from "../../components/LoadingSpinner";
 import Notification from "../../components/Notification/Notification";
 import ShareModal from "../../components/website/ui/ShareModal/ShareModal";
+import PoliciesList from "../../components/website/ui/PoliciesList/PoliciesList";
+import StarRating from "../../components/website/ui/StarRating/StarRating";
+import BarChart from "../../components/website/ui/BarChart/BarChart";
+import UserReview from "../../components/website/ui/UserReview/UserReview";
+import ModalAddReview from "../../components/website/ui/ModalAddReview/ModalAddReview";
 
 const ProductPage = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
+  const { id } = useParams();
   const { user } = useAuth();
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [colors, setColors] = useState([]);
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [reviewCounts, setReviewCounts] = useState([0, 0, 0, 0, 0]);
   const [notification, setNotification] = useState({
     show: false,
     message: "",
@@ -25,6 +43,8 @@ const ProductPage = () => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [userData, setUserData] = useState(null);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+  const [showAddReviewModal, setShowAddReviewModal] = useState(false);
+  const [hasReservation, setHasReservation] = useState(false);
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -32,13 +52,24 @@ const ProductPage = () => {
         const fetchedProduct = await fetchProductById(id);
         const fetchedCategories = await fetchCategories();
         const fetchedColors = await fetchColors();
+        const fetchedReviews = await getReviewsByClotheId(id);
+        const fetchedRating = await getClotheRating(id);
+
+        // Procesar las reviews para contar cuántas hay por cada estrella
+        const counts = [0, 0, 0, 0, 0];
+        fetchedReviews.forEach((review) => {
+          counts[review.rating - 1] += 1;
+        });
 
         setProduct(fetchedProduct);
         setCategories(fetchedCategories);
         setColors(fetchedColors);
         checkCartStatus(fetchedProduct.clotheId);
+        setReviews(fetchedReviews);
+        setRating(fetchedRating || 0);
+        setReviewCounts(counts);
       } catch (error) {
-        console.error("Error al obtener el producto:", error);
+        console.error("Error al obtener los datos del producto:", error);
       }
     };
 
@@ -161,6 +192,26 @@ const ProductPage = () => {
     }
   };
 
+  useEffect(() => {
+    const checkUserReservations = async () => {
+      if (user) {
+        try {
+          const reservations = await getReservationsByUser(user.id);
+          const reservationExists = reservations.some((reservation) =>
+            reservation.items.some((item) => item.clotheId === product.clotheId)
+          );
+          setHasReservation(reservationExists);
+        } catch (error) {
+          console.error("Error al verificar reservas del usuario:", error);
+        }
+      }
+    };
+
+    if (product) {
+      checkUserReservations();
+    }
+  }, [user, product]);
+
   if (!product) return <LoadingSpinner />;
 
   return (
@@ -177,7 +228,27 @@ const ProductPage = () => {
       )}
 
       <div className={styles.header}>
-        <h1 className={styles.productTitle}>{product.name}</h1>
+        <div>
+          <h1 className={styles.productTitle}>{product.name}</h1>
+          <div
+            className={styles.ratingContainer}
+            onClick={() => {
+              if (hasReservation) {
+                setShowAddReviewModal(true);
+              } else {
+                setNotification({
+                  show: true,
+                  message:
+                    "Debes tener una reserva para calificar este producto",
+                  button: null,
+                });
+              }
+            }}
+          >
+            <StarRating rating={rating} setRating={null} readOnly />
+            <span>({rating.toFixed(1)} de 5.0)</span>
+          </div>
+        </div>
         <button
           className={styles.backButton}
           onClick={() => navigate(-1)}
@@ -266,6 +337,49 @@ const ProductPage = () => {
           </div>
         </div>
       </div>
+
+      <div className={styles.reviewsSection}>
+        <div className={styles.reviewSubSection}>
+          <h2>Opiniones de Clientes</h2>
+          <p>({reviews.length} calificaciones globales)</p>
+          <div className={styles.starRating}>
+            <StarRating rating={rating} setRating={null} readOnly />
+            <p>({rating.toFixed(1)} de 5.0)</p>
+          </div>
+          <div>
+            <BarChart bars={5} values={reviewCounts} color="#4CAF50" />
+          </div>
+        </div>
+        <div className={styles.reviewSubSection}>
+          <h2>Principales reseñas</h2>
+          <div className={styles.scrollableReviews}>
+            {reviews.map((review) => (
+              <UserReview
+                key={review.reviewId}
+                userName={`${user.firstName} ${user.lastName}`}
+                date="Fecha no disponible"
+                review={review.comment}
+                rating={review.rating}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <PoliciesList></PoliciesList>
+
+      {showAddReviewModal && (
+        <ModalAddReview
+          productId={product.clotheId}
+          onClose={() => {
+            setShowAddReviewModal(false);
+          }}
+          onReviewSubmitted={(newReview) => {
+            setReviews((prevReviews) => [...prevReviews, newReview]);
+            setShowAddReviewModal(false);
+          }}
+        />
+      )}
     </div>
   );
 };
