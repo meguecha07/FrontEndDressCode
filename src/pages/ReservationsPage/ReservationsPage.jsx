@@ -185,7 +185,7 @@ const ReservationsPage = () => {
                   <div key={item.idReservationItem} className={styles.itemInfo}>
                     <div className={styles.itemHeader}>
                       <h4>Item #{item.idReservationItem}</h4>
-                      <span>Producto: {item.clotheId}</span>
+                      <span>Producto: {item.clotheName}</span>
                     </div>
 
                     <div className={styles.itemDetails}>
