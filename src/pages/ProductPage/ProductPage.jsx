@@ -344,14 +344,6 @@ const ProductPage = () => {
 
         <div className={styles.priceSection}>
           <p className={styles.productPrice}>${product.price.toFixed(2)}</p>
-          <span
-            className={styles.stockStatus}
-            style={{ color: product.stock > 0 ? "#4CAF50" : "#F44336" }}
-          >
-            {product.stock > 0
-              ? `Disponible (${product.stock} unidades)`
-              : "Agotado"}
-          </span>
 
           <DoubleCalendar
             reservations={reservations}
